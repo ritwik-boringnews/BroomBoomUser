@@ -1,5 +1,6 @@
 import { View, Text ,} from 'react-native'
-import React, { useEffect } from 'react'
+import React, { useEffect } from 'react';
+import "./ignoreWarnings";
 import Api from './src/Services'
 import SignUp from './src/Pages/SignUp.js'
 import { HomeNavigator } from './src/Navigation'
