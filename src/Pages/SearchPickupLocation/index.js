@@ -22,19 +22,34 @@ const SearchPickupLocation = () => {
   });
   return (
     <View style={styles.container}>
-      <Icon name="arrow-back" size={30} color="balck" />
-      <TextInput
-        placeholder="Search Pickup Location"
+      <Icon
+        name="arrow-back"
+        size={30}
+        color="balck"
         style={{
-          fontSize: 16,
-          fontWeight: '500',
+          marginTop: 16,
+        }}
+      />
+      <View
+        style={{
           width: '100%',
-          padding: 15,
+          padding: 8,
           borderWidth: 1,
           borderRadius: 50,
-          marginTop: 70,
-          backgroundColor: 'rgba(245, 192, 1, 0.2);',
-        }}></TextInput>
+          marginTop: 30,
+          backgroundColor: 'rgba(245, 192, 1, 0.2)',
+          flexDirection: 'row',
+          alignItems: 'center',
+        }}>
+        <Icon name="search-outline" size={15} style={{marginLeft: 8}} />
+        <TextInput
+          placeholder="Search Pickup Location"
+          style={{
+            fontSize: 16,
+            fontWeight: '500',
+          }}></TextInput>
+      </View>
+
       <Text
         style={{
           color: 'black',
