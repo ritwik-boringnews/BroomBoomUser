@@ -1,4 +1,4 @@
-import {View, Text, Image, FlatList} from 'react-native';
+import {View, Text, Image, FlatList, StyleSheet} from 'react-native';
 import React from 'react';
 
 const Notifications = () => {
@@ -32,52 +32,68 @@ const Notifications = () => {
     return (
       <View
         style={{
-          backgroundColor: 'white',
+          backgroundColor: '#FFFBC8',
           marginTop: 10,
           borderRadius: 15,
 
           marginHorizontal: 30,
           paddingVertical: 10,
-          flexDirection: 'row',
-          justifyContent: 'space-between',
         }}>
         <View
           style={{
             flexDirection: 'row',
-            justifyContent: 'center',
+            justifyContent: 'space-between',
           }}>
-          <Image
-            source={item.image}
+          <View
             style={{
-              marginTop: 10,
-              marginLeft: 20,
-
-              width: 20,
-              height: 20,
-              resizeMode: 'contain',
-            }}
-          />
-          <View style={{paddingLeft: 30}}>
-            <Text style={{fontWeight: 'bold', color: 'black'}}>
-              {item.title}
-            </Text>
-            <Text
+              flexDirection: 'row',
+              justifyContent: 'center',
+            }}>
+            <Image
+              source={item.image}
               style={{
-                fontSize: 10,
-              }}>
-              {item.subtitle}
-            </Text>
-            <Text style={{fontSize: 12}}>{item.date}</Text>
+                marginTop: 10,
+                marginLeft: 20,
+
+                width: 20,
+                height: 20,
+                resizeMode: 'contain',
+              }}
+            />
+            <View style={{paddingLeft: 30}}>
+              <Text style={{fontWeight: 'bold', color: 'black'}}>
+                {item.title}
+              </Text>
+              <Text
+                style={{
+                  fontSize: 10,
+                  color: 'black',
+                }}>
+                {item.subtitle}
+              </Text>
+            </View>
+          </View>
+          <View>
+            <Image
+              source={item.icon}
+              style={{
+                marginTop: 10,
+                marginHorizontal: 12,
+              }}
+            />
           </View>
         </View>
-        <View style={{borderTopWidth: 1}}>
-          <Image
-            source={item.icon}
-            style={{
-              marginTop: 10,
-              marginHorizontal: 12,
-            }}
-          />
+        <View
+          style={{
+            marginHorizontal: 14,
+            height: 1,
+            width: '90%',
+            backgroundColor: 'grey',
+            marginTop: 10,
+          }}
+        />
+        <View style={{display: 'flex', alignItems: 'flex-end'}}>
+          <Text style={{fontSize: 10, marginTop: 10}}>{item.date}</Text>
         </View>
       </View>
     );

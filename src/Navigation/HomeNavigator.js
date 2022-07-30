@@ -22,6 +22,7 @@ const Stack = createNativeStackNavigator();
 function App() {
   return (
     <NavigationContainer>
+
       <Stack.Navigator initialRouteName="Payment">
         <Stack.Screen name="RideHistory" component={RideHistory} />
         <Stack.Screen name="Payment" component={Payment} />
