@@ -19,12 +19,8 @@ const Stack = createNativeStackNavigator();
 
 function App() {
   return (
-<<<<<<< HEAD
-    <NavigationContainer >
-      <Stack.Navigator initialRouteName='Welcome'>
-=======
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Feedback">
+      <Stack.Navigator initialRouteName="ChooseVehicleScooty">
         <Stack.Screen name="Feedback" component={Feedback} />
         <Stack.Screen name="Notifications" component={Notifications} />
         <Stack.Screen
@@ -41,7 +37,6 @@ function App() {
           component={TermsAndConditions}
         />
         <Stack.Screen name="PrivacyPolicy" component={PrivacyPolicy} />
->>>>>>> 9fc87feddb9c4fc75bc04d2c74238dbb517fc1c3
         <Stack.Screen name="Signup" component={SignUp} />
         <Stack.Screen name="Otp" component={Otp} />
         <Stack.Screen name="Welcome" component={Welcome} />
