@@ -4,11 +4,8 @@ import {
   TouchableOpacity,
   StyleSheet,
   TextInput,
-  s,
 } from 'react-native';
 import React from 'react';
-import {ArrowLeft} from '../../Constants/Utility/iconLibrary';
-import styles from '../PrivacyPolicy.js/styles';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 

@@ -11,6 +11,10 @@ import Faq from '../Pages/Faq/index.js';
 import PrivacyPolicy from '../Pages/PrivacyPolicy.js/index.js';
 import TermsAndConditions from '../Pages/TermsAndConditions/index.js';
 import SearchPickupLocation from '../Pages/SearchPickupLocation/index.js';
+import HelpAndSupport from '../Pages/HelpAndSupport/index.js';
+import ChooseVehicleScooty from '../Pages/ChooseVehicleScooty/index.js';
+import Notifications from '../Pages/Notifications/index.js';
+import Feedback from '../Pages/Feedback/index.js';
 const Stack = createNativeStackNavigator();
 
 function App() {
@@ -20,7 +24,14 @@ function App() {
       <Stack.Navigator initialRouteName='Welcome'>
 =======
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="SearchPickupLocation">
+      <Stack.Navigator initialRouteName="Feedback">
+        <Stack.Screen name="Feedback" component={Feedback} />
+        <Stack.Screen name="Notifications" component={Notifications} />
+        <Stack.Screen
+          name="ChooseVehicleScooty"
+          component={ChooseVehicleScooty}
+        />
+        <Stack.Screen name="HelpAndSupport" component={HelpAndSupport} />
         <Stack.Screen
           name="SearchPickupLocation"
           component={SearchPickupLocation}
