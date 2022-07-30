@@ -20,7 +20,7 @@ const Stack = createNativeStackNavigator();
 function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Welcome">
+      <Stack.Navigator initialRouteName="Feedback">
         <Stack.Screen name="Feedback" component={Feedback} />
         <Stack.Screen name="Notifications" component={Notifications} />
         <Stack.Screen
