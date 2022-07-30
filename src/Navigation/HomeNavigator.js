@@ -15,12 +15,16 @@ import HelpAndSupport from '../Pages/HelpAndSupport/index.js';
 import ChooseVehicleScooty from '../Pages/ChooseVehicleScooty/index.js';
 import Notifications from '../Pages/Notifications/index.js';
 import Feedback from '../Pages/Feedback/index.js';
+import Payment from '../Pages/Payments/index.js';
+import RideHistory from '../Pages/RideHistory/index.js';
 const Stack = createNativeStackNavigator();
 
 function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Feedback">
+      <Stack.Navigator initialRouteName="RideHistory">
+        <Stack.Screen name="RideHistory" component={RideHistory} />
+        <Stack.Screen name="Payment" component={Payment} />
         <Stack.Screen name="Feedback" component={Feedback} />
         <Stack.Screen name="Notifications" component={Notifications} />
         <Stack.Screen
