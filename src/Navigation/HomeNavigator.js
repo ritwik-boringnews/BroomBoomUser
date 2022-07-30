@@ -17,13 +17,14 @@ import Notifications from '../Pages/Notifications/index.js';
 import Feedback from '../Pages/Feedback/index.js';
 import Payment from '../Pages/Payments/index.js';
 import RideHistory from '../Pages/RideHistory/index.js';
+import ReferAndEarn from '../Pages/ReferAnd Earn/index.js';
 const Stack = createNativeStackNavigator();
 
 function App() {
   return (
     <NavigationContainer>
-
       <Stack.Navigator initialRouteName="Payment">
+        <Stack.Screen name="ReferAndEarn" component={ReferAndEarn} />
         <Stack.Screen name="RideHistory" component={RideHistory} />
         <Stack.Screen name="Payment" component={Payment} />
         <Stack.Screen name="Feedback" component={Feedback} />
