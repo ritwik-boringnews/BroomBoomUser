@@ -5,7 +5,6 @@ const Feedback = () => {
   return (
     <View>
       <Text>Feedback</Text>
-      <Text>Feedbacks</Text>
     </View>
   );
 };
