@@ -6,10 +6,10 @@ const RideHistory = () => {
     return (
         <ScrollView>
             <View style={styles.container}>
-                < Box />
-                < Box />
-                < Box />
-                < Box />
+                <Box status={'COMPLETE'} date={'11Mar 2022'} placeFrom={'Kumar Ashutosh Institution(Main)'} placeTo={'Dum Dum Airport Gate No. 1'} sourceTime={'15:20'} destinationTime={'15:40'} />
+                <Box status={'CANCELLED'} date={'11Mar 2022'} placeFrom={'Kumar Ashutosh Institution(Main)'} placeTo={'Dum Dum Airport Gate No. 1'} sourceTime={'15:20'} destinationTime={'15:40'} />
+                <Box status={'COMPLETE'} date={'11Mar 2022'} placeFrom={'Kumar Ashutosh Institution(Main)'} placeTo={'Dum Dum Airport Gate No. 1'} sourceTime={'15:20'} destinationTime={'15:40'} />
+                <Box status={'CANCELLED'} date={'11Mar 2022'} placeFrom={'Kumar Ashutosh Institution(Main)'} placeTo={'Dum Dum Airport Gate No. 1'} sourceTime={'15:20'} destinationTime={'15:40'} />
             </View>
         </ScrollView>
     )
