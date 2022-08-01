@@ -42,9 +42,9 @@ const Feedback = () => {
         <View style={{flexDirection: 'row', justifyContent: 'center'}}>
           {[1, 2, 3, 4, 5].map(item => {
             if (item <= 4) {
-              return <Icon name="star" size={45} color="yellow" />;
+              return <Icon name="star" size={45} color="yellow" key={item}/>;
             } else {
-              return <Icon name="star" size={45} color="#E6E6E6" />;
+              return <Icon name="star" size={45} color="#E6E6E6" key={item}/>;
             }
           })}
         </View>
