@@ -1,5 +1,3 @@
-// In App.js in a new project
-
 import * as React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -17,17 +15,16 @@ import Notifications from '../Pages/Notifications/index.js';
 import Feedback from '../Pages/Feedback/index.js';
 import Payment from '../Pages/Payments/index.js';
 import RideHistory from '../Pages/RideHistory/index.js';
-import ReferAndEarn from '../Pages/ReferAndEarn/index.js';
-import PilotDetails from '../Pages/PilotDetails/index.js';
-import RideDetails from '../Pages/RideDetails/index.js';
+import ReferAndEarn from '../Pages/ReferAnd Earn/index.js';
 import Settings from '../Pages/Settings/index.js';
-import Profile from '../Pages/Profile/index.js'
+import Profile from '../Pages/Profile/index.js';
+
 const Stack = createNativeStackNavigator();
 
 function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="ChooseVehicleScooty">
+      <Stack.Navigator initialRouteName="Profile">
         <Stack.Screen name="settings" component={Settings} />
         <Stack.Screen name="Profile" component={Profile} />
         <Stack.Screen name="ReferAndEarn" component={ReferAndEarn} />
