@@ -18,15 +18,15 @@ import RideHistory from '../Pages/RideHistory/index.js';
 import ReferAndEarn from '../Pages/ReferAndEarn/index.js';
 import Settings from '../Pages/Settings/index.js';
 import Profile from '../Pages/Profile/index.js';
-import RideDetails from '../Pages/RideDetails/index.js'
-import PilotDetails from '../Pages/PilotDetails/index.js'
+import RideDetails from '../Pages/RideDetails/index.js';
+import PilotDetails from '../Pages/PilotDetails/index.js';
 
 const Stack = createNativeStackNavigator();
 
 function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="PilotDetails">
+      <Stack.Navigator initialRouteName="ReferAndEarn">
         <Stack.Screen name="settings" component={Settings} />
         <Stack.Screen name="RideDetails" component={RideDetails} />
         <Stack.Screen name="PilotDetails" component={PilotDetails} />
