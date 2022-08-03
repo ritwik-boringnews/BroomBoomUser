@@ -4,6 +4,10 @@ import Api from './src/Services'
 import SignUp from './src/Pages/SignUp.js'
 import { HomeNavigator } from './src/Navigation'
 import { NavigationContainer } from '@react-navigation/native';
+import {enableLatestRenderer} from 'react-native-maps';
+
+enableLatestRenderer();
+
 const App = () => {
   useEffect(() => {
 onsubmit();

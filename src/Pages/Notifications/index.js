@@ -4,6 +4,7 @@ import React from 'react';
 const Notifications = () => {
   const DATA = [
     {
+      id:1,
       image: require('../../../assets/notification.png'),
       title: 'You have earned ₹50 Reward',
       subtitle:
@@ -12,6 +13,7 @@ const Notifications = () => {
       date: '27 May at 12:23 pm',
     },
     {
+      id:2,
       image: require('../../../assets/notification.png'),
       title: 'You have earned ₹50 Reward',
       subtitle:
@@ -20,6 +22,7 @@ const Notifications = () => {
       date: '27 May at 12:23 pm',
     },
     {
+      id:3,
       image: require('../../../assets/notification.png'),
       title: 'You have earned ₹50 Reward',
       subtitle:
@@ -100,7 +103,7 @@ const Notifications = () => {
   };
   return (
     <View>
-      <FlatList data={DATA} renderItem={ListItem} keyExtractor={e => e.title} />
+      <FlatList data={DATA} renderItem={ListItem} keyExtractor={e => e.id} />
     </View>
   );
 };

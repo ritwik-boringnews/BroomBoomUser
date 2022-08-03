@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Button, View } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
+import GMapHome from '../Pages/GMapHome/inde';
 
 function HomeDrawerScreen({ navigation }) {
     return (
@@ -23,9 +24,10 @@ function HomeDrawerScreen({ navigation }) {
   const Drawer = createDrawerNavigator();
 const DrawerNavigator = ({navigation}) => {
   return (
-    <Drawer.Navigator initialRouteName="HomeDrawer">
+    <Drawer.Navigator initialRouteName="GMapHome">
         <Drawer.Screen name="HomeDrawer" component={HomeDrawerScreen} />
         <Drawer.Screen name="NotificationsDrwaer" component={NotificationsDrwaerScreen} />
+        <Drawer.Screen name="GMapHome" component={GMapHome} />
       </Drawer.Navigator>
   )
 }
