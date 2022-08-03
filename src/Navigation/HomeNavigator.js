@@ -27,8 +27,10 @@ const Stack = createNativeStackNavigator();
 function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Settings" screenOptions={{headerShown:false}}>
-       <Stack.Screen name="DrawerNavigator" component={DrawerNavigator} />
+      <Stack.Navigator
+        initialRouteName="DrawerNavigator"
+        screenOptions={{headerShown: false}}>
+        <Stack.Screen name="DrawerNavigator" component={DrawerNavigator} />
         <Stack.Screen name="settings" component={Settings} />
         <Stack.Screen name="RideDetails" component={RideDetails} />
         <Stack.Screen name="PilotDetails" component={PilotDetails} />
