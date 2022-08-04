@@ -28,7 +28,7 @@ function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="CancelOrderModal"
+        initialRouteName="DrawerNavigator"
         screenOptions={{headerShown: false}}>
         <Stack.Screen name="CancelOrderModal" component={CancelOrderModal} />
         <Stack.Screen name="DrawerNavigator" component={DrawerNavigator} />
