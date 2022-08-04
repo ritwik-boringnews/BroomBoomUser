@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Alert, Modal, StyleSheet, Text, Pressable, View} from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
-const CancelOrderReason = () => {
+const CancelOrderModal = () => {
   const [modalVisible, setModalVisible] = useState(false);
   return (
     <View style={styles.centeredView}>
@@ -137,4 +137,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CancelOrderReason;
+export default CancelOrderModal;
