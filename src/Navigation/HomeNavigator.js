@@ -21,15 +21,16 @@ import Profile from '../Pages/Profile/index.js';
 import RideDetails from '../Pages/RideDetails/index.js';
 import PilotDetails from '../Pages/PilotDetails/index.js';
 import DrawerNavigator from './DrawerNavigator.js';
-
+import CancelOrderReason from '../Pages/CancelOrderReason/index.js';
 const Stack = createNativeStackNavigator();
 
 function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="DrawerNavigator"
+        initialRouteName="CancelOrderReason"
         screenOptions={{headerShown: false}}>
+        <Stack.Screen name="CancelOrderReason" component={CancelOrderReason} />
         <Stack.Screen name="DrawerNavigator" component={DrawerNavigator} />
         <Stack.Screen name="settings" component={Settings} />
         <Stack.Screen name="RideDetails" component={RideDetails} />
