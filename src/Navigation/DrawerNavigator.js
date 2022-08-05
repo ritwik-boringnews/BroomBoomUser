@@ -14,7 +14,7 @@ import History from 'react-native-vector-icons/MaterialIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Setting from 'react-native-vector-icons/AntDesign';
 import Support from 'react-native-vector-icons/FontAwesome';
-import GMapHome from '../Pages/GMapHome/index.js'
+import GMapHome from '../Pages/GMapHome/index.js';
 
 function HomeDrawerScreen({navigation}) {
   return (
@@ -31,12 +31,13 @@ const Drawer = createDrawerNavigator();
 const DrawerNavigator = ({navigation}) => {
   return (
     <Drawer.Navigator
-      initialRouteName="Notificaton"
+      initialRouteName="GMapHome"
       drawerContent={props => <CustomDrawer {...props} />}
       screenOptions={{
         drawerActiveBackgroundColor: '#ADD8E6',
         drawerActiveTintColor: '#fff',
         drawerInactiveTintColor: '#333',
+        headerShown: false,
         drawerLabelStyle: {
           marginLeft: -25,
           fontFamily: 'Roboto-Medium',
@@ -70,7 +71,7 @@ const DrawerNavigator = ({navigation}) => {
           ),
         }}
       />
-      
+
       <Drawer.Screen
         name="Ride History"
         component={RideHistory}
