@@ -22,15 +22,18 @@ import RideDetails from '../Pages/RideDetails/index.js';
 import PilotDetails from '../Pages/PilotDetails/index.js';
 import DrawerNavigator from './DrawerNavigator.js';
 import RunningRide from '../Pages/RunningRide/index.js';
-
+import CancelOrderModal from '../Pages/CancelOrderModal/index.js';
 const Stack = createNativeStackNavigator();
 
 function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="RunningRide" screenOptions={{headerShown:false}}>
-       <Stack.Screen name="DrawerNavigator" component={DrawerNavigator} />
-       <Stack.Screen name="RunningRide" component={RunningRide} />
+      <Stack.Navigator
+        initialRouteName="DrawerNavigator"
+        screenOptions={{headerShown: false}}>
+        <Stack.Screen name="CancelOrderModal" component={CancelOrderModal} />
+        <Stack.Screen name="DrawerNavigator" component={DrawerNavigator} />
+        <Stack.Screen name="RunningRide" component={RunningRide} />
         <Stack.Screen name="settings" component={Settings} />
         <Stack.Screen name="RideDetails" component={RideDetails} />
         <Stack.Screen name="PilotDetails" component={PilotDetails} />
