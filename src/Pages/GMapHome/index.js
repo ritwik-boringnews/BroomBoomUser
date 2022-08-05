@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default () => {
+export default ({navigation}) => {
   const arambagh = {
     latitude: 22.8765,
     longitude: 87.791,
@@ -41,7 +41,7 @@ export default () => {
           borderRadius: 10,
         }}>
         <TouchableOpacity>
-          <Ionicons name="menu" size={20} color="black" />
+          <Ionicons name="menu" size={20} color="black" onPress={() => navigation.openDrawer()} />
         </TouchableOpacity>
       </View>
       <View style={styles.container}>
