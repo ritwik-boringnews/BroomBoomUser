@@ -23,6 +23,7 @@ import PilotDetails from '../Pages/PilotDetails/index.js';
 import DrawerNavigator from './DrawerNavigator.js';
 import RunningRide from '../Pages/RunningRide/index.js';
 import CancelOrderModal from '../Pages/CancelOrderModal/index.js';
+import EnterDestination from '../Pages/EnterDestination/index.js';
 const Stack = createNativeStackNavigator();
 
 function App() {
@@ -43,10 +44,19 @@ function App() {
         <Stack.Screen name="Payment" component={Payment} />
         <Stack.Screen name="Feedback" component={Feedback} />
         <Stack.Screen name="Notifications" component={Notifications} />
-        <Stack.Screen name="ChooseVehicleScooty"component={ChooseVehicleScooty}/>
+        <Stack.Screen
+          name="ChooseVehicleScooty"
+          component={ChooseVehicleScooty}
+        />
         <Stack.Screen name="HelpAndSupport" component={HelpAndSupport} />
-        <Stack.Screen name="SearchPickupLocation" component={SearchPickupLocation}/>
-        <Stack.Screen name="TermsAndConditions" component={TermsAndConditions}/>
+        <Stack.Screen
+          name="SearchPickupLocation"
+          component={SearchPickupLocation}
+        />
+        <Stack.Screen
+          name="TermsAndConditions"
+          component={TermsAndConditions}
+        />
         <Stack.Screen name="PrivacyPolicy" component={PrivacyPolicy} />
         <Stack.Screen name="Signup" component={SignUp} />
         <Stack.Screen name="Otp" component={Otp} />

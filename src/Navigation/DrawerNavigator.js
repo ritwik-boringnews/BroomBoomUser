@@ -15,6 +15,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import Setting from 'react-native-vector-icons/AntDesign';
 import Support from 'react-native-vector-icons/FontAwesome';
 import GMapHome from '../Pages/GMapHome/index.js';
+import EnterDestination from '../Pages/EnterDestination';
 
 function HomeDrawerScreen({navigation}) {
   return (
@@ -31,7 +32,7 @@ const Drawer = createDrawerNavigator();
 const DrawerNavigator = ({navigation}) => {
   return (
     <Drawer.Navigator
-      initialRouteName="GMapHome"
+      initialRouteName="EnterDestination"
       drawerContent={props => <CustomDrawer {...props} />}
       screenOptions={{
         drawerActiveBackgroundColor: '#ADD8E6',
@@ -44,6 +45,15 @@ const DrawerNavigator = ({navigation}) => {
           fontSize: 15,
         },
       }}>
+      <Drawer.Screen
+        name="EnterDestination"
+        component={EnterDestination}
+        options={{
+          drawerIcon: ({color}) => (
+            <MaterialIcons name="payment" size={22} color={color} />
+          ),
+        }}
+      />
       <Drawer.Screen
         name="SourceMap"
         component={GMapHome}
