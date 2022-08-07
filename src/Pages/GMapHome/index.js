@@ -8,6 +8,7 @@ const GOOGLE_MAPS_APIKEY = 'AIzaSyCkVARy-jUojHtiIxcu90g3heAEJDyhqrE';
 const styles = StyleSheet.create({
   container: {
     flex: 2,
+    
   },
   map: {
     ...StyleSheet.absoluteFillObject,
