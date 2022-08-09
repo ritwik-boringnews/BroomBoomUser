@@ -1,8 +1,18 @@
-import React, {useState} from 'react';
-import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  PermissionsAndroid,
+  Button,
+} from 'react-native';
 import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import MyLocation from 'react-native-vector-icons/MaterialIcons';
+import Geolocation from '@react-native-community/geolocation';
 const GOOGLE_MAPS_APIKEY = 'AIzaSyCkVARy-jUojHtiIxcu90g3heAEJDyhqrE';
 
 const styles = StyleSheet.create({
@@ -12,10 +22,109 @@ const styles = StyleSheet.create({
   map: {
     ...StyleSheet.absoluteFillObject,
   },
-  
 });
 
 export default ({navigation}) => {
+  const [currentLongitude, setCurrentLongitude] = useState(null);
+  const [currentLatitude, setCurrentLatitude] = useState(null);
+  const [locationStatus, setLocationStatus] = useState('');
+  const [location, setLocation] = useState({
+    latitude: '',
+    longitude: '',
+    latitudeDelta: '',
+    longitudeDelta: '',
+  });
+  useEffect(() => {
+    const requestLocationPermission = async () => {
+      try {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+        );
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+          getOneTimeLocation();
+          // subscribeLocationLocation();
+        } else {
+          setLocationStatus('Permission Denied');
+        }
+      } catch (err) {
+        console.warn(err);
+      }
+    };
+    requestLocationPermission();
+    // return () => {
+    //   Geolocation.clearWatch(watchID);
+    // };
+  }, []);
+
+  const getOneTimeLocation = () => {
+    Geolocation.getCurrentPosition(info => {
+      console.log(info.coords.longitude);
+      setLocation({
+        latitude: info.coords.latitude,
+        longitude: info.coords.longitude,
+        latitudeDelta: 0.09,
+        longitudeDelta: 0.09,
+      });
+    });
+    // setLocationStatus('Getting Location ...');
+    // Geolocation.getCurrentPosition(
+    //   //Will give you the current location
+    //   position => {
+    //     setLocationStatus('You are Here');
+
+    //     //getting the Longitude from the location json
+    //     const currentLongitude = JSON.stringify(position.coords.longitude);
+    //     console.log(currentLongitude);
+    //     //getting the Latitude from the location json
+    //     const currentLatitude = JSON.stringify(position.coords.latitude);
+
+    //     //Setting Longitude state
+    //     setCurrentLongitude(currentLongitude);
+
+    //     //Setting Longitude state
+    //     setCurrentLatitude(currentLatitude);
+    //   },
+    //   error => {
+    //     setLocationStatus(error.message);
+    //   },
+    //   {
+    //     enableHighAccuracy: false,
+    //     timeout: 30000,
+    //     maximumAge: 1000,
+    //   },
+    // );
+  };
+
+  // const subscribeLocationLocation = () => {
+  //   watchID = Geolocation.watchPosition(
+  //     position => {
+  //       //Will give you the location on location change
+
+  //       setLocationStatus('You are Here');
+  //       console.log(position);
+
+  //       //getting the Longitude from the location json
+  //       const currentLongitude = JSON.stringify(position.coords.longitude);
+
+  //       //getting the Latitude from the location json
+  //       const currentLatitude = JSON.stringify(position.coords.latitude);
+
+  //       //Setting Longitude state
+  //       setCurrentLongitude(currentLongitude);
+
+  //       //Setting Latitude state
+  //       setCurrentLatitude(currentLatitude);
+  //     },
+  //     error => {
+  //       setLocationStatus(error.message);
+  //     },
+  //     {
+  //       enableHighAccuracy: false,
+  //       maximumAge: 1000,
+  //     },
+  //   );
+  // };
+
   const arambagh = {
     latitude: 22.8765,
     longitude: 87.791,
@@ -42,23 +151,42 @@ export default ({navigation}) => {
           borderRadius: 10,
         }}>
         <TouchableOpacity>
-          <Ionicons name="menu" size={20} color="black" onPress={() => navigation.openDrawer()} />
+          <Ionicons
+            name="menu"
+            size={20}
+            color="black"
+            onPress={() => navigation.openDrawer()}
+          />
         </TouchableOpacity>
       </View>
       <View style={styles.container}>
         <MapView
           style={styles.map}
-          //specify our coordinates.
           initialRegion={arambagh}
-          onRegionChangeComplete={region => setRegion(region)}>
+          onRegionChangeComplete={region => setRegion(region)}
+          region={location}>
           <MapViewDirections
-            origin={arambagh}
+            origin={location}
             destination={destination}
             apikey={GOOGLE_MAPS_APIKEY}
+            strokeWidth={1}
           />
-          <Marker key={`marker${1}`} coordinate={arambagh} title="arambagh" />
-          <Marker key={`marker${2}`} coordinate={destination} title="mayapur" />
+          <Marker key={`marker${1}`} coordinate={location} title="arambagh" />
+          {/* <Marker key={`marker${2}`} coordinate={destination} title="mayapur" /> */}
         </MapView>
+        <View
+          style={{
+            position: 'absolute',
+            bottom: 40,
+            padding: 8,
+            borderRadius: 10,
+            right: 20,
+            backgroundColor: 'white',
+          }}>
+          <TouchableOpacity onPress={getOneTimeLocation}>
+            <MyLocation name="my-location" size={20} color="black" />
+          </TouchableOpacity>
+        </View>
       </View>
       <View
         style={{
