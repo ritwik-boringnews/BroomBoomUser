@@ -58,7 +58,7 @@ export default ({navigation}) => {
 
   const getOneTimeLocation = () => {
     Geolocation.getCurrentPosition(info => {
-      console.log(info.coords.longitude);
+      console.log(info.coords);
       setLocation({
         latitude: info.coords.latitude,
         longitude: info.coords.longitude,
@@ -169,7 +169,7 @@ export default ({navigation}) => {
             origin={location}
             destination={destination}
             apikey={GOOGLE_MAPS_APIKEY}
-            strokeWidth={1}
+            strokeWidth={2}
           />
           <Marker key={`marker${1}`} coordinate={location} title="arambagh" />
           {/* <Marker key={`marker${2}`} coordinate={destination} title="mayapur" /> */}
