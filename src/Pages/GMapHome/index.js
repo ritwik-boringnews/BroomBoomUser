@@ -15,6 +15,7 @@ import MyLocation from 'react-native-vector-icons/MaterialIcons';
 import Geolocation from '@react-native-community/geolocation';
 const GOOGLE_MAPS_APIKEY = 'AIzaSyCkVARy-jUojHtiIxcu90g3heAEJDyhqrE';
 
+Geolocation.getCurrentPosition(info => console.log(info));
 const styles = StyleSheet.create({
   container: {
     flex: 2,
@@ -50,7 +51,7 @@ export default ({navigation}) => {
         console.warn(err);
       }
     };
-    requestLocationPermission();
+    // requestLocationPermission();
     // return () => {
     //   Geolocation.clearWatch(watchID);
     // };
@@ -58,13 +59,13 @@ export default ({navigation}) => {
 
   const getOneTimeLocation = () => {
     Geolocation.getCurrentPosition(info => {
-      console.log(info.coords.longitude);
-      setLocation({
-        latitude: info.coords.latitude,
-        longitude: info.coords.longitude,
-        latitudeDelta: 0.09,
-        longitudeDelta: 0.09,
-      });
+      console.log(info.coords);
+      // setLocation({
+      //   latitude: info.coords.latitude,
+      //   longitude: info.coords.longitude,
+      //   latitudeDelta: 0.09,
+      //   longitudeDelta: 0.09,
+      // });
     });
     // setLocationStatus('Getting Location ...');
     // Geolocation.getCurrentPosition(
@@ -171,7 +172,7 @@ export default ({navigation}) => {
             apikey={GOOGLE_MAPS_APIKEY}
             strokeWidth={1}
           />
-          <Marker key={`marker${1}`} coordinate={location} title="arambagh" />
+          {/* <Marker key={`marker${1}`} coordinate={location} title="arambagh" /> */}
           {/* <Marker key={`marker${2}`} coordinate={destination} title="mayapur" /> */}
         </MapView>
         <View
