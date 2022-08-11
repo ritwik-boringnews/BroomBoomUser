@@ -1,10 +1,21 @@
-import React, {useState} from 'react';
-import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  PermissionsAndroid,
+  Button,
+} from 'react-native';
 import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import MyLocation from 'react-native-vector-icons/MaterialIcons';
+import Geolocation from '@react-native-community/geolocation';
+import HambergerHome from '../../Components/HambergerHome';
 const GOOGLE_MAPS_APIKEY = 'AIzaSyCkVARy-jUojHtiIxcu90g3heAEJDyhqrE';
 
+Geolocation.getCurrentPosition(info => console.log(info));
 const styles = StyleSheet.create({
   container: {
     flex: 2,
@@ -12,16 +23,113 @@ const styles = StyleSheet.create({
   map: {
     ...StyleSheet.absoluteFillObject,
   },
-  
 });
 
+const arambagh = {
+  latitude: 22.8765,
+  longitude: 87.791,
+  latitudeDelta: 0.01,
+  longitudeDelta: 0.01,
+};
+const mayapur = {
+  latitude: 23.4232,
+  longitude: 88.3883,
+  latitudeDelta: 0.01,
+  longitudeDelta: 0.01,
+};
+
 export default ({navigation}) => {
-  const arambagh = {
-    latitude: 22.8765,
-    longitude: 87.791,
-    latitudeDelta: 0.01,
-    longitudeDelta: 0.01,
+  const [currentLongitude, setCurrentLongitude] = useState(null);
+  const [currentLatitude, setCurrentLatitude] = useState(null);
+  const [locationStatus, setLocationStatus] = useState('');
+  const [location, setLocation] = useState(arambagh);
+  useEffect(() => {
+    const requestLocationPermission = async () => {
+      try {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+        );
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+          getOneTimeLocation();
+          // subscribeLocationLocation();
+        } else {
+          setLocationStatus('Permission Denied');
+        }
+      } catch (err) {
+        console.warn(err);
+      }
+    };
+    // requestLocationPermission();
+    // return () => {
+    //   Geolocation.clearWatch(watchID);
+    // };
+  }, []);
+
+  const getOneTimeLocation = () => {
+    Geolocation.getCurrentPosition(info => {
+      console.log(info.coords);
+      setLocation(mayapur);
+    });
+    // setLocationStatus('Getting Location ...');
+    // Geolocation.getCurrentPosition(
+    //   //Will give you the current location
+    //   position => {
+    //     setLocationStatus('You are Here');
+
+    //     //getting the Longitude from the location json
+    //     const currentLongitude = JSON.stringify(position.coords.longitude);
+    //     console.log(currentLongitude);
+    //     //getting the Latitude from the location json
+    //     const currentLatitude = JSON.stringify(position.coords.latitude);
+
+    //     //Setting Longitude state
+    //     setCurrentLongitude(currentLongitude);
+
+    //     //Setting Longitude state
+    //     setCurrentLatitude(currentLatitude);
+    //   },
+    //   error => {
+    //     setLocationStatus(error.message);
+    //   },
+    //   {
+    //     enableHighAccuracy: false,
+    //     timeout: 30000,
+    //     maximumAge: 1000,
+    //   },
+    // );
   };
+
+  // const subscribeLocationLocation = () => {
+  //   watchID = Geolocation.watchPosition(
+  //     position => {
+  //       //Will give you the location on location change
+
+  //       setLocationStatus('You are Here');
+  //       console.log(position);
+
+  //       //getting the Longitude from the location json
+  //       const currentLongitude = JSON.stringify(position.coords.longitude);
+
+  //       //getting the Latitude from the location json
+  //       const currentLatitude = JSON.stringify(position.coords.latitude);
+
+  //       //Setting Longitude state
+  //       setCurrentLongitude(currentLongitude);
+
+  //       //Setting Latitude state
+  //       setCurrentLatitude(currentLatitude);
+  //     },
+  //     error => {
+  //       setLocationStatus(error.message);
+  //     },
+  //     {
+  //       enableHighAccuracy: false,
+  //       maximumAge: 1000,
+  //     },
+  //   );
+  // };
+
+
   const [region, setRegion] = useState(arambagh);
   const destination = {
     latitude: 22.9,
@@ -31,34 +139,36 @@ export default ({navigation}) => {
   };
   return (
     <View style={{flex: 1}}>
-      <View
-        style={{
-          position: 'absolute',
-          top: 50,
-          left: 25,
-          backgroundColor: 'white',
-          zIndex: 1,
-          padding: 8,
-          borderRadius: 10,
-        }}>
-        <TouchableOpacity>
-          <Ionicons name="menu" size={20} color="black" onPress={() => navigation.openDrawer()} />
-        </TouchableOpacity>
-      </View>
+     <HambergerHome navigation={navigation}/>
       <View style={styles.container}>
         <MapView
           style={styles.map}
-          //specify our coordinates.
           initialRegion={arambagh}
-          onRegionChangeComplete={region => setRegion(region)}>
-          <MapViewDirections
-            origin={arambagh}
+          // onRegionChangeComplete={region => setRegion(region)}
+          region={location}
+          >
+          {location && destination.latitude && destination.longitude && <MapViewDirections
+            origin={location}
             destination={destination}
             apikey={GOOGLE_MAPS_APIKEY}
-          />
-          <Marker key={`marker${1}`} coordinate={arambagh} title="arambagh" />
-          <Marker key={`marker${2}`} coordinate={destination} title="mayapur" />
+            strokeWidth={2}
+          />}
+          {/* <Marker key={`marker${1}`} coordinate={location} title="arambagh" /> */}
+          {/* <Marker key={`marker${2}`} coordinate={destination} title="mayapur" /> */}
         </MapView>
+        <View
+          style={{
+            position: 'absolute',
+            bottom: 40,
+            padding: 8,
+            borderRadius: 10,
+            right: 20,
+            backgroundColor: 'white',
+          }}>
+          <TouchableOpacity onPress={getOneTimeLocation}>
+            <MyLocation name="my-location" size={20} color="black" />
+          </TouchableOpacity>
+        </View>
       </View>
       <View
         style={{

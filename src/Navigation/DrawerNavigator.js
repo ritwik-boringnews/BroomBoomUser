@@ -32,7 +32,7 @@ const Drawer = createDrawerNavigator();
 const DrawerNavigator = ({navigation}) => {
   return (
     <Drawer.Navigator
-      initialRouteName="EnterDestination"
+      initialRouteName="SourceMap"
       drawerContent={props => <CustomDrawer {...props} />}
       screenOptions={{
         drawerActiveBackgroundColor: '#ADD8E6',
