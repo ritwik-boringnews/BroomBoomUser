@@ -10,9 +10,9 @@ import {
 } from 'react-native';
 import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import MyLocation from 'react-native-vector-icons/MaterialIcons';
 import Geolocation from '@react-native-community/geolocation';
+import HambergerHome from '../../Components/HambergerHome';
 const GOOGLE_MAPS_APIKEY = 'AIzaSyCkVARy-jUojHtiIxcu90g3heAEJDyhqrE';
 
 Geolocation.getCurrentPosition(info => console.log(info));
@@ -25,16 +25,24 @@ const styles = StyleSheet.create({
   },
 });
 
+const arambagh = {
+  latitude: 22.8765,
+  longitude: 87.791,
+  latitudeDelta: 0.01,
+  longitudeDelta: 0.01,
+};
+const mayapur = {
+  latitude: 23.4232,
+  longitude: 88.3883,
+  latitudeDelta: 0.01,
+  longitudeDelta: 0.01,
+};
+
 export default ({navigation}) => {
   const [currentLongitude, setCurrentLongitude] = useState(null);
   const [currentLatitude, setCurrentLatitude] = useState(null);
   const [locationStatus, setLocationStatus] = useState('');
-  const [location, setLocation] = useState({
-    latitude: '',
-    longitude: '',
-    latitudeDelta: '',
-    longitudeDelta: '',
-  });
+  const [location, setLocation] = useState(arambagh);
   useEffect(() => {
     const requestLocationPermission = async () => {
       try {
@@ -60,21 +68,7 @@ export default ({navigation}) => {
   const getOneTimeLocation = () => {
     Geolocation.getCurrentPosition(info => {
       console.log(info.coords);
-<<<<<<< HEAD
-      setLocation({
-        latitude: info.coords.latitude,
-        longitude: info.coords.longitude,
-        latitudeDelta: 0.09,
-        longitudeDelta: 0.09,
-      });
-=======
-      // setLocation({
-      //   latitude: info.coords.latitude,
-      //   longitude: info.coords.longitude,
-      //   latitudeDelta: 0.09,
-      //   longitudeDelta: 0.09,
-      // });
->>>>>>> c296dfdbce061cd1fdfd2f1aaf2c67db4baf3812
+      setLocation(mayapur);
     });
     // setLocationStatus('Getting Location ...');
     // Geolocation.getCurrentPosition(
@@ -135,12 +129,7 @@ export default ({navigation}) => {
   //   );
   // };
 
-  const arambagh = {
-    latitude: 22.8765,
-    longitude: 87.791,
-    latitudeDelta: 0.01,
-    longitudeDelta: 0.01,
-  };
+
   const [region, setRegion] = useState(arambagh);
   const destination = {
     latitude: 22.9,
@@ -150,37 +139,20 @@ export default ({navigation}) => {
   };
   return (
     <View style={{flex: 1}}>
-      <View
-        style={{
-          position: 'absolute',
-          top: 50,
-          left: 25,
-          backgroundColor: 'white',
-          zIndex: 1,
-          padding: 8,
-          borderRadius: 10,
-        }}>
-        <TouchableOpacity>
-          <Ionicons
-            name="menu"
-            size={20}
-            color="black"
-            onPress={() => navigation.openDrawer()}
-          />
-        </TouchableOpacity>
-      </View>
+     <HambergerHome navigation={navigation}/>
       <View style={styles.container}>
         <MapView
           style={styles.map}
           initialRegion={arambagh}
-          onRegionChangeComplete={region => setRegion(region)}
-          region={location}>
-          <MapViewDirections
+          // onRegionChangeComplete={region => setRegion(region)}
+          region={location}
+          >
+          {location && destination.latitude && destination.longitude && <MapViewDirections
             origin={location}
             destination={destination}
             apikey={GOOGLE_MAPS_APIKEY}
             strokeWidth={2}
-          />
+          />}
           {/* <Marker key={`marker${1}`} coordinate={location} title="arambagh" /> */}
           {/* <Marker key={`marker${2}`} coordinate={destination} title="mayapur" /> */}
         </MapView>
