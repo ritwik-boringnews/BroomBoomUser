@@ -8,11 +8,12 @@ import {
   PermissionsAndroid,
   Button,
 } from 'react-native';
-import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
+import MapView, {Marker, PROVIDER_GOOGLE, Circle} from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 import MyLocation from 'react-native-vector-icons/MaterialIcons';
 import Geolocation from '@react-native-community/geolocation';
 import HambergerHome from '../../Components/HambergerHome';
+
 const GOOGLE_MAPS_APIKEY = 'AIzaSyCkVARy-jUojHtiIxcu90g3heAEJDyhqrE';
 
 Geolocation.getCurrentPosition(info => console.log(info));
@@ -129,7 +130,6 @@ export default ({navigation}) => {
   //   );
   // };
 
-
   const [region, setRegion] = useState(arambagh);
   const destination = {
     latitude: 22.9,
@@ -139,20 +139,22 @@ export default ({navigation}) => {
   };
   return (
     <View style={{flex: 1}}>
-     <HambergerHome navigation={navigation}/>
+      <HambergerHome navigation={navigation} />
       <View style={styles.container}>
         <MapView
           style={styles.map}
           initialRegion={arambagh}
           // onRegionChangeComplete={region => setRegion(region)}
-          region={location}
-          >
-          {location && destination.latitude && destination.longitude && <MapViewDirections
-            origin={location}
-            destination={destination}
-            apikey={GOOGLE_MAPS_APIKEY}
-            strokeWidth={2}
-          />}
+          region={location}>
+          {location && destination.latitude && destination.longitude && (
+            <MapViewDirections
+              origin={location}
+              destination={destination}
+              apikey={GOOGLE_MAPS_APIKEY}
+              strokeWidth={2}
+            />
+          )}
+          <Circle center={location} radius={500} fillColor="#ffffb77a" />
           {/* <Marker key={`marker${1}`} coordinate={location} title="arambagh" /> */}
           {/* <Marker key={`marker${2}`} coordinate={destination} title="mayapur" /> */}
         </MapView>
