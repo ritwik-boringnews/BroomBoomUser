@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {Button, View} from 'react-native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Payments from '../Pages/Payments';
 import RideHistory from '../Pages/RideHistory';
 import ReferAndEarn from '../Pages/ReferAndEarn';
@@ -15,8 +16,8 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import Setting from 'react-native-vector-icons/AntDesign';
 import Support from 'react-native-vector-icons/FontAwesome';
 import GMapHome from '../Pages/GMapHome/index.js';
-import EnterDestination from '../Pages/EnterDestination';
-
+import SearchPickup from '../Pages/SearchPickup';
+import DestinationLocation from '../Pages/DestinationLocation';
 function HomeDrawerScreen({navigation}) {
   return (
     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
@@ -28,7 +29,23 @@ function HomeDrawerScreen({navigation}) {
   );
 }
 
+const HomePageMain = () => {
+  return (
+    <Stack.Navigator
+      initialRouteName="SourceMap"
+      screenOptions={{headerShown: false}}>
+      <Stack.Screen name="SourceMap" component={GMapHome} />
+      <Stack.Screen name="SearchPickup" component={SearchPickup} />
+      <Stack.Screen
+        name="DestinationLocation"
+        component={DestinationLocation}
+      />
+    </Stack.Navigator>
+  );
+};
+
 const Drawer = createDrawerNavigator();
+const Stack = createNativeStackNavigator();
 const DrawerNavigator = ({navigation}) => {
   return (
     <Drawer.Navigator
@@ -45,7 +62,7 @@ const DrawerNavigator = ({navigation}) => {
           fontSize: 15,
         },
       }}>
-      <Drawer.Screen
+      {/* <Drawer.Screen
         name="EnterDestination"
         component={EnterDestination}
         options={{
@@ -53,16 +70,35 @@ const DrawerNavigator = ({navigation}) => {
             <MaterialIcons name="payment" size={22} color={color} />
           ),
         }}
-      />
+      /> */}
       <Drawer.Screen
-        name="SourceMap"
-        component={GMapHome}
+        name="Map"
+        component={HomePageMain}
         options={{
           drawerIcon: ({color}) => (
             <MaterialIcons name="payment" size={22} color={color} />
           ),
         }}
       />
+      {/* <Drawer.Screen
+        name="SearchPickup"
+        component={SearchPickup}
+        options={{
+          drawerIcon: ({color}) => (
+            <MaterialIcons name="payment" size={22} color={color} />
+          ),
+        }}
+      /> */}
+      {/* <Drawer.Screen
+        name="DestinationLocation"
+        component={DestinationLocation}
+        options={{
+          drawerIcon: ({color}) => (
+            <MaterialIcons name="payment" size={22} color={color} />
+          ),
+        }}
+      /> */}
+
       <Drawer.Screen
         name="Notificaton"
         component={Notifications}

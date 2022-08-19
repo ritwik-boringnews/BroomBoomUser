@@ -22,7 +22,7 @@ const SearchPickupLocation = () => {
       <Icon
         name="arrow-back"
         size={30}
-        color="balck"
+        color="#000"
         style={{
           marginTop: 16,
         }}

@@ -13,7 +13,11 @@ import MapViewDirections from 'react-native-maps-directions';
 import MyLocation from 'react-native-vector-icons/MaterialIcons';
 import Geolocation from '@react-native-community/geolocation';
 import HambergerHome from '../../Components/HambergerHome';
-
+import EnterDestination from '../../Components/enterDestination';
+import ChooseLocation from '../../Components/chooseLocation';
+import ChooseVehicleScooty from '../ChooseVehicleScooty';
+import PerfectPilot from '../../Components/perfectPilot';
+import RatePilot from '../../Components/ratePilot';
 const GOOGLE_MAPS_APIKEY = 'AIzaSyCkVARy-jUojHtiIxcu90g3heAEJDyhqrE';
 
 Geolocation.getCurrentPosition(info => console.log(info));
@@ -44,6 +48,82 @@ export default ({navigation}) => {
   const [currentLatitude, setCurrentLatitude] = useState(null);
   const [locationStatus, setLocationStatus] = useState('');
   const [location, setLocation] = useState(arambagh);
+
+  const MapType = ({type}) => {
+    switch (type) {
+      case 'CHOOSE_LOCATION':
+        return <ChooseLocation />;
+      case 'CHOOSE_DESTINATION':
+        return <EnterDestination />;
+      case 'CHOOSE_VEHICLE_TYPE':
+        return <ChooseVehicleScooty />;
+      case 'CHOOSE_PERFECT_PILOT':
+        return <PerfectPilot />;
+      case 'RATE_PILOT':
+        return <RatePilot />;
+    }
+  };
+
+  const MarkerType = ({type, location}) => {
+    switch (type) {
+      case 'CAR':
+        return (
+          <Marker
+            key={`marker${1}`}
+            coordinate={location}
+            title="arambagh"
+            image={require('../../../assets/car.png')}
+            height={40}
+            width={40}
+          />
+        );
+      case 'SCOOTY':
+        return (
+          <Marker
+            key={`marker${2}`}
+            coordinate={location}
+            title="arambagh"
+            image={require('../../../assets/bike.png')}
+            height={30}
+            width={30}
+          />
+        );
+      case 'AUTO-RIKSHAW':
+        return (
+          <Marker
+            key={`marker${3}`}
+            coordinate={location}
+            title="arambagh"
+            image={require('../../../assets/rikshaw.png')}
+            height={30}
+            width={30}
+          />
+        );
+      case 'MOTOR-BIKE':
+        return (
+          <Marker
+            key={`marker${4}`}
+            coordinate={location}
+            title="arambagh"
+            image={require('../../../assets/bike.png')}
+            height={50}
+            width={50}
+          />
+        );
+      case 'TOTO':
+        return (
+          <Marker
+            key={`marker${5}`}
+            coordinate={location}
+            title="arambagh"
+            image={require('../../../assets/car.png')}
+            height={30}
+            width={30}
+          />
+        );
+    }
+  };
+
   useEffect(() => {
     const requestLocationPermission = async () => {
       try {
@@ -155,7 +235,8 @@ export default ({navigation}) => {
             />
           )}
           <Circle center={location} radius={500} fillColor="#ffffb77a" />
-          {/* <Marker key={`marker${1}`} coordinate={location} title="arambagh" /> */}
+
+          <MarkerType type="MOTOR-BIKE" location={location} />
           {/* <Marker key={`marker${2}`} coordinate={destination} title="mayapur" /> */}
         </MapView>
         <View
@@ -172,50 +253,8 @@ export default ({navigation}) => {
           </TouchableOpacity>
         </View>
       </View>
-      <View
-        style={{
-          flex: 1,
-          backgroundColor: 'white',
-          borderRadius: 20,
-          borderBottomEndRadius: 0,
-          borderBottomStartRadius: 0,
-        }}>
-        <Text style={{marginTop: 20, marginLeft: 20, color: 'black'}}>
-          Select your Pick Up
-        </Text>
-        <View
-          style={{
-            backgroundColor: '#C8C8C8',
-            marginHorizontal: 30,
-            paddingVertical: 10,
-            borderRadius: 10,
-            marginTop: 10,
-            marginLeft: 20,
-            flexDirection: 'row',
-            justifyContent: 'center',
-          }}>
-          <Image
-            source={require('../../../assets/mapIcon.png')}
-            style={{marginTop: 3}}
-          />
-          <Text style={{marginLeft: 10, color: 'black'}}>
-            South Dumdum, West Bengal 700028...
-          </Text>
-        </View>
-        <TouchableOpacity
-          style={{
-            backgroundColor: 'white',
-            borderWidth: 1,
-            marginHorizontal: 25,
-            paddingVertical: 10,
-            borderRadius: 20,
-            marginTop: 20,
-          }}>
-          <Text style={{textAlign: 'center', color: 'black'}}>
-            Confirm Location
-          </Text>
-        </TouchableOpacity>
-      </View>
+
+      <MapType type="CHOOSE_LOCATION" />
     </View>
   );
 };
