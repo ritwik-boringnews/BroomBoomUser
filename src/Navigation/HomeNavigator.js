@@ -23,7 +23,7 @@ import PilotDetails from '../Pages/PilotDetails/index.js';
 import DrawerNavigator from './DrawerNavigator.js';
 import RunningRide from '../Pages/RunningRide/index.js';
 import CancelOrderModal from '../Pages/CancelOrderModal/index.js';
-import EnterDestination from '../Pages/EnterDestination/index.js';
+
 const Stack = createNativeStackNavigator();
 
 function App() {
