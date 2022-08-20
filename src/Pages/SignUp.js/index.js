@@ -7,29 +7,26 @@ import styles from "./styles";
 const SignUp = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(false);
   const inputRef = useRef(null);
-  const [credentials, setCredentials] = useState({
-    email: "",
-    mobile: "",
-  });
+  const [mobile, setmobile] = useState()
 
   const onSubmit = async () => {
     setIsLoading(true);
 
-    // try {
-    //   const response = await Api.post(`/pilot/register`, {
-    //     mobile: credentials.mobile,
-    //   });
-    //   if (response.status === 1) {
+    try {
+      const response = await Api.post(`/user/register`, {
+        mobile: mobile,
+      });
+      if (response.status === 1) {
        
-    //     navigation.navigate("otp", { mobile: credentials.mobile });
-    //   } else {
-    //     throw new Error(response.message);
-    //   }
-    // } catch (error) {
+        navigation.navigate("Otp", { mobile: mobile });
+      } else {
+        throw new Error(response.message);
+      }
+    } catch (error) {
       
-    //   console.log(error);
-    // }
-    navigation.navigate('Otp')
+      console.log(error);
+    }
+    // navigation.navigate('Otp')
     setIsLoading(false);
   };
 
@@ -83,8 +80,9 @@ const SignUp = ({ navigation }) => {
             backgroundColor: "#fff",
             borderRadius: 5,
           }}
+          value={mobile}
           onChangeText={(text) =>
-            setCredentials({ ...credentials, mobile: text })
+          setmobile(text)
           }
         />
         {/* <Text style={{ textAlign: "center", marginVertical: 10 }}>Or</Text>

@@ -1,8 +1,8 @@
 import { View, Text ,Button} from 'react-native'
 import React from 'react'
 import OTPTextView from '../../Components/AppOtpInput';
-const Otp = () => {
-
+const Otp = ({navigation,route}) => {
+console.log(route.params.mobile)
   const [otp, setOtp] = React.useState("");
   const [isLoading, setLoading] = React.useState(false);
 

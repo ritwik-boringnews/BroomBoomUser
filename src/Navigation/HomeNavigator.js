@@ -30,7 +30,7 @@ function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="DrawerNavigator"
+        initialRouteName="Signup"
         screenOptions={{headerShown: false}}>
         <Stack.Screen name="CancelOrderModal" component={CancelOrderModal} />
         <Stack.Screen name="DrawerNavigator" component={DrawerNavigator} />

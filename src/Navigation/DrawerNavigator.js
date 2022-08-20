@@ -80,7 +80,7 @@ const DrawerNavigator = ({navigation}) => {
           ),
         }}
       />
-      {/* <Drawer.Screen
+      <Drawer.Screen
         name="SearchPickup"
         component={SearchPickup}
         options={{
@@ -88,8 +88,8 @@ const DrawerNavigator = ({navigation}) => {
             <MaterialIcons name="payment" size={22} color={color} />
           ),
         }}
-      /> */}
-      {/* <Drawer.Screen
+      />
+      <Drawer.Screen
         name="DestinationLocation"
         component={DestinationLocation}
         options={{
@@ -97,7 +97,7 @@ const DrawerNavigator = ({navigation}) => {
             <MaterialIcons name="payment" size={22} color={color} />
           ),
         }}
-      /> */}
+      />
 
       <Drawer.Screen
         name="Notificaton"

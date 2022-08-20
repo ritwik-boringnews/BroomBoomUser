@@ -20,7 +20,7 @@ import PerfectPilot from '../../Components/perfectPilot';
 import RatePilot from '../../Components/ratePilot';
 const GOOGLE_MAPS_APIKEY = 'AIzaSyCkVARy-jUojHtiIxcu90g3heAEJDyhqrE';
 
-Geolocation.getCurrentPosition(info => console.log(info));
+
 const styles = StyleSheet.create({
   container: {
     flex: 2,
@@ -48,7 +48,12 @@ export default ({navigation}) => {
   const [currentLatitude, setCurrentLatitude] = useState(null);
   const [locationStatus, setLocationStatus] = useState('');
   const [location, setLocation] = useState(arambagh);
+  useEffect(() => {
+    Geolocation.getCurrentPosition(info => console.log(info));
+  
 
+  }, [])
+  
   const MapType = ({type}) => {
     switch (type) {
       case 'CHOOSE_LOCATION':
@@ -254,7 +259,7 @@ export default ({navigation}) => {
         </View>
       </View>
 
-      <MapType type="CHOOSE_LOCATION" />
+      <MapType type="CHOOSE_DESTINATION" />
     </View>
   );
 };
