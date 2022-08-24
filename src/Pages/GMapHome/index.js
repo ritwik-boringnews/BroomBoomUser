@@ -20,7 +20,6 @@ import PerfectPilot from '../../Components/perfectPilot';
 import RatePilot from '../../Components/ratePilot';
 const GOOGLE_MAPS_APIKEY = 'AIzaSyCkVARy-jUojHtiIxcu90g3heAEJDyhqrE';
 
-
 const styles = StyleSheet.create({
   container: {
     flex: 2,
@@ -50,10 +49,8 @@ export default ({navigation}) => {
   const [location, setLocation] = useState(arambagh);
   useEffect(() => {
     Geolocation.getCurrentPosition(info => console.log(info));
-  
+  }, []);
 
-  }, [])
-  
   const MapType = ({type}) => {
     switch (type) {
       case 'CHOOSE_LOCATION':
@@ -156,64 +153,7 @@ export default ({navigation}) => {
       console.log(info.coords);
       setLocation(mayapur);
     });
-    // setLocationStatus('Getting Location ...');
-    // Geolocation.getCurrentPosition(
-    //   //Will give you the current location
-    //   position => {
-    //     setLocationStatus('You are Here');
-
-    //     //getting the Longitude from the location json
-    //     const currentLongitude = JSON.stringify(position.coords.longitude);
-    //     console.log(currentLongitude);
-    //     //getting the Latitude from the location json
-    //     const currentLatitude = JSON.stringify(position.coords.latitude);
-
-    //     //Setting Longitude state
-    //     setCurrentLongitude(currentLongitude);
-
-    //     //Setting Longitude state
-    //     setCurrentLatitude(currentLatitude);
-    //   },
-    //   error => {
-    //     setLocationStatus(error.message);
-    //   },
-    //   {
-    //     enableHighAccuracy: false,
-    //     timeout: 30000,
-    //     maximumAge: 1000,
-    //   },
-    // );
   };
-
-  // const subscribeLocationLocation = () => {
-  //   watchID = Geolocation.watchPosition(
-  //     position => {
-  //       //Will give you the location on location change
-
-  //       setLocationStatus('You are Here');
-  //       console.log(position);
-
-  //       //getting the Longitude from the location json
-  //       const currentLongitude = JSON.stringify(position.coords.longitude);
-
-  //       //getting the Latitude from the location json
-  //       const currentLatitude = JSON.stringify(position.coords.latitude);
-
-  //       //Setting Longitude state
-  //       setCurrentLongitude(currentLongitude);
-
-  //       //Setting Latitude state
-  //       setCurrentLatitude(currentLatitude);
-  //     },
-  //     error => {
-  //       setLocationStatus(error.message);
-  //     },
-  //     {
-  //       enableHighAccuracy: false,
-  //       maximumAge: 1000,
-  //     },
-  //   );
-  // };
 
   const [region, setRegion] = useState(arambagh);
   const destination = {

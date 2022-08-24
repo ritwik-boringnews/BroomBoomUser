@@ -1,55 +1,64 @@
-import { View, Text ,Button} from 'react-native'
-import React from 'react'
+import React from 'react';
+import {View, Text, Button} from 'react-native';
 import OTPTextView from '../../Components/AppOtpInput';
-const Otp = ({navigation,route}) => {
-console.log(route.params.mobile)
-  const [otp, setOtp] = React.useState("");
+import Api from '../../Services';
+import {TextInput, ActivityIndicator} from 'react-native-paper';
+const Otp = ({navigation, route}) => {
+  const [otp, setOtp] = React.useState('');
   const [isLoading, setLoading] = React.useState(false);
-
-  
-
   const onSubmitOtp = async () => {
     setLoading(true);
-   
+    try {
+      const response = await Api.post(`/user/verify-otp`, {
+        otp: otp,
+        mobile: route.params.mobile,
+      });
+
+      if (response.status === 1) {
+        navigation.navigate('DrawerNavigator', {otp: otp});
+      } else {
+        throw new Error(response.message);
+      }
+    } catch (error) {
+      console.log(error);
+    }
     setLoading(false);
   };
 
   return (
-    <View style={{ marginTop: 30, paddingHorizontal: 30 }}>
-      <Text style={{ fontSize: 22, fontWeight: "700", textAlign: "center" }}>
+    <View style={{marginTop: 30, paddingHorizontal: 30}}>
+      <Text style={{fontSize: 22, fontWeight: '700', textAlign: 'center'}}>
         Enter OTP
       </Text>
-      <Text style={{ fontSize: 14, fontWeight: "500", textAlign: "center" }}>
+      <Text style={{fontSize: 14, fontWeight: '500', textAlign: 'center'}}>
         We have sent an OTP to 8961458521
       </Text>
-      
-      <OTPTextView inputCount={4} handleTextChange={(e) => setOtp(e)} />
+
+      <OTPTextView inputCount={4} handleTextChange={e => setOtp(e)} />
 
       <View
         style={{
-          flexDirection: "row",
-          justifyContent: "space-between",
+          flexDirection: 'row',
+          justifyContent: 'space-between',
           marginTop: 20,
-          width: "100%",
-        }}
-      >
+          width: '100%',
+        }}>
         {isLoading && (
           <>
-            <ActivityIndicator animating={true} color={"red"} />
-            <Text style={{ fontSize: 14, fontWeight: "500" }}>
+            <ActivityIndicator animating={true} color={'red'} />
+            <Text style={{fontSize: 14, fontWeight: '500'}}>
               Auto verifying
             </Text>
           </>
         )}
-        <Text style={{ fontSize: 14, fontWeight: "500", textAlign: "right" }}>
+        <Text style={{fontSize: 14, fontWeight: '500', textAlign: 'right'}}>
           Resend OTP in 10s
         </Text>
-        <Button onPress={onSubmitOtp} title="Verify">next</Button>
+
+        <Button onPress={onSubmitOtp} title="Verify" color="#F5C001" />
       </View>
     </View>
-  )
-}
+  );
+};
 
-export default Otp
-
-
+export default Otp;

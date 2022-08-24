@@ -1,36 +1,43 @@
 import {View, Text, Image, FlatList, StyleSheet} from 'react-native';
-import React from 'react';
-
+import React, {useEffect, useState} from 'react';
+import Api from '../../Services';
+import moment from 'moment';
 const Notifications = () => {
-  const DATA = [
-    {
-      id:1,
-      image: require('../../../assets/notification.png'),
-      title: 'You have earned ₹50 Reward',
-      subtitle:
-        'Long Description Nemo enim ipsam{"\n"} voxoxhhs hahshcg vohmsk',
-      icon: require('../../../assets/icon.png'),
-      date: '27 May at 12:23 pm',
-    },
-    {
-      id:2,
-      image: require('../../../assets/notification.png'),
-      title: 'You have earned ₹50 Reward',
-      subtitle:
-        'Long Description Nemo enim ipsam{"\n"} voxoxhhs hahshcg vohmsk',
-      icon: require('../../../assets/icon.png'),
-      date: '27 May at 12:23 pm',
-    },
-    {
-      id:3,
-      image: require('../../../assets/notification.png'),
-      title: 'You have earned ₹50 Reward',
-      subtitle:
-        'Long Description Nemo enim ipsam{"\n"} voxoxhhs hahshcg vohmsk',
-      icon: require('../../../assets/icon.png'),
-      date: '27 May at 12:23 pm',
-    },
-  ];
+  const [isLoading, setIsLoading] = useState(false);
+  const [notifications, setNotifications] = useState();
+  useEffect(() => {
+    setIsLoading(true);
+
+    const getNotification = async () => {
+      console.log('hii');
+      try {
+        const response = await Api.get(`/notification/get-notification`);
+        console.log(response);
+        const store = [];
+        if (response.status === 1) {
+          response.data.notification.forEach(item => {
+            store.push({
+              id: item.id,
+              image: require('../../../assets/notification.png'),
+              title: item.notification,
+              subtitle: item.message,
+              icon: require('../../../assets/icon.png'),
+              date: moment(item.createdAt).format('llll'),
+            });
+          });
+          setNotifications(store);
+        } else {
+          throw new Error(response.message);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getNotification();
+
+    setIsLoading(false);
+  }, []);
+
   const ListItem = ({item}) => {
     return (
       <View
@@ -67,6 +74,7 @@ const Notifications = () => {
               <Text style={{fontWeight: 'bold', color: 'black'}}>
                 {item.title}
               </Text>
+
               <Text
                 style={{
                   fontSize: 10,
@@ -103,7 +111,11 @@ const Notifications = () => {
   };
   return (
     <View>
-      <FlatList data={DATA} renderItem={ListItem} keyExtractor={e => e.id} />
+      <FlatList
+        data={notifications}
+        renderItem={ListItem}
+        keyExtractor={e => e.id}
+      />
     </View>
   );
 };

@@ -1,9 +1,52 @@
-import {View, Text, Image, TouchableOpacity, ScrollView} from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  ScrollView,
+  Share,
+} from 'react-native';
 import React from 'react';
 import styles from './styles';
-import Icon from 'react-native-vector-icons/FontAwesome';
-
+import CopyIcon from 'react-native-vector-icons/Feather';
+import GiftIcon from 'react-native-vector-icons/Feather';
+import Api from '../../Services';
+import Clipboard from '@react-native-clipboard/clipboard';
 const ReferAndEarn = () => {
+  const [referralCode, setReferralCode] = React.useState('');
+  React.useEffect(() => {
+    getReferralCode();
+  }, []);
+  const getReferralCode = async () => {
+    try {
+      const response = await Api.get('/refer/get-refer-token');
+      if (response.status === 1) {
+        setReferralCode(response.data.referral_code);
+      } else {
+        console.log(response.message);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const copyToClipboard = async () => {
+    Clipboard.setString(
+      `Hurry! You're invited to be a Broomboom User.Please use the below coupon code during registration and earn broomboom coins.Referral Code: ${referralCode}.
+      `,
+    );
+  };
+
+  const onShare = async () => {
+    try {
+      await Share.share({
+        message: `Hurry! You're invited to be a Broomboom User.Please use the below coupon code during registration and earn broomboom coins.Referral Code: ${referralCode}.`,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <ScrollView style={{flex: 1, backgroundColor: 'white'}}>
       <View style={styles.container}>
@@ -11,7 +54,9 @@ const ReferAndEarn = () => {
           INVITE YOUR FRIEND AND EARN UPTO 100 BROOMBOOM COINS
         </Text>
         <Image
-          source={require('../../../assets/ReferAndEarn.png')}
+          source={{
+            uri: 'https://broomboomimages.s3.ap-south-1.amazonaws.com/1657284315253_referAndEarn.png',
+          }}
           style={styles.img}
           resizeMode="contain"
         />
@@ -19,17 +64,17 @@ const ReferAndEarn = () => {
           COPY & SEND THE CODE TO YOUR FRIEND TO REGISTER AND EARN NOW
         </Text>
         <View style={styles.copyCodeContainer}>
-          <Text style={styles.copyCodeText}>C7TCC9G</Text>
-          <TouchableOpacity>
-            <Icon name="copy" size={15} />
+          <Text style={styles.copyCodeText}>{referralCode}</Text>
+          <TouchableOpacity onPress={copyToClipboard}>
+            <CopyIcon name="copy" size={20} />
           </TouchableOpacity>
         </View>
         <View style={styles.inviteTextContainer}>
           <View style={styles.row}>
-            <Icon name="gift" size={20} />
+            <GiftIcon name="gift" size={20} />
             <Text style={styles.inviteText}>Invite Friends to Broomboom</Text>
           </View>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={onShare}>
             <Text style={styles.link}>Invite</Text>
           </TouchableOpacity>
         </View>
