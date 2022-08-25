@@ -1,11 +1,12 @@
-import React, {useEffect} from 'react';
-import {View, Text, Button} from 'react-native';
-import OTPTextView from '../../Components/AppOtpInput';
-import Api from '../../Services';
-import {TextInput, ActivityIndicator} from 'react-native-paper';
+import React, {useEffect} from "react";
+import {View, Text, Button} from "react-native";
+import OTPTextView from "../../Components/AppOtpInput";
+import Api from "../../Services";
+import {TextInput, ActivityIndicator} from "react-native-paper";
 const Otp = ({navigation, route}) => {
-  const [otp, setOtp] = React.useState('');
+  const [otp, setOtp] = React.useState("");
   const [isLoading, setLoading] = React.useState(false);
+  const {mobile} = route.params;
   useEffect(() => {
     if (otp.length === 4) {
       onSubmitOtp();
@@ -20,7 +21,7 @@ const Otp = ({navigation, route}) => {
       });
 
       if (response.status === 1) {
-        navigation.navigate('DrawerNavigator', {otp: otp});
+        navigation.navigate("DrawerNavigator", {otp: otp});
       } else {
         throw new Error(response.message);
       }
@@ -35,35 +36,35 @@ const Otp = ({navigation, route}) => {
       <Text
         style={{
           fontSize: 22,
-          fontWeight: '700',
-          textAlign: 'center',
-          color: 'black',
+          fontWeight: "700",
+          textAlign: "center",
+          color: "black",
         }}>
         Enter OTP
       </Text>
       <Text
         style={{
           fontSize: 14,
-          fontWeight: '500',
-          textAlign: 'center',
-          color: 'black',
+          fontWeight: "500",
+          textAlign: "center",
+          color: "black",
         }}>
-        We have sent an OTP
+        We have sent an OTP to {mobile}
       </Text>
 
       <OTPTextView inputCount={4} handleTextChange={e => setOtp(e)} />
 
       <View
         style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
+          flexDirection: "row",
+          justifyContent: "space-between",
           marginTop: 20,
-          width: '100%',
+          width: "100%",
         }}>
         {isLoading && (
           <>
-            <ActivityIndicator animating={true} color={'red'} />
-            <Text style={{fontSize: 14, fontWeight: '500'}}>
+            <ActivityIndicator animating={true} color={"red"} />
+            <Text style={{fontSize: 14, fontWeight: "500"}}>
               Auto verifying
             </Text>
           </>

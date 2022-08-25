@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useRef, useState} from "react";
 import {
   View,
   Text,
@@ -6,15 +6,15 @@ import {
   Linking,
   TouchableOpacity,
   useColorScheme,
-} from 'react-native';
+} from "react-native";
 import {
   ActivityIndicator,
   DefaultTheme,
   Provider as PaperProvider,
   useTheme,
-} from 'react-native-paper';
-import PhoneInput from 'react-native-phone-number-input';
-import Api from '../../Services';
+} from "react-native-paper";
+import PhoneInput from "react-native-phone-number-input";
+import Api from "../../Services";
 
 const SignUp = ({navigation}) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -23,7 +23,7 @@ const SignUp = ({navigation}) => {
   const scheme = useColorScheme();
   const {colors} = useTheme();
   const onSubmit = async () => {
-    console.log('hii');
+    console.log("hii");
     setIsLoading(true);
 
     try {
@@ -31,7 +31,7 @@ const SignUp = ({navigation}) => {
         mobile: mobile,
       });
       if (response.status === 1) {
-        navigation.navigate('Otp', {mobile: mobile});
+        navigation.navigate("Otp", {mobile: mobile});
       } else {
         throw new Error(response.message);
       }
@@ -45,9 +45,9 @@ const SignUp = ({navigation}) => {
     <View
       style={{
         paddingHorizontal: 30,
-        justifyContent: 'space-between',
+        justifyContent: "space-between",
         flex: 1,
-        backgroundColor: 'white',
+        backgroundColor: "white",
       }}>
       <View
         style={{
@@ -56,16 +56,16 @@ const SignUp = ({navigation}) => {
         <Text
           style={{
             fontSize: 22,
-            fontWeight: '700',
-            textAlign: 'center',
+            fontWeight: "700",
+            textAlign: "center",
           }}>
           Enter Your Mobile Number
         </Text>
         <Text
           style={{
             fontSize: 16,
-            fontWeight: '500',
-            textAlign: 'center',
+            fontWeight: "500",
+            textAlign: "center",
             marginBottom: 35,
           }}>
           Otp will be sent to this number
@@ -78,13 +78,13 @@ const SignUp = ({navigation}) => {
           autoFocus
           placeholder="Enter phone number"
           containerStyle={{
-            backgroundColor: '#fff',
-            width: '100%',
+            backgroundColor: "#fff",
+            width: "100%",
             borderRadius: 5,
             borderWidth: 1,
           }}
           textContainerStyle={{
-            backgroundColor: '#fff',
+            backgroundColor: "#fff",
             borderRadius: 5,
           }}
           value={mobile}
@@ -95,33 +95,38 @@ const SignUp = ({navigation}) => {
         style={{
           marginBottom: 30,
         }}>
-        <Text
-          style={{
-            textAlign: 'center',
-            marginBottom: 15,
-            color: 'black',
-            // color: colors.primary,
-          }}>
-          By continuing,you agree to the{' '}
-          <Text style={{color: 'blue'}}>terms </Text>
-          and <Text style={{color: 'blue'}}>conditions </Text>
-          <Text style={{color: 'blue'}}>privacy policy </Text>
-          of Broom Boom User
+        <Text style={{marginBottom: 15, textAlign: "center"}}>
+          By continuing,you agree to the{" "}
+          <Text style={{color: "blue"}} onPress={() => Linking.openURL("#")}>
+            terms {""}
+          </Text>
+          <Text style={{color: "blue"}} onPress={() => Linking.openURL("#")}>
+            & conditions {""}
+          </Text>
+          <Text
+            style={{color: "blue", textAlign: "left"}}
+            onPress={() => Linking.openURL("#")}>
+            and {""}
+          </Text>
+          <Text style={{color: "blue"}} onPress={() => Linking.openURL("#")}>
+            privacy policy {""}
+          </Text>
+          of BroomBoom Pilot
         </Text>
         <TouchableOpacity
           style={{
-            width: '100%',
+            width: "100%",
             padding: 10,
             borderWidth: 1,
             borderRadius: 50,
-            backgroundColor: '#F5C001',
+            backgroundColor: "#F5C001",
           }}
           disabled={isLoading}
           onPress={onSubmit}>
           {isLoading ? (
             <ActivityIndicator />
           ) : (
-            <Text style={{textAlign: 'center'}}>Send OTP</Text>
+            <Text style={{textAlign: "center"}}>Send OTP</Text>
           )}
         </TouchableOpacity>
       </View>
