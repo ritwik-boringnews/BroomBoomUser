@@ -23,7 +23,8 @@ import PilotDetails from '../Pages/PilotDetails/index.js';
 import DrawerNavigator from './DrawerNavigator.js';
 import RunningRide from '../Pages/RunningRide/index.js';
 import CancelOrderModal from '../Pages/CancelOrderModal/index.js';
-
+import FindingPilot from '../Components/findingPilot.js';
+import ServiceNotAvailable from '../Components/serviceNotAvailable.js';
 const Stack = createNativeStackNavigator();
 
 function App() {
@@ -62,6 +63,11 @@ function App() {
         <Stack.Screen name="Otp" component={Otp} />
         <Stack.Screen name="Welcome" component={Welcome} />
         <Stack.Screen name="Faq" component={Faq} />
+        <Stack.Screen
+          name="ServiceNotAvailable"
+          component={ServiceNotAvailable}
+        />
+        <Stack.Screen name="FindingPilot" component={FindingPilot} />
       </Stack.Navigator>
     </NavigationContainer>
   );

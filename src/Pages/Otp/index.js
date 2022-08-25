@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {View, Text, Button} from 'react-native';
 import OTPTextView from '../../Components/AppOtpInput';
 import Api from '../../Services';
@@ -6,6 +6,11 @@ import {TextInput, ActivityIndicator} from 'react-native-paper';
 const Otp = ({navigation, route}) => {
   const [otp, setOtp] = React.useState('');
   const [isLoading, setLoading] = React.useState(false);
+  useEffect(() => {
+    if (otp.length === 4) {
+      onSubmitOtp();
+    }
+  }, [otp]);
   const onSubmitOtp = async () => {
     setLoading(true);
     try {
@@ -27,11 +32,23 @@ const Otp = ({navigation, route}) => {
 
   return (
     <View style={{marginTop: 30, paddingHorizontal: 30}}>
-      <Text style={{fontSize: 22, fontWeight: '700', textAlign: 'center'}}>
+      <Text
+        style={{
+          fontSize: 22,
+          fontWeight: '700',
+          textAlign: 'center',
+          color: 'black',
+        }}>
         Enter OTP
       </Text>
-      <Text style={{fontSize: 14, fontWeight: '500', textAlign: 'center'}}>
-        We have sent an OTP to 8961458521
+      <Text
+        style={{
+          fontSize: 14,
+          fontWeight: '500',
+          textAlign: 'center',
+          color: 'black',
+        }}>
+        We have sent an OTP
       </Text>
 
       <OTPTextView inputCount={4} handleTextChange={e => setOtp(e)} />
@@ -51,11 +68,17 @@ const Otp = ({navigation, route}) => {
             </Text>
           </>
         )}
-        <Text style={{fontSize: 14, fontWeight: '500', textAlign: 'right'}}>
+        {/* <Text
+          style={{
+            fontSize: 14,
+            fontWeight: '500',
+            textAlign: 'right',
+            color: 'black',
+          }}>
           Resend OTP in 10s
-        </Text>
+        </Text> */}
 
-        <Button onPress={onSubmitOtp} title="Verify" color="#F5C001" />
+        {/* <Button onPress={onSubmitOtp} title="Verify" color="#F5C001" style={{}}/> */}
       </View>
     </View>
   );

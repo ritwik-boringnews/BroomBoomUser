@@ -27,7 +27,7 @@ const CustomDrawer = props => {
             <Text style={{fontSize: 10, color: 'white'}}>+91 6678765475</Text>
           </View>
         </View>
-        <View
+        {/* <View
           style={{
             flexDirection: 'row',
             justifyContent: 'space-around',
@@ -49,7 +49,7 @@ const CustomDrawer = props => {
             resizeMode: 'contain',
             marginLeft: 30,
           }}
-        />
+        /> */}
         <View style={{padding: 20}}>
           <DrawerItemList {...props} />
         </View>

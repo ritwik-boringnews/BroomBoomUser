@@ -18,6 +18,8 @@ import ChooseLocation from '../../Components/chooseLocation';
 import ChooseVehicleScooty from '../ChooseVehicleScooty';
 import PerfectPilot from '../../Components/perfectPilot';
 import RatePilot from '../../Components/ratePilot';
+import FindingPilot from '../../Components/findingPilot';
+import ServiceNotAvailable from '../../Components/serviceNotAvailable';
 const GOOGLE_MAPS_APIKEY = 'AIzaSyCkVARy-jUojHtiIxcu90g3heAEJDyhqrE';
 
 const styles = StyleSheet.create({
@@ -47,6 +49,8 @@ export default ({navigation}) => {
   const [currentLatitude, setCurrentLatitude] = useState(null);
   const [locationStatus, setLocationStatus] = useState('');
   const [location, setLocation] = useState(arambagh);
+  const [type, setType] = useState('CHOOSE_DESTINATION');
+  const [search, setSearch] = useState({});
   useEffect(() => {
     Geolocation.getCurrentPosition(info => console.log(info));
   }, []);
@@ -54,15 +58,31 @@ export default ({navigation}) => {
   const MapType = ({type}) => {
     switch (type) {
       case 'CHOOSE_LOCATION':
-        return <ChooseLocation />;
+        return (
+          <ChooseLocation
+            onConfirmPickup={() => setType('SERVICE_NOT_AVAILABLE')}
+          />
+        );
       case 'CHOOSE_DESTINATION':
-        return <EnterDestination />;
+        return (
+          <EnterDestination
+            onConfirmPickup={() => setType('SERVICE_NOT_AVAILABLE')}
+          />
+        );
       case 'CHOOSE_VEHICLE_TYPE':
         return <ChooseVehicleScooty />;
       case 'CHOOSE_PERFECT_PILOT':
         return <PerfectPilot />;
       case 'RATE_PILOT':
         return <RatePilot />;
+      case 'FINDING_PILOT':
+        return <FindingPilot />;
+      case 'SERVICE_NOT_AVAILABLE':
+        return (
+          <ServiceNotAvailable
+            onChooseAnotherPlace={() => setType('CHOOSE_DESTINATION')}
+          />
+        );
     }
   };
 
@@ -199,7 +219,7 @@ export default ({navigation}) => {
         </View>
       </View>
 
-      <MapType type="CHOOSE_DESTINATION" />
+      <MapType type={type} />
     </View>
   );
 };

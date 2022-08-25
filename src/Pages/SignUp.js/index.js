@@ -1,16 +1,29 @@
 import React, {useRef, useState} from 'react';
-import {View, Text, Button, Linking, TouchableOpacity} from 'react-native';
-import {TextInput, ActivityIndicator} from 'react-native-paper';
+import {
+  View,
+  Text,
+  Button,
+  Linking,
+  TouchableOpacity,
+  useColorScheme,
+} from 'react-native';
+import {
+  ActivityIndicator,
+  DefaultTheme,
+  Provider as PaperProvider,
+  useTheme,
+} from 'react-native-paper';
 import PhoneInput from 'react-native-phone-number-input';
 import Api from '../../Services';
-import styles from './styles';
 
 const SignUp = ({navigation}) => {
   const [isLoading, setIsLoading] = useState(false);
   const inputRef = useRef(null);
   const [mobile, setmobile] = useState();
-
+  const scheme = useColorScheme();
+  const {colors} = useTheme();
   const onSubmit = async () => {
+    console.log('hii');
     setIsLoading(true);
 
     try {
@@ -25,7 +38,6 @@ const SignUp = ({navigation}) => {
     } catch (error) {
       console.log(error);
     }
-    // navigation.navigate('Otp')
     setIsLoading(false);
   };
 
@@ -78,29 +90,23 @@ const SignUp = ({navigation}) => {
           value={mobile}
           onChangeText={text => setmobile(text)}
         />
-        {/* <Text style={{ textAlign: "center", marginVertical: 10 }}>Or</Text>
-        <TextInput
-          label="Email"
-          onChangeText={(text) =>
-            setCredentials({ ...credentials, email: text })
-          }
-          style={{ backgroundColor: "#fff" }}
-        /> */}
       </View>
       <View
         style={{
           marginBottom: 30,
         }}>
-        <Text style={{textAlign: 'center', marginBottom: 15}}>
+        <Text
+          style={{
+            textAlign: 'center',
+            marginBottom: 15,
+            color: 'black',
+            // color: colors.primary,
+          }}>
           By continuing,you agree to the{' '}
-          <Text style={{color: 'blue'}} onPress={() => Linking.openURL('#')}>
-            terms{' '}
-          </Text>
-          and{' '}
-          <Text style={{color: 'blue'}} onPress={() => Linking.openURL('#')}>
-            privacy policy{' '}
-          </Text>
-          of Broom Boom Pilot
+          <Text style={{color: 'blue'}}>terms </Text>
+          and <Text style={{color: 'blue'}}>conditions </Text>
+          <Text style={{color: 'blue'}}>privacy policy </Text>
+          of Broom Boom User
         </Text>
         <TouchableOpacity
           style={{

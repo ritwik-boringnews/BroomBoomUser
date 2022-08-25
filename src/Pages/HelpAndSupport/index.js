@@ -38,7 +38,7 @@ const HelpAndSupport = ({navigation}) => {
           alignItems: 'center',
           marginTop: 50,
           justifyContent: 'space-between',
-          paddingHorizontal: 30,
+          paddingHorizontal: 100,
         }}>
         <TouchableOpacity
           style={{justifyContent: 'center', alignItems: 'center'}}
@@ -50,13 +50,7 @@ const HelpAndSupport = ({navigation}) => {
 
           <Text style={{textAlign: 'center'}}>FAQs{'\n'}</Text>
         </TouchableOpacity>
-        {/* <View style={{justifyContent: 'center', alignItems: 'center'}}>
-          <Image
-            source={require('../../../assets/help2.png')}
-            style={{height: 45, width: 45, marginBottom: 5}}
-          />
-          <Text style={{textAlign: 'center'}}>Payment {'\n'}& Wallets </Text>
-        </View> */}
+
         <TouchableOpacity
           style={{justifyContent: 'center', alignItems: 'center'}}
           onPress={() => Linking.openURL(`tel:${8478056064}`)}>
@@ -81,6 +75,13 @@ const HelpAndSupport = ({navigation}) => {
           and <Text style={{color: '#347EEA'}}> Privacy Policies </Text>
           of BroomBoom Pilot
         </Text>
+        {/* <View style={{justifyContent: 'center', alignItems: 'center'}}>
+          <Image
+            source={require('../../../assets/help2.png')}
+            style={{height: 45, width: 45, marginBottom: 5}}
+          />
+          <Text style={{textAlign: 'center'}}>Payment {'\n'}& Wallets </Text>
+        </View> */}
       </View>
     </View>
   );

@@ -3,7 +3,7 @@ import React, {useContext} from 'react';
 import Icon from 'react-native-vector-icons/AntDesign';
 import {useNavigation} from '@react-navigation/native';
 import locationContext from '../../context/locationContext';
-const EnterDestination = ({onConfirmPickup}) => {
+const ServiceNotAvailable = ({onChooseAnotherPlace}) => {
   const navigation = useNavigation();
   const {loc} = useContext(locationContext);
   return (
@@ -16,7 +16,7 @@ const EnterDestination = ({onConfirmPickup}) => {
         borderBottomStartRadius: 0,
         color: 'black',
       }}>
-      {/* <View
+      <View
         style={{
           backgroundColor: '#E0E0E0',
           marginHorizontal: 30,
@@ -30,37 +30,30 @@ const EnterDestination = ({onConfirmPickup}) => {
         <TouchableOpacity style={{display: 'flex', flexDirection: 'row'}}>
           <Image source={require('../../assets/mapIcon.png')} />
           <Text style={{marginLeft: 10, color: 'black', fontSize: 14}}>
-            {loc || 'please choose a destination'}
+            {loc}
           </Text>
           <Icon name="hearto" size={14} style={{marginLeft: 2}} />
         </TouchableOpacity>
-      </View> */}
+      </View>
 
       <View
-        style={{
-          backgroundColor: '#E0E0E0',
-          marginHorizontal: 30,
-          padding: 10,
-          borderRadius: 10,
-          marginTop: 10,
-          marginLeft: 20,
-          flexDirection: 'row',
-        }}>
-        <TouchableOpacity
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-          }}
-          onPress={() => navigation.navigate('DestinationLocation')}>
-          <Image source={require('../../assets/mapIcon.png')} />
-          <Text style={{marginLeft: 10, color: 'black'}}>
-            {loc || 'please choose a destination'}{' '}
+        style={{flexDirection: 'row', justifyContent: 'center', marginTop: 20}}>
+        <Image
+          source={require('../../assets/NoService.png')}
+          style={{height: 90, width: 90, resizeMode: 'contain'}}
+        />
+        <View style={{marginTop: 20}}>
+          <Text style={{fontWeight: 'bold', color: 'black'}}>
+            Service is not available{' '}
           </Text>
-        </TouchableOpacity>
+          <Text style={{fontWeight: 'bold', color: 'black'}}>
+            in this area yet.
+          </Text>
+        </View>
       </View>
       <TouchableOpacity
         style={{
-          width: '85%',
+          width: '90%',
           padding: 10,
           borderWidth: 1,
           borderRadius: 50,
@@ -68,13 +61,13 @@ const EnterDestination = ({onConfirmPickup}) => {
           marginTop: 10,
           marginStart: 20,
         }}
-        onPress={onConfirmPickup}>
+        onPress={onChooseAnotherPlace}>
         <Text style={{color: 'black', fontWeight: 'bold'}}>
-          Confirm Location
+          Choose another Pick up
         </Text>
       </TouchableOpacity>
     </View>
   );
 };
 
-export default EnterDestination;
+export default ServiceNotAvailable;

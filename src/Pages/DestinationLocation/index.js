@@ -6,18 +6,21 @@ import {
   TextInput,
   Image,
 } from 'react-native';
-import React from 'react';
+import React, {useContext} from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
+import locationContext from '../../../context/locationContext';
+
 const DestinationLocation = ({navigation}) => {
   const styles = StyleSheet.create({
     container: {
       paddingHorizontal: 20,
       flex: 1,
       backgroundColor: '#fff',
+      color: 'black',
     },
   });
-
+  const {setLoc} = useContext(locationContext);
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={() => navigation.goBack()}>
@@ -31,42 +34,32 @@ const DestinationLocation = ({navigation}) => {
         />
       </TouchableOpacity>
 
-      {/* <View
-        style={{
-          width: '100%',
-          padding: 0,
-          borderWidth: 1,
-          borderRadius: 50,
-          marginTop: 30,
-          backgroundColor: 'rgba(245, 192, 1, 0.2)',
-          flexDirection: 'row',
-          alignItems: 'center',
-        }}>
-        <Icon name="search-outline" size={15} style={{marginLeft: 8}} />
-        <TextInput
-          placeholder="Search Drop Location"
-          style={{
-            fontSize: 16,
-            fontWeight: '500',
-            width: '100%',
-          }}></TextInput>
-      </View> */}
-
       <GooglePlacesAutocomplete
         placeholder="Search"
         query={{
           key: 'AIzaSyCkVARy-jUojHtiIxcu90g3heAEJDyhqrE',
           language: 'en',
         }}
-        onPress={(data, details = null) => console.log(data)}
+        onPress={(data, details = null) => {
+          setLoc(data.description);
+          navigation.goBack();
+        }}
         onFail={error => console.error(error)}
         requestUrl={{
           url: 'https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api',
           useOnPlatform: 'web',
         }}
+        textInputProps={{
+          placeholderTextColor: '#999',
+          color: 'black',
+        }}
         styles={{
-          container: {
-            justifyContent: 'flex-start',
+          listView: {backgroundColor: 'white', color: 'black'},
+          row: {backgroundColor: 'white', color: 'black'},
+          description: {color: 'black', backgroundColor: 'white'},
+          predefinedPlacesDescription: {
+            color: 'black',
+            backgroundColor: 'white',
           },
         }}
       />

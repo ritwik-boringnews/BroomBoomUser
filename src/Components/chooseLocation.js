@@ -1,7 +1,8 @@
 import {View, Text, Image, TouchableOpacity} from 'react-native';
 import React from 'react';
+import {useNavigation} from '@react-navigation/native';
 
-const ChooseLocation = () => {
+const ChooseLocation = ({onConfirmPickup}) => {
   return (
     <View
       style={{
@@ -33,25 +34,21 @@ const ChooseLocation = () => {
         </TouchableOpacity>
       </View>
 
-      <View
+      <TouchableOpacity
         style={{
-          backgroundColor: '#C8C8C8',
-          marginHorizontal: 30,
-          paddingVertical: 10,
-          borderRadius: 10,
+          width: '85%',
+          padding: 10,
+          borderWidth: 1,
+          borderRadius: 50,
+          alignItems: 'center',
           marginTop: 10,
-          marginLeft: 20,
-          flexDirection: 'row',
-          justifyContent: 'center',
-        }}>
-        <Image
-          source={require('../../assets/mapIcon.png')}
-          style={{marginTop: 3}}
-        />
-        <TouchableOpacity>
-          <Text style={{marginLeft: 10, color: 'black'}}>Confirm Location</Text>
-        </TouchableOpacity>
-      </View>
+          marginStart: 20,
+        }}
+        onPress={onConfirmPickup}>
+        <Text style={{color: 'black', fontWeight: 'bold'}}>
+          Confirm Location
+        </Text>
+      </TouchableOpacity>
     </View>
   );
 };

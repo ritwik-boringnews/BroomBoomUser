@@ -29,25 +29,34 @@ const RideHistory = () => {
   }, []);
   console.log(rideHistory);
   return (
-    <ScrollView>
-      <View style={styles.container}>
-        {rideHistory &&
-          rideHistory.map((item, id) => {
-            return (
-              <Box
-                status={item.status}
-                date={moment(item.createdAt).format('ll')}
-                placeFrom={item.sources}
-                placeTo={item.destination}
-                sourceTime={moment(item.createdAt).format('LT')}
-                destinationTime={moment(item.createdAt).format('LT')}
-              />
-            );
-          })}
+    <View style={{justifyContent: 'center', alignItems: 'center', flex: 1}}>
+      {rideHistory &&
+        rideHistory.map((item, id) => {
+          return (
+            <Box
+              status={item.status}
+              date={moment(item.createdAt).format('ll')}
+              placeFrom={item.sources}
+              placeTo={item.destination}
+              sourceTime={moment(item.createdAt).format('LT')}
+              destinationTime={moment(item.createdAt).format('LT')}
+            />
+          );
+        })}
 
-        {!rideHistory.length && <Text>You have not taken any rides yet</Text>}
-      </View>
-    </ScrollView>
+      {!rideHistory.length && (
+        <View style={{alignItems: 'center'}}>
+          <Text style={{color: 'black', marginTop: 20, fontWeight: '700'}}>
+            Thank you for registering with us we will keep you updated with the
+            latest offers
+          </Text>
+          <Image
+            source={require('../../../assets/rideHistory.png')}
+            style={{marginTop: 20}}
+          />
+        </View>
+      )}
+    </View>
   );
 };
 
@@ -57,6 +66,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     paddingHorizontal: 20,
+    flex: 1,
   },
 });
 

@@ -87,7 +87,7 @@ const DrawerNavigator = ({navigation}) => {
         }}
       /> */}
       <Drawer.Screen
-        name="Map"
+        name="map"
         component={HomePageMain}
         options={{
           drawerIcon: ({color}) => (
@@ -104,7 +104,7 @@ const DrawerNavigator = ({navigation}) => {
           ),
         }}
       />
-      <Drawer.Screen
+      {/* <Drawer.Screen
         name="SearchPickup"
         component={SearchPickup}
         options={{
@@ -121,7 +121,7 @@ const DrawerNavigator = ({navigation}) => {
             <MaterialIcons name="payment" size={22} color={color} />
           ),
         }}
-      />
+      /> */}
 
       <Drawer.Screen
         name="Notificaton"
@@ -132,7 +132,7 @@ const DrawerNavigator = ({navigation}) => {
           ),
         }}
       />
-      <Drawer.Screen
+      {/* <Drawer.Screen
         name="Payment"
         component={Payments}
         options={{
@@ -140,7 +140,7 @@ const DrawerNavigator = ({navigation}) => {
             <MaterialIcons name="payment" size={22} color={color} />
           ),
         }}
-      />
+      /> */}
 
       <Drawer.Screen
         name="Ride History"
