@@ -3,7 +3,10 @@ import {View, Text, Button} from "react-native";
 import OTPTextView from "../../Components/AppOtpInput";
 import Api from "../../Services";
 import {TextInput, ActivityIndicator} from "react-native-paper";
+import {useDispatch} from "react-redux";
+import {notify, login} from "../../../Redux/Actions";
 const Otp = ({navigation, route}) => {
+  const dispatch = useDispatch();
   const [otp, setOtp] = React.useState("");
   const [isLoading, setLoading] = React.useState(false);
   const {mobile} = route.params;
@@ -21,6 +24,12 @@ const Otp = ({navigation, route}) => {
       });
 
       if (response.status === 1) {
+        dispatch(
+          login({
+            clientToken: response.data.token,
+            user: response.data.user,
+          }),
+        );
         navigation.navigate("DrawerNavigator", {otp: otp});
       } else {
         throw new Error(response.message);

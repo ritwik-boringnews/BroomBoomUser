@@ -5,21 +5,22 @@ import {
   TouchableOpacity,
   ScrollView,
   Share,
-} from 'react-native';
-import React from 'react';
-import styles from './styles';
-import CopyIcon from 'react-native-vector-icons/Feather';
-import GiftIcon from 'react-native-vector-icons/Feather';
-import Api from '../../Services';
-import Clipboard from '@react-native-clipboard/clipboard';
+} from "react-native";
+import React from "react";
+import styles from "./styles";
+import CopyIcon from "react-native-vector-icons/Feather";
+import GiftIcon from "react-native-vector-icons/Feather";
+import Api from "../../Services";
+import Clipboard from "@react-native-clipboard/clipboard";
 const ReferAndEarn = () => {
-  const [referralCode, setReferralCode] = React.useState('');
+  const [referralCode, setReferralCode] = React.useState("");
   React.useEffect(() => {
     getReferralCode();
   }, []);
   const getReferralCode = async () => {
     try {
-      const response = await Api.get('/refer/get-refer-token');
+      const response = await Api.get("/refer/get-refer-token");
+      console.log(response);
       if (response.status === 1) {
         setReferralCode(response.data.referral_code);
       } else {
@@ -48,14 +49,14 @@ const ReferAndEarn = () => {
   };
 
   return (
-    <ScrollView style={{flex: 1, backgroundColor: 'white'}}>
+    <ScrollView style={{flex: 1, backgroundColor: "white"}}>
       <View style={styles.container}>
         <Text style={styles.title}>
           INVITE YOUR FRIEND AND EARN UPTO 100 BROOMBOOM COINS
         </Text>
         <Image
           source={{
-            uri: 'https://broomboomimages.s3.ap-south-1.amazonaws.com/1657284315253_referAndEarn.png',
+            uri: "https://broomboomimages.s3.ap-south-1.amazonaws.com/1657284315253_referAndEarn.png",
           }}
           style={styles.img}
           resizeMode="contain"

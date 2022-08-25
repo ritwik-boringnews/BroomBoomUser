@@ -181,10 +181,7 @@ export default ({navigation}) => {
         console.warn(err);
       }
     };
-    // requestLocationPermission();
-    // return () => {
-    //   Geolocation.clearWatch(watchID);
-    // };
+    requestLocationPermission();
   }, []);
 
   const getOneTimeLocation = () => {
@@ -211,7 +208,7 @@ export default ({navigation}) => {
         <MapView
           style={styles.map}
           initialRegion={location}
-          // onRegionChangeComplete={region => setRegion(region)}
+          provider={PROVIDER_GOOGLE}
           region={location}>
           {/* {location && destination.latitude && destination.longitude && (
             <MapViewDirections
