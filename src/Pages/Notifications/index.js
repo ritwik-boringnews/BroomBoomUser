@@ -2,12 +2,10 @@ import {View, Text, Image, FlatList, StyleSheet} from "react-native";
 import React, {useEffect, useState} from "react";
 import Api from "../../Services";
 import moment from "moment";
-import {useDispatch} from "react-redux";
-import {notify} from "../../../Redux/Actions";
 const Notifications = () => {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
-  const [notifications, setNotifications] = useState();
+  const [notifications, setNotifications] = useState([]);
   useEffect(() => {
     setIsLoading(true);
     const getNotification = async () => {
@@ -116,12 +114,31 @@ const Notifications = () => {
     );
   };
   return (
-    <View>
-      <FlatList
-        data={notifications}
-        renderItem={ListItem}
-        keyExtractor={e => e.id}
-      />
+    <View style={{justifyContent: "center", alignItems: "center", flex: 1}}>
+      {notifications.length ? (
+        <FlatList
+          data={notifications}
+          renderItem={ListItem}
+          keyExtractor={e => e.id}
+        />
+      ) : (
+        <View style={{alignItems: "center"}}>
+          <Text
+            style={{
+              color: "black",
+              marginTop: 20,
+              fontWeight: "600",
+              fontSize: 15,
+            }}>
+            Thank you for registering with us we will keep you updated with the
+            latest offers
+          </Text>
+          <Image
+            source={require("../../../assets/rideHistory.png")}
+            style={{marginTop: 20}}
+          />
+        </View>
+      )}
     </View>
   );
 };

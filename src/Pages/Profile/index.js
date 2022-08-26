@@ -13,6 +13,7 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 import moment from "moment";
 import {notify} from "../../../Redux/Actions";
 import {useDispatch} from "react-redux";
+import {useNavigation} from "@react-navigation/native";
 const Profile = () => {
   const dispatch = useDispatch();
   const styles = StyleSheet.create({
@@ -52,8 +53,8 @@ const Profile = () => {
     },
   });
   const [isLoading, setIsLoading] = useState(false);
-  const [userDetails, setUserDetails] = useState({});
-
+  const [userDetails, setUserDetails] = useState();
+  const navigation = useNavigation();
   useEffect(() => {
     setIsLoading(true);
     const getProfile = async () => {
@@ -118,7 +119,7 @@ const Profile = () => {
   };
 
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-  const [datee, setDate] = useState();
+  const [datee, setDate] = useState(null);
   const showDatePicker = () => {
     setDatePickerVisibility(true);
   };
@@ -135,6 +136,27 @@ const Profile = () => {
   return (
     <View style={styles.container}>
       <View style={styles.box}>
+        <View style={{flexDirection: "row"}}>
+          <BackIcon
+            name="arrowleft"
+            color="black"
+            size={20}
+            style={{marginBottom: 10}}
+            onPress={() => navigation.goBack()}
+          />
+          <View style={{width: "80%"}}>
+            <Text
+              style={{
+                marginLeft: 5,
+                color: "black",
+                fontSize: 18,
+                marginBottom: 20,
+                textAlign: "center",
+              }}>
+              Profile Details
+            </Text>
+          </View>
+        </View>
         <Text style={styles.h1}>Name</Text>
         <TextInput
           style={styles.input}
@@ -154,6 +176,9 @@ const Profile = () => {
           style={styles.input}
           value={userDetails?.mobile?.toString()}
           keyboardType="numeric"
+          disabled={true}
+          editable={false}
+          selectTextOnFocus={false}
         />
       </View>
       <View style={styles.box}>
@@ -171,6 +196,7 @@ const Profile = () => {
           <TextInput
             style={styles.input}
             value={userDetails?.email}
+            keyboardType="text"
             onChangeText={e =>
               setUserDetails({
                 ...userDetails,
@@ -178,17 +204,6 @@ const Profile = () => {
               })
             }
           />
-          <View
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "center",
-            }}>
-            <Text style={styles.para}>Add Details</Text>
-            <TouchableOpacity>
-              <Icon name="pluscircle" style={styles.icon} size={16} />
-            </TouchableOpacity>
-          </View>
         </View>
       </View>
       <View style={styles.box}>
@@ -210,7 +225,9 @@ const Profile = () => {
         <TouchableOpacity onPress={showDatePicker}>
           <Text>DOB</Text>
 
-          <Text style={styles.input}>{moment(datee).format("ll")}</Text>
+          <Text style={styles.input}>
+            {datee ? moment(datee).format("ll") : null}
+          </Text>
         </TouchableOpacity>
         <DateTimePickerModal
           isVisible={isDatePickerVisible}

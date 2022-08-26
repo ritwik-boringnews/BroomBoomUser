@@ -58,9 +58,14 @@ const RideHistory = () => {
 
       {!rideHistory.length && (
         <View style={{alignItems: "center"}}>
-          <Text style={{color: "black", marginTop: 20, fontWeight: "700"}}>
-            Thank you for registering with us we will keep you updated with the
-            latest offers
+          <Text
+            style={{
+              color: "black",
+              marginTop: 20,
+              fontWeight: "700",
+              fontSize: 15,
+            }}>
+            You don't have any past rides yet
           </Text>
           <Image
             source={require("../../../assets/rideHistory.png")}

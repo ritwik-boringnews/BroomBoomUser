@@ -1,20 +1,21 @@
-import {View, Text, Image, TouchableOpacity} from 'react-native';
-import React, {useContext} from 'react';
-import Icon from 'react-native-vector-icons/AntDesign';
-import {useNavigation} from '@react-navigation/native';
-import locationContext from '../../context/locationContext';
+import {View, Text, Image, TouchableOpacity} from "react-native";
+import React, {useContext} from "react";
+import Icon from "react-native-vector-icons/AntDesign";
+import {useNavigation} from "@react-navigation/native";
+import locationContext from "../../context/locationContext";
 const EnterDestination = ({onConfirmPickup}) => {
   const navigation = useNavigation();
+
   const {loc} = useContext(locationContext);
   return (
     <View
       style={{
         flex: 1,
-        backgroundColor: 'white',
+        backgroundColor: "white",
         borderRadius: 20,
         borderBottomEndRadius: 0,
         borderBottomStartRadius: 0,
-        color: 'black',
+        color: "black",
       }}>
       {/* <View
         style={{
@@ -38,38 +39,43 @@ const EnterDestination = ({onConfirmPickup}) => {
 
       <View
         style={{
-          backgroundColor: '#E0E0E0',
+          backgroundColor: "#E0E0E0",
           marginHorizontal: 30,
           padding: 10,
           borderRadius: 10,
-          marginTop: 10,
+          marginTop: 30,
           marginLeft: 20,
-          flexDirection: 'row',
+          flexDirection: "row",
         }}>
         <TouchableOpacity
           style={{
-            display: 'flex',
-            flexDirection: 'row',
+            display: "flex",
+            flexDirection: "row",
+            marginLeft: 30,
           }}
-          onPress={() => navigation.navigate('DestinationLocation')}>
-          <Image source={require('../../assets/mapIcon.png')} />
-          <Text style={{marginLeft: 10, color: 'black'}}>
-            {loc || 'please choose a destination'}{' '}
+          onPress={() => navigation.navigate("DestinationLocation")}>
+          <Image
+            source={require("../../assets/mapIcon.png")}
+            style={{marginTop: 4}}
+          />
+          <Text style={{marginLeft: 10, color: "black"}}>
+            {loc || "please choose a destination"}{" "}
           </Text>
         </TouchableOpacity>
       </View>
       <TouchableOpacity
         style={{
-          width: '85%',
+          width: "85%",
           padding: 10,
           borderWidth: 1,
           borderRadius: 50,
-          alignItems: 'center',
+          alignItems: "center",
           marginTop: 10,
           marginStart: 20,
         }}
-        onPress={onConfirmPickup}>
-        <Text style={{color: 'black', fontWeight: 'bold'}}>
+        onPress={onConfirmPickup}
+        disabled={!loc}>
+        <Text style={{color: "black", fontWeight: "bold"}}>
           Confirm Location
         </Text>
       </TouchableOpacity>
