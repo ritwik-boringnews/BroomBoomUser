@@ -6,6 +6,7 @@ import locationContext from "./context/locationContext";
 import {Provider} from "react-redux";
 import {PersistGate} from "redux-persist/integration/react";
 import {store, persistor} from "./Redux/store";
+import SnackBar from "./src/Components/AppSnackBar";
 enableLatestRenderer();
 
 const App = () => {
@@ -16,6 +17,7 @@ const App = () => {
       <PersistGate loading={null} persistor={persistor}>
         <locationContext.Provider value={{loc, setLoc}}>
           <NavigationContainer>
+            <SnackBar />
             <HomeNavigator />
           </NavigationContainer>
         </locationContext.Provider>

@@ -1,16 +1,12 @@
 import React, {useState, useEffect} from "react";
 import {
   StyleSheet,
-  Text,
   View,
-  Image,
   TouchableOpacity,
   PermissionsAndroid,
-  Button,
   Dimensions,
 } from "react-native";
-import MapView, {Marker, PROVIDER_GOOGLE, Circle} from "react-native-maps";
-import MapViewDirections from "react-native-maps-directions";
+import MapView, {Marker, PROVIDER_GOOGLE} from "react-native-maps";
 import MyLocation from "react-native-vector-icons/MaterialIcons";
 import Geolocation from "@react-native-community/geolocation";
 import HambergerHome from "../../Components/HambergerHome";
@@ -22,6 +18,8 @@ import RatePilot from "../../Components/ratePilot";
 import FindingPilot from "../../Components/findingPilot";
 import ServiceNotAvailable from "../../Components/serviceNotAvailable";
 const GOOGLE_MAPS_APIKEY = "AIzaSyCkVARy-jUojHtiIxcu90g3heAEJDyhqrE";
+import {useDispatch} from "react-redux";
+import {notify} from "../../../Redux/Actions";
 
 const styles = StyleSheet.create({
   container: {
@@ -32,28 +30,13 @@ const styles = StyleSheet.create({
   },
 });
 
-const arambagh = {
-  latitude: 22.8765,
-  longitude: 87.791,
-  latitudeDelta: 0.01,
-  longitudeDelta: 0.01,
-};
-const mayapur = {
-  latitude: 23.4232,
-  longitude: 88.3883,
-  latitudeDelta: 0.01,
-  longitudeDelta: 0.01,
-};
-
 const {width, height} = Dimensions.get("window");
 const ASPECT_RATIO = width / height;
 const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 export default ({navigation}) => {
-  const [currentLongitude, setCurrentLongitude] = useState(null);
-  const [currentLatitude, setCurrentLatitude] = useState(null);
-  const [locationStatus, setLocationStatus] = useState("");
+  const dispatch = useDispatch();
   const [location, setLocation] = useState({
     latitude: 0,
     longitude: 0,
@@ -61,7 +44,7 @@ export default ({navigation}) => {
     longitudeDelta: LONGITUDE_DELTA,
   });
   const [type, setType] = useState("CHOOSE_DESTINATION");
-  const [search, setSearch] = useState({});
+
   useEffect(() => {
     Geolocation.getCurrentPosition(
       info =>
@@ -112,7 +95,6 @@ export default ({navigation}) => {
           <Marker
             key={`marker${1}`}
             coordinate={location}
-            title="arambagh"
             image={require("../../../assets/car.png")}
             height={40}
             width={40}
@@ -123,7 +105,6 @@ export default ({navigation}) => {
           <Marker
             key={`marker${2}`}
             coordinate={location}
-            title="arambagh"
             image={require("../../../assets/bike.png")}
             height={30}
             width={30}
@@ -134,7 +115,6 @@ export default ({navigation}) => {
           <Marker
             key={`marker${3}`}
             coordinate={location}
-            title="arambagh"
             image={require("../../../assets/rikshaw.png")}
             height={30}
             width={30}
@@ -145,7 +125,6 @@ export default ({navigation}) => {
           <Marker
             key={`marker${4}`}
             coordinate={location}
-            title="arambagh"
             image={require("../../../assets/bike.png")}
             height={50}
             width={50}
@@ -156,7 +135,6 @@ export default ({navigation}) => {
           <Marker
             key={`marker${5}`}
             coordinate={location}
-            title="arambagh"
             image={require("../../../assets/car.png")}
             height={30}
             width={30}
@@ -166,41 +144,49 @@ export default ({navigation}) => {
   };
 
   useEffect(() => {
-    const requestLocationPermission = async () => {
-      try {
-        const granted = await PermissionsAndroid.request(
-          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-        );
-        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-          getOneTimeLocation();
-          // subscribeLocationLocation();
-        } else {
-          setLocationStatus("Permission Denied");
-        }
-      } catch (err) {
-        console.warn(err);
-      }
-    };
     requestLocationPermission();
   }, []);
 
+  const requestLocationPermission = async () => {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        getOneTimeLocation();
+      } else {
+        throw new Error("Location permission denied");
+      }
+    } catch (err) {
+      dispatch(
+        notify({
+          message: err.message || "Something went wrong",
+          notifyType: "error",
+        }),
+      );
+    }
+  };
   const getOneTimeLocation = () => {
-    Geolocation.getCurrentPosition(info => {
-      setLocation({
-        ...info.coords,
-        latitudeDelta: LATITUDE_DELTA,
-        longitudeDelta: LONGITUDE_DELTA,
-      });
-    });
+    Geolocation.getCurrentPosition(
+      info => {
+        setLocation({
+          ...info.coords,
+          latitudeDelta: LATITUDE_DELTA,
+          longitudeDelta: LONGITUDE_DELTA,
+        });
+      },
+      error => {
+        // See error code charts below.
+        dispatch(
+          notify({
+            message: error.message || "Something went wrong",
+            notifyType: "error",
+          }),
+        );
+      },
+    );
   };
 
-  const [region, setRegion] = useState(arambagh);
-  const destination = {
-    latitude: 22.9,
-    longitude: 88.39,
-    latitudeDelta: 0.01,
-    longitudeDelta: 0.01,
-  };
   return (
     <View style={{flex: 1}}>
       <HambergerHome navigation={navigation} />
@@ -210,16 +196,6 @@ export default ({navigation}) => {
           initialRegion={location}
           provider={PROVIDER_GOOGLE}
           region={location}>
-          {/* {location && destination.latitude && destination.longitude && (
-            <MapViewDirections
-              origin={location}
-              destination={destination}
-              apikey={GOOGLE_MAPS_APIKEY}
-              strokeWidth={2}
-            />
-          )} */}
-          {/* <Circle center={location} radius={500} fillColor="#ffffb77a" /> */}
-
           {/* <MarkerType type="MOTOR-BIKE" location={location} /> */}
           <Marker key={`marker${2}`} coordinate={location} />
         </MapView>
@@ -237,7 +213,6 @@ export default ({navigation}) => {
           </TouchableOpacity>
         </View>
       </View>
-
       <MapType type={type} />
     </View>
   );

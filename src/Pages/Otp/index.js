@@ -23,7 +23,7 @@ const Otp = ({navigation, route}) => {
         mobile: route.params.mobile,
       });
 
-      if (response.status === 1) {
+      if (response.status === 1 && response.data) {
         dispatch(
           login({
             clientToken: response.data.token,
@@ -35,7 +35,12 @@ const Otp = ({navigation, route}) => {
         throw new Error(response.message);
       }
     } catch (error) {
-      console.log(error);
+      dispatch(
+        notify({
+          message: error.message || "Something went wrong",
+          notifyType: "error",
+        }),
+      );
     }
     setLoading(false);
   };

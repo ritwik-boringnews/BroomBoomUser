@@ -2,28 +2,31 @@ import React, {useRef, useState} from "react";
 import {
   View,
   Text,
-  Button,
+  TextInput,
   Linking,
   TouchableOpacity,
   useColorScheme,
+  Image,
 } from "react-native";
 import {
   ActivityIndicator,
   DefaultTheme,
   Provider as PaperProvider,
   useTheme,
+  Checkbox,
 } from "react-native-paper";
-import PhoneInput from "react-native-phone-number-input";
+
 import Api from "../../Services";
+import {useDispatch} from "react-redux";
+import {notify} from "../../../Redux/Actions";
 
 const SignUp = ({navigation}) => {
+  const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
-  const inputRef = useRef(null);
-  const [mobile, setmobile] = useState();
-  const scheme = useColorScheme();
-  const {colors} = useTheme();
+  const [checked, setChecked] = useState(true);
+  const [mobile, setmobile] = useState("");
+
   const onSubmit = async () => {
-    console.log("hii");
     setIsLoading(true);
 
     try {
@@ -36,7 +39,12 @@ const SignUp = ({navigation}) => {
         throw new Error(response.message);
       }
     } catch (error) {
-      console.log(error);
+      dispatch(
+        notify({
+          message: error.message || "Something went wrong",
+          notifyType: "error",
+        }),
+      );
     }
     setIsLoading(false);
   };
@@ -70,8 +78,49 @@ const SignUp = ({navigation}) => {
           }}>
           Otp will be sent to this number
         </Text>
-
-        <PhoneInput
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            backgroundColor: "#fff",
+            width: "100%",
+            borderRadius: 5,
+            borderWidth: 1,
+            paddingHorizontal: 15,
+            // paddingVertical: 10,
+          }}>
+          <Image
+            source={require("../../../assets/india-flag.png")}
+            style={{height: 30, width: 30}}
+          />
+          {/* <IndiaFlagIcon style={{height: 30, width: 30}} /> */}
+          <Text
+            style={{
+              color: "#000",
+              fontWeight: "600",
+              marginHorizontal: 10,
+              fontSize: 16,
+            }}>
+            +91
+          </Text>
+          <TextInput
+            onChangeText={text => {
+              setmobile(text);
+            }}
+            placeholder="Enter your mobile number"
+            maxLength={10}
+            style={{
+              borderWidth: 0,
+              margin: 0,
+              padding: 0,
+              // marginTop: 20,
+              fontSize: 16,
+              paddingVertical: 15,
+            }}
+            keyboardType="number-pad"
+          />
+        </View>
+        {/* <PhoneInput
           ref={inputRef}
           initialCountry="in"
           autoFormat={true}
@@ -89,44 +138,66 @@ const SignUp = ({navigation}) => {
           }}
           value={mobile}
           onChangeText={text => setmobile(text)}
-        />
+        /> */}
       </View>
       <View
         style={{
           marginBottom: 30,
         }}>
-        <Text style={{marginBottom: 15, textAlign: "center"}}>
-          By continuing,you agree to the{" "}
-          <Text style={{color: "blue"}} onPress={() => Linking.openURL("#")}>
-            terms {""}
+        <View
+          style={{
+            flexDirection: "row",
+          }}>
+          <Checkbox
+            status={checked ? "checked" : "unchecked"}
+            onPress={() => {
+              setChecked(!checked);
+            }}
+            color={"#F5C001"}
+          />
+          <Text style={{marginBottom: 15}}>
+            By continuing,you agree to the{" "}
+            <Text style={{color: "blue"}} onPress={() => Linking.openURL("#")}>
+              terms {""}
+            </Text>
+            <Text style={{color: "blue"}} onPress={() => Linking.openURL("#")}>
+              & conditions {""}
+            </Text>
+            <Text
+              style={{color: "blue", textAlign: "left"}}
+              onPress={() => Linking.openURL("#")}>
+              and {""}
+            </Text>
+            <Text style={{color: "blue"}} onPress={() => Linking.openURL("#")}>
+              privacy policy {""}
+            </Text>
+            of BroomBoom Pilot
           </Text>
-          <Text style={{color: "blue"}} onPress={() => Linking.openURL("#")}>
-            & conditions {""}
-          </Text>
-          <Text
-            style={{color: "blue", textAlign: "left"}}
-            onPress={() => Linking.openURL("#")}>
-            and {""}
-          </Text>
-          <Text style={{color: "blue"}} onPress={() => Linking.openURL("#")}>
-            privacy policy {""}
-          </Text>
-          of BroomBoom Pilot
-        </Text>
+        </View>
         <TouchableOpacity
           style={{
             width: "100%",
             padding: 10,
-            borderWidth: 1,
             borderRadius: 50,
-            backgroundColor: "#F5C001",
+            backgroundColor:
+              isLoading || mobile.length !== 10 || !checked
+                ? "#ddd"
+                : "#F5C001",
           }}
-          disabled={isLoading}
+          disabled={isLoading || mobile.length !== 10 || !checked}
           onPress={onSubmit}>
           {isLoading ? (
             <ActivityIndicator />
           ) : (
-            <Text style={{textAlign: "center"}}>Send OTP</Text>
+            <Text
+              style={{
+                textAlign: "center",
+                color: "#000",
+                fontWeight: "500",
+                fontSize: 16,
+              }}>
+              Send OTP
+            </Text>
           )}
         </TouchableOpacity>
       </View>
