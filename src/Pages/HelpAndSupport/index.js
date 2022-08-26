@@ -56,11 +56,23 @@ const HelpAndSupport = ({navigation}) => {
           <TouchableOpacity
             style={{justifyContent: "center", alignItems: "center"}}
             onPress={() => navigation.navigate("termsAndConditions")}>
-            <Image
-              source={require("../../../assets/help1.png")}
-              style={{height: 45, width: 45, marginBottom: 5}}
-            />
-
+            <View
+              style={{
+                backgroundColor: "#F5C001",
+                borderRadius: 50,
+                paddingHorizontal: 8,
+                paddingVertical: 5,
+              }}>
+              <Image
+                source={require("../../../assets/file-contract-solid.png")}
+                style={{
+                  height: 30,
+                  width: 30,
+                  marginBottom: 5,
+                  resizeMode: "contain",
+                }}
+              />
+            </View>
             <Text style={{textAlign: "center"}}>Terms & Conditions{"\n"}</Text>
           </TouchableOpacity>
 
