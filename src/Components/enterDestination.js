@@ -59,7 +59,7 @@ const EnterDestination = ({onConfirmPickup}) => {
             style={{marginTop: 4}}
           />
           <Text style={{marginLeft: 10, color: "black"}}>
-            {loc || "please choose a destination"}{" "}
+            {loc || "Please choose a destination"}{" "}
           </Text>
         </TouchableOpacity>
       </View>

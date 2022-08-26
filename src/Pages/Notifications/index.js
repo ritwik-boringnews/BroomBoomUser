@@ -25,7 +25,18 @@ const Notifications = () => {
               date: moment(item.createdAt).format("llll"),
             });
           });
-          setNotifications(store);
+          setNotifications([
+            ...store,
+            {
+              id: 1,
+              title: "Registration Successful",
+              subtitle:
+                "Thank you for registering with us we will keep you updated with the latest offers",
+              image: require("../../../assets/notification.png"),
+              icon: require("../../../assets/icon.png"),
+              date: moment().format("llll"),
+            },
+          ]);
         } else {
           throw new Error(response.message);
         }
@@ -44,61 +55,55 @@ const Notifications = () => {
   }, []);
 
   const ListItem = ({item}) => {
+    console.log(item);
     return (
       <View
+        key={item.id}
         style={{
           backgroundColor: "#FFFBC8",
           marginTop: 10,
           borderRadius: 15,
+          width: "100%",
 
-          marginHorizontal: 30,
           paddingVertical: 10,
         }}>
         <View
           style={{
             flexDirection: "row",
-            justifyContent: "space-between",
+            // justifyContent: "center",
           }}>
           <View
             style={{
-              flexDirection: "row",
               justifyContent: "center",
+              width: "10%",
+              marginHorizontal: 10,
             }}>
             <Image
               source={item.image}
               style={{
-                marginTop: 10,
-                marginLeft: 20,
-
                 width: 20,
                 height: 20,
                 resizeMode: "contain",
               }}
             />
-            <View style={{paddingLeft: 30}}>
-              <Text style={{fontWeight: "bold", color: "black"}}>
-                {item.title}
-              </Text>
-
-              <Text
-                style={{
-                  fontSize: 10,
-                  color: "black",
-                }}>
-                {item.subtitle}
-              </Text>
-            </View>
           </View>
-          <View>
-            <Image
-              source={item.icon}
+          <View style={{width: "100%"}}>
+            <Text style={{fontWeight: "bold", color: "black"}}>
+              {item.title}
+            </Text>
+
+            <Text
               style={{
-                marginTop: 10,
-                marginHorizontal: 12,
-              }}
-            />
+                fontSize: 12,
+                color: "black",
+                marginTop: 5,
+                width: "80%",
+              }}>
+              {item.subtitle}
+            </Text>
           </View>
         </View>
+
         <View
           style={{
             marginHorizontal: 14,
@@ -108,22 +113,25 @@ const Notifications = () => {
             marginTop: 10,
           }}
         />
-        <View style={{display: "flex", alignItems: "flex-end"}}>
+        <View
+          style={{display: "flex", alignItems: "flex-end", marginRight: 15}}>
           <Text style={{fontSize: 10, marginTop: 10}}>{item.date}</Text>
         </View>
       </View>
     );
   };
   return (
-    <View style={{justifyContent: "center", alignItems: "center", flex: 1}}>
+    <View style={{flex: 1}}>
       {notifications.length ? (
-        <FlatList
-          data={notifications}
-          renderItem={ListItem}
-          keyExtractor={e => e.id}
-        />
+        <View style={{paddingHorizontal: 20}}>
+          <FlatList
+            data={notifications}
+            renderItem={ListItem}
+            keyExtractor={e => e.id}
+          />
+        </View>
       ) : (
-        <View style={{alignItems: "center"}}>
+        <View style={{alignItems: "center", justifyContent: "center"}}>
           <Text
             style={{
               color: "black",
