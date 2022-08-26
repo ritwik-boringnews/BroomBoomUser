@@ -1,15 +1,15 @@
-import {View, Text, Image, FlatList, StyleSheet} from 'react-native';
-import React, {useEffect, useState} from 'react';
-import Api from '../../Services';
-import moment from 'moment';
+import {View, Text, Image, FlatList, StyleSheet} from "react-native";
+import React, {useEffect, useState} from "react";
+import Api from "../../Services";
+import moment from "moment";
 const Notifications = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [notifications, setNotifications] = useState();
+  const [notifications, setNotifications] = useState([]);
   useEffect(() => {
     setIsLoading(true);
 
     const getNotification = async () => {
-      console.log('hii');
+      console.log("hii");
       try {
         const response = await Api.get(`/notification/get-notification`);
         console.log(response);
@@ -18,11 +18,11 @@ const Notifications = () => {
           response.data.notification.forEach(item => {
             store.push({
               id: item.id,
-              image: require('../../../assets/notification.png'),
+              image: require("../../../assets/notification.png"),
               title: item.notification,
               subtitle: item.message,
-              icon: require('../../../assets/icon.png'),
-              date: moment(item.createdAt).format('llll'),
+              icon: require("../../../assets/icon.png"),
+              date: moment(item.createdAt).format("llll"),
             });
           });
           setNotifications(store);
@@ -42,7 +42,7 @@ const Notifications = () => {
     return (
       <View
         style={{
-          backgroundColor: '#FFFBC8',
+          backgroundColor: "#FFFBC8",
           marginTop: 10,
           borderRadius: 15,
 
@@ -51,13 +51,13 @@ const Notifications = () => {
         }}>
         <View
           style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
+            flexDirection: "row",
+            justifyContent: "space-between",
           }}>
           <View
             style={{
-              flexDirection: 'row',
-              justifyContent: 'center',
+              flexDirection: "row",
+              justifyContent: "center",
             }}>
             <Image
               source={item.image}
@@ -67,18 +67,18 @@ const Notifications = () => {
 
                 width: 20,
                 height: 20,
-                resizeMode: 'contain',
+                resizeMode: "contain",
               }}
             />
             <View style={{paddingLeft: 30}}>
-              <Text style={{fontWeight: 'bold', color: 'black'}}>
+              <Text style={{fontWeight: "bold", color: "black"}}>
                 {item.title}
               </Text>
 
               <Text
                 style={{
                   fontSize: 10,
-                  color: 'black',
+                  color: "black",
                 }}>
                 {item.subtitle}
               </Text>
@@ -98,24 +98,43 @@ const Notifications = () => {
           style={{
             marginHorizontal: 14,
             height: 1,
-            width: '90%',
-            backgroundColor: 'grey',
+            width: "90%",
+            backgroundColor: "grey",
             marginTop: 10,
           }}
         />
-        <View style={{display: 'flex', alignItems: 'flex-end'}}>
+        <View style={{display: "flex", alignItems: "flex-end"}}>
           <Text style={{fontSize: 10, marginTop: 10}}>{item.date}</Text>
         </View>
       </View>
     );
   };
   return (
-    <View>
-      <FlatList
-        data={notifications}
-        renderItem={ListItem}
-        keyExtractor={e => e.id}
-      />
+    <View style={{justifyContent: "center", alignItems: "center", flex: 1}}>
+      {notifications.length ? (
+        <FlatList
+          data={notifications}
+          renderItem={ListItem}
+          keyExtractor={e => e.id}
+        />
+      ) : (
+        <View style={{alignItems: "center"}}>
+          <Text
+            style={{
+              color: "black",
+              marginTop: 20,
+              fontWeight: "600",
+              fontSize: 15,
+            }}>
+            Thank you for registering with us we will keep you updated with the
+            latest offers
+          </Text>
+          <Image
+            source={require("../../../assets/rideHistory.png")}
+            style={{marginTop: 20}}
+          />
+        </View>
+      )}
     </View>
   );
 };

@@ -5,49 +5,49 @@ import {
   TextInput,
   TouchableOpacity,
   Button,
-} from 'react-native';
-import React, {useEffect, useState} from 'react';
-import Icon from 'react-native-vector-icons/AntDesign';
-import BackIcon from 'react-native-vector-icons/AntDesign';
-import Api from '../../Services';
-import DateTimePickerModal from 'react-native-modal-datetime-picker';
-import moment from 'moment';
-import {useNavigation} from '@react-navigation/native';
+} from "react-native";
+import React, {useEffect, useState} from "react";
+import Icon from "react-native-vector-icons/AntDesign";
+import BackIcon from "react-native-vector-icons/AntDesign";
+import Api from "../../Services";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
+import moment from "moment";
+import {useNavigation} from "@react-navigation/native";
 const Profile = () => {
   const styles = StyleSheet.create({
     container: {
       paddingHorizontal: 20,
       flex: 1,
-      backgroundColor: '#fff',
+      backgroundColor: "#fff",
       paddingVertical: 15,
     },
     box: {
       borderBottomWidth: 1,
-      borderBottomColor: '#BDBDBD',
+      borderBottomColor: "#BDBDBD",
       paddingVertical: 5,
       marginVertical: 4,
     },
     input: {
       fontSize: 16,
-      fontWeight: '700',
+      fontWeight: "700",
       paddingHorizontal: 0,
       paddingVertical: 6,
-      color: '#1f1f1f',
-      alignItems: 'center',
+      color: "#1f1f1f",
+      alignItems: "center",
     },
     h1: {
       fontSize: 14,
-      fontWeight: '500',
+      fontWeight: "500",
       paddingBottom: 4,
     },
     para: {
-      color: '#2F80ED',
+      color: "#2F80ED",
       fontSize: 14,
-      fontWeight: '500',
-      alignItems: 'center',
+      fontWeight: "500",
+      alignItems: "center",
       marginRight: 8,
-      textAlign: 'center',
-      justifyContent: 'center',
+      textAlign: "center",
+      justifyContent: "center",
     },
   });
   const [isLoading, setIsLoading] = useState(false);
@@ -70,21 +70,21 @@ const Profile = () => {
 
   const handleUpdate = async () => {
     try {
-      const response = await Api.update('/user/update-user-details', {
+      const response = await Api.update("/user/update-user-details", {
         name: userDetails.name,
 
         email: userDetails.email,
         gender: userDetails.gender,
         dob: datee,
       });
-      console.log('updated user', response);
+      console.log("updated user", response);
     } catch (error) {
       console.log(error.message);
     }
   };
 
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-  const [datee, setDate] = useState();
+  const [datee, setDate] = useState(null);
   const showDatePicker = () => {
     setDatePickerVisibility(true);
   };
@@ -97,17 +97,31 @@ const Profile = () => {
     setDate(d);
     hideDatePicker();
   };
-  console.log('date', datee);
+  console.log("date", datee);
   return (
     <View style={styles.container}>
       <View style={styles.box}>
-        <BackIcon
-          name="arrowleft"
-          color="black"
-          size={20}
-          style={{marginBottom: 10}}
-          onPress={() => navigation.goBack()}
-        />
+        <View style={{flexDirection: "row"}}>
+          <BackIcon
+            name="arrowleft"
+            color="black"
+            size={20}
+            style={{marginBottom: 10}}
+            onPress={() => navigation.goBack()}
+          />
+          <View style={{width: "80%"}}>
+            <Text
+              style={{
+                marginLeft: 5,
+                color: "black",
+                fontSize: 18,
+                marginBottom: 20,
+                textAlign: "center",
+              }}>
+              Profile Details
+            </Text>
+          </View>
+        </View>
         <Text style={styles.h1}>Name</Text>
         <TextInput
           style={styles.input}
@@ -127,23 +141,27 @@ const Profile = () => {
           style={styles.input}
           value={userDetails?.mobile?.toString()}
           keyboardType="numeric"
+          disabled={true}
+          editable={false}
+          selectTextOnFocus={false}
         />
       </View>
       <View style={styles.box}>
         <Text style={styles.h1}>Email ID</Text>
         <View
           style={{
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            marginRight: 'auto',
-            alignItems: 'center',
-            width: '100%',
-            marginRight: 'auto',
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            marginRight: "auto",
+            alignItems: "center",
+            width: "100%",
+            marginRight: "auto",
           }}>
           <TextInput
             style={styles.input}
             value={userDetails?.email}
+            keyboardType="text"
             onChangeText={e =>
               setUserDetails({
                 ...userDetails,
@@ -151,17 +169,6 @@ const Profile = () => {
               })
             }
           />
-          <View
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              alignItems: 'center',
-            }}>
-            <Text style={styles.para}>Add Details</Text>
-            <TouchableOpacity>
-              <Icon name="pluscircle" style={styles.icon} size={16} />
-            </TouchableOpacity>
-          </View>
         </View>
       </View>
       <View style={styles.box}>
@@ -183,7 +190,9 @@ const Profile = () => {
         <TouchableOpacity onPress={showDatePicker}>
           <Text>DOB</Text>
 
-          <Text style={styles.input}>{moment(datee).format('ll')}</Text>
+          <Text style={styles.input}>
+            {datee ? moment(datee).format("ll") : null}
+          </Text>
         </TouchableOpacity>
         <DateTimePickerModal
           isVisible={isDatePickerVisible}
@@ -194,17 +203,17 @@ const Profile = () => {
       </View>
       <TouchableOpacity
         style={{
-          width: '90%',
+          width: "90%",
           padding: 10,
           borderWidth: 1,
           borderRadius: 50,
-          alignItems: 'center',
+          alignItems: "center",
           marginStart: 20,
           marginTop: 30,
-          backgroundColor: '#F5C001',
+          backgroundColor: "#F5C001",
         }}
         onPress={handleUpdate}>
-        <Text style={{color: 'black', fontWeight: 'bold'}}>Update</Text>
+        <Text style={{color: "black", fontWeight: "bold"}}>Update</Text>
       </TouchableOpacity>
     </View>
   );

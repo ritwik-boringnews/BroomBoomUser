@@ -5,11 +5,11 @@ import {
   StyleSheet,
   TouchableOpacity,
   Image,
-} from 'react-native';
-import React, {useEffect, useState} from 'react';
-import Box from '../RideHistory/box.js';
-import Api from '../../Services';
-import moment from 'moment';
+} from "react-native";
+import React, {useEffect, useState} from "react";
+import Box from "../RideHistory/box.js";
+import Api from "../../Services";
+import moment from "moment";
 const RideHistory = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [rideHistory, setRideHistory] = useState([]);
@@ -29,29 +29,34 @@ const RideHistory = () => {
   }, []);
   console.log(rideHistory);
   return (
-    <View style={{justifyContent: 'center', alignItems: 'center', flex: 1}}>
+    <View style={{justifyContent: "center", alignItems: "center", flex: 1}}>
       {rideHistory &&
         rideHistory.map((item, id) => {
           return (
             <Box
               status={item.status}
-              date={moment(item.createdAt).format('ll')}
+              date={moment(item.createdAt).format("ll")}
               placeFrom={item.sources}
               placeTo={item.destination}
-              sourceTime={moment(item.createdAt).format('LT')}
-              destinationTime={moment(item.createdAt).format('LT')}
+              sourceTime={moment(item.createdAt).format("LT")}
+              destinationTime={moment(item.createdAt).format("LT")}
             />
           );
         })}
 
       {!rideHistory.length && (
-        <View style={{alignItems: 'center'}}>
-          <Text style={{color: 'black', marginTop: 20, fontWeight: '700'}}>
-            Thank you for registering with us we will keep you updated with the
-            latest offers
+        <View style={{alignItems: "center"}}>
+          <Text
+            style={{
+              color: "black",
+              marginTop: 20,
+              fontWeight: "700",
+              fontSize: 15,
+            }}>
+            You don't have any past rides yet
           </Text>
           <Image
-            source={require('../../../assets/rideHistory.png')}
+            source={require("../../../assets/rideHistory.png")}
             style={{marginTop: 20}}
           />
         </View>
@@ -62,9 +67,9 @@ const RideHistory = () => {
 
 const styles = StyleSheet.create({
   container: {
-    height: '100%',
-    backgroundColor: '#fff',
-    alignItems: 'center',
+    height: "100%",
+    backgroundColor: "#fff",
+    alignItems: "center",
     paddingHorizontal: 20,
     flex: 1,
   },
