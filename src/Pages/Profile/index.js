@@ -91,7 +91,7 @@ const Profile = () => {
       if (response.status === 1 && response.data) {
         dispatch(
           notify({
-            message: "User updated successfully",
+            message: "User details updated successfully",
             notifyType: "success",
           }),
         );
