@@ -1,26 +1,26 @@
-import {View, Text} from 'react-native';
-import React, {useEffect, useState} from 'react';
-import Api from './src/Services';
-import SignUp from './src/Pages/SignUp.js';
-import {HomeNavigator} from './src/Navigation';
-import {NavigationContainer} from '@react-navigation/native';
-import {enableLatestRenderer} from 'react-native-maps';
-import locationContext from './context/locationContext';
+import React, {useState} from "react";
+import {NavigationContainer} from "@react-navigation/native";
+import {HomeNavigator} from "./src/Navigation";
+import {enableLatestRenderer} from "react-native-maps";
+import locationContext from "./context/locationContext";
+import {Provider} from "react-redux";
+import {PersistGate} from "redux-persist/integration/react";
+import {store, persistor} from "./Redux/store";
 enableLatestRenderer();
 
 const App = () => {
-  const [loc, setLoc] = useState('');
-  // useEffect(() => {
-  //   onsubmit();
-  // }, []);
-  const onsubmit = async () => {
-    // const response = await Api.get(`/pilot/get-cities?query=1`);
-    // console.log(response)
-  };
+  const [loc, setLoc] = useState("");
+
   return (
-    <locationContext.Provider value={{loc, setLoc}}>
-      <HomeNavigator />
-    </locationContext.Provider>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <locationContext.Provider value={{loc, setLoc}}>
+          <NavigationContainer>
+            <HomeNavigator />
+          </NavigationContainer>
+        </locationContext.Provider>
+      </PersistGate>
+    </Provider>
   );
 };
 
