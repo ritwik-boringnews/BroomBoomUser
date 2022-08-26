@@ -3,7 +3,8 @@ import React, {useEffect, useState} from "react";
 import Api from "../../Services";
 import moment from "moment";
 import {useDispatch} from "react-redux";
-const Notifications = () => {
+import BackIcon from "react-native-vector-icons/AntDesign";
+const Notifications = ({navigation}) => {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const [notifications, setNotifications] = useState([]);
@@ -122,6 +123,34 @@ const Notifications = () => {
   };
   return (
     <View style={{flex: 1}}>
+      <View
+        style={{
+          flexDirection: "row",
+          paddingHorizontal: 25,
+          paddingTop: 20,
+          backgroundColor: "black",
+        }}>
+        <BackIcon
+          name="arrowleft"
+          color="white"
+          size={20}
+          style={{marginBottom: 10}}
+          onPress={() => navigation.goBack()}
+        />
+        <View style={{width: "80%"}}>
+          <Text
+            style={{
+              marginLeft: 5,
+              color: "white",
+              fontSize: 18,
+              marginBottom: 20,
+              textAlign: "center",
+              fontWeight: "400",
+            }}>
+            Notifications
+          </Text>
+        </View>
+      </View>
       {notifications.length ? (
         <View style={{paddingHorizontal: 20}}>
           <FlatList
