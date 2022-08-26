@@ -11,7 +11,7 @@ import Icon from "react-native-vector-icons/AntDesign";
 import Api from "../../Services";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import moment from "moment";
-import {notify} from "../../../Redux/Actions";
+import {notify, updateUser} from "../../../Redux/Actions";
 import {useDispatch} from "react-redux";
 import {useNavigation} from "@react-navigation/native";
 import BackIcon from "react-native-vector-icons/AntDesign";
@@ -95,6 +95,7 @@ const Profile = () => {
             notifyType: "success",
           }),
         );
+        dispatch(updateUser(response.data));
         setUserDetails({
           name: response.data?.name,
           email: response.data?.email,
