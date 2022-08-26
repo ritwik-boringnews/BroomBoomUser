@@ -11,9 +11,11 @@ import Icon from "react-native-vector-icons/Ionicons";
 
 const HelpAndSupport = ({navigation}) => {
   return (
-    <View style={{flex: 1}}>
-      <View style={{paddingHorizontal: 30}}>
-        {/* <View
+    <View
+      style={{flex: 1, paddingHorizontal: 30, justifyContent: "space-between"}}>
+      <View style={{alignSelf: "flex-start"}}>
+        <View style={{paddingHorizontal: 30}}>
+          {/* <View
           style={{
             width: '100%',
 
@@ -31,38 +33,55 @@ const HelpAndSupport = ({navigation}) => {
               fontWeight: '500',
             }}></TextInput>
         </View> */}
+        </View>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            marginTop: 50,
+            justifyContent: "space-between",
+            // paddingHorizontal: 100,
+            width: "100%",
+          }}>
+          <TouchableOpacity
+            style={{justifyContent: "center", alignItems: "center"}}
+            onPress={() => navigation.navigate("Faq")}>
+            <Image
+              source={require("../../../assets/help1.png")}
+              style={{height: 45, width: 45, marginBottom: 5}}
+            />
+
+            <Text style={{textAlign: "center"}}>FAQs{"\n"}</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{justifyContent: "center", alignItems: "center"}}
+            onPress={() => navigation.navigate("termsAndConditions")}>
+            <Image
+              source={require("../../../assets/help1.png")}
+              style={{height: 45, width: 45, marginBottom: 5}}
+            />
+
+            <Text style={{textAlign: "center"}}>Terms & Conditions{"\n"}</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={{justifyContent: "center", alignItems: "center"}}
+            onPress={() => Linking.openURL(`tel:${8478056064}`)}>
+            <Image
+              source={require("../../../assets/help3.png")}
+              style={{height: 45, width: 45, marginBottom: 5}}
+            />
+
+            <Text style={{textAlign: "center"}}>Contact {"\n"} Us</Text>
+          </TouchableOpacity>
+        </View>
       </View>
       <View
         style={{
-          flexDirection: "row",
-          alignItems: "center",
-          marginTop: 50,
-          justifyContent: "space-between",
-          paddingHorizontal: 100,
+          alignSelf: "flex-end",
+          width: "100%",
+          marginBottom: 30,
         }}>
-        <TouchableOpacity
-          style={{justifyContent: "center", alignItems: "center"}}
-          onPress={() => navigation.navigate("Faq")}>
-          <Image
-            source={require("../../../assets/help1.png")}
-            style={{height: 45, width: 45, marginBottom: 5}}
-          />
-
-          <Text style={{textAlign: "center"}}>FAQs{"\n"}</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={{justifyContent: "center", alignItems: "center"}}
-          onPress={() => Linking.openURL(`tel:${8478056064}`)}>
-          <Image
-            source={require("../../../assets/help3.png")}
-            style={{height: 45, width: 45, marginBottom: 5}}
-          />
-
-          <Text style={{textAlign: "center"}}>Contact {"\n"} Us</Text>
-        </TouchableOpacity>
-      </View>
-      <View style={{position: "absolute", bottom: 20, width: "100%"}}>
         <Text
           style={{
             fontSize: 14,

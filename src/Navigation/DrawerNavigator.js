@@ -21,6 +21,7 @@ import DestinationLocation from "../Pages/DestinationLocation";
 import Profile from "../Pages/Profile";
 import ProfileIcon from "react-native-vector-icons/AntDesign";
 import Faq from "../Pages/Faq";
+import TermsAndConditions from "../Pages/TermsAndConditions";
 function HomeDrawerScreen({navigation}) {
   return (
     <View style={{flex: 1, alignItems: "center", justifyContent: "center"}}>
@@ -54,6 +55,7 @@ const SupportStack = () => {
       screenOptions={{headerShown: false}}>
       <Stack.Screen name="HelpAndSupport" component={HelpAndSupport} />
       <Stack.Screen name="Faq" component={Faq} />
+      <Stack.Screen name="termsAndConditions" component={TermsAndConditions} />
       {/* <Stack.Screen name="Payments" component={Payments} /> */}
     </Stack.Navigator>
   );
