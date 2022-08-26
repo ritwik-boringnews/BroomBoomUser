@@ -97,6 +97,7 @@ const Profile = () => {
         );
         dispatch(updateUser(response.data));
         setUserDetails({
+          ...userDetails,
           name: response.data?.name,
           email: response.data?.email,
           gender: response.data?.gender,
