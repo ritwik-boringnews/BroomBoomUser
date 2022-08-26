@@ -8,11 +8,12 @@ import {
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import Icon from 'react-native-vector-icons/AntDesign';
+import BackIcon from 'react-native-vector-icons/AntDesign';
 import Api from '../../Services';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import moment from 'moment';
+import {useNavigation} from '@react-navigation/native';
 const Profile = () => {
-  console.log('hii');
   const styles = StyleSheet.create({
     container: {
       paddingHorizontal: 20,
@@ -51,7 +52,7 @@ const Profile = () => {
   });
   const [isLoading, setIsLoading] = useState(false);
   const [userDetails, setUserDetails] = useState();
-
+  const navigation = useNavigation();
   useEffect(() => {
     setIsLoading(true);
     const getProfile = async () => {
@@ -100,6 +101,13 @@ const Profile = () => {
   return (
     <View style={styles.container}>
       <View style={styles.box}>
+        <BackIcon
+          name="arrowleft"
+          color="black"
+          size={20}
+          style={{marginBottom: 10}}
+          onPress={() => navigation.goBack()}
+        />
         <Text style={styles.h1}>Name</Text>
         <TextInput
           style={styles.input}

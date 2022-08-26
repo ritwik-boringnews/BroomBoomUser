@@ -71,8 +71,8 @@ const HelpAndSupport = ({navigation}) => {
             color: 'black',
           }}>
           For more information read
-          <Text style={{color: '#347EEA'}}> Terms & Conditions </Text>
-          and <Text style={{color: '#347EEA'}}> Privacy Policies </Text>
+          <Text> Terms & Conditions </Text>
+          and <Text> Privacy Policies </Text>
           of BroomBoom Pilot
         </Text>
         {/* <View style={{justifyContent: 'center', alignItems: 'center'}}>
