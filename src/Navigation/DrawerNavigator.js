@@ -124,7 +124,7 @@ const DrawerNavigator = ({navigation}) => {
       /> */}
 
       <Drawer.Screen
-        name="Notificaton"
+        name="Notification"
         component={Notifications}
         options={{
           drawerIcon: ({color}) => (
