@@ -1,7 +1,7 @@
 import * as React from "react";
 import {CommonActions, useNavigation} from "@react-navigation/native";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
-import SignUp from "../Pages/SignUp.js";
+import SignUp from "../Pages/SignUp";
 import Otp from "../Pages/Otp";
 // import Welcome from '../Pages/Welcome';
 import Welcome from "../Pages/Welcome/index.js";

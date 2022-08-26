@@ -14,6 +14,7 @@ import moment from "moment";
 import {notify} from "../../../Redux/Actions";
 import {useDispatch} from "react-redux";
 import {useNavigation} from "@react-navigation/native";
+import BackIcon from "react-native-vector-icons/AntDesign";
 const Profile = () => {
   const dispatch = useDispatch();
   const styles = StyleSheet.create({

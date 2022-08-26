@@ -2,6 +2,7 @@ import {View, Text, Image, FlatList, StyleSheet} from "react-native";
 import React, {useEffect, useState} from "react";
 import Api from "../../Services";
 import moment from "moment";
+import {useDispatch} from "react-redux";
 const Notifications = () => {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
