@@ -18,23 +18,18 @@ import BackIcon from "react-native-vector-icons/AntDesign";
 const Profile = () => {
   const dispatch = useDispatch();
   const styles = StyleSheet.create({
-    container: {
-      paddingHorizontal: 20,
-      flex: 1,
-      backgroundColor: "#fff",
-      paddingVertical: 15,
-    },
     box: {
       borderBottomWidth: 1,
       borderBottomColor: "#BDBDBD",
       paddingVertical: 5,
       marginVertical: 4,
+      paddingHorizontal: 20,
     },
     input: {
       fontSize: 16,
       fontWeight: "700",
       paddingHorizontal: 0,
-      paddingVertical: 6,
+      paddingVertical: 5,
       color: "#1f1f1f",
       alignItems: "center",
     },
@@ -137,29 +132,37 @@ const Profile = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.box}>
-        <View style={{flexDirection: "row"}}>
-          <BackIcon
-            name="arrowleft"
-            color="black"
-            size={20}
-            style={{marginBottom: 10}}
-            onPress={() => navigation.goBack()}
-          />
-          <View style={{width: "80%"}}>
-            <Text
-              style={{
-                marginLeft: 5,
-                color: "black",
-                fontSize: 18,
-                marginBottom: 20,
-                textAlign: "center",
-              }}>
-              Profile Details
-            </Text>
-          </View>
+    <View>
+      <View
+        style={{
+          flexDirection: "row",
+          paddingHorizontal: 25,
+          paddingTop: 20,
+          backgroundColor: "black",
+        }}>
+        <BackIcon
+          name="arrowleft"
+          color="white"
+          size={20}
+          style={{marginBottom: 10}}
+          onPress={() => navigation.goBack()}
+        />
+        <View style={{width: "80%"}}>
+          <Text
+            style={{
+              marginLeft: 5,
+              color: "white",
+              fontSize: 18,
+              marginBottom: 20,
+              textAlign: "center",
+              fontWeight: "400",
+            }}>
+            Notifications
+          </Text>
         </View>
+      </View>
+
+      <View style={styles.box}>
         <Text style={styles.h1}>Name</Text>
         <TextInput
           style={styles.input}

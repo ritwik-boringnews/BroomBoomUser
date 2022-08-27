@@ -1,8 +1,9 @@
-import React from 'react';
-import {View, TextInput, ScrollView} from 'react-native';
-import {List} from 'react-native-paper';
-import styles from './styles';
-const Faq = () => {
+import React from "react";
+import {View, Text, ScrollView} from "react-native";
+import {List} from "react-native-paper";
+import styles from "./styles";
+import BackIcon from "react-native-vector-icons/AntDesign";
+const Faq = ({navigation}) => {
   return (
     <ScrollView style={styles.container}>
       {/* <TextInput
@@ -18,6 +19,36 @@ const Faq = () => {
           marginBottom: 30,
         }}
       /> */}
+      <View style={{flex: 1}}>
+        <View
+          style={{
+            flexDirection: "row",
+            paddingHorizontal: 25,
+            paddingTop: 20,
+            backgroundColor: "black",
+          }}>
+          <BackIcon
+            name="arrowleft"
+            color="white"
+            size={20}
+            style={{marginBottom: 10}}
+            onPress={() => navigation.goBack()}
+          />
+          <View style={{width: "80%"}}>
+            <Text
+              style={{
+                marginLeft: 5,
+                color: "white",
+                fontSize: 18,
+                marginBottom: 20,
+                textAlign: "center",
+                fontWeight: "400",
+              }}>
+              FAQs
+            </Text>
+          </View>
+        </View>
+      </View>
       <View style={styles.accordionContainer}>
         <List.AccordionGroup>
           <List.Accordion

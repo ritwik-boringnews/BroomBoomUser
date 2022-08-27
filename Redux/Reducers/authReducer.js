@@ -1,4 +1,4 @@
-import { ADD_TOKEN, LOGOUT, UPDATE_USER } from "../actionTypes";
+import {ADD_TOKEN, LOGOUT, UPDATE_USER} from "../actionTypes";
 
 const INITIAL_STATE = {
   clientToken: "",
@@ -8,15 +8,16 @@ const INITIAL_STATE = {
 const reducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case ADD_TOKEN:
+      console.log("authreducer page", action.payload);
       return {
         ...state,
         clientToken: action.payload.clientToken,
         user: action.payload.user,
       };
     case LOGOUT:
-      return { ...state, clientToken: "", user: "" };
+      return {...state, clientToken: "", user: ""};
     case UPDATE_USER:
-      return { ...state, user: action.user };
+      return {...state, user: action.user};
     default:
       return state;
   }

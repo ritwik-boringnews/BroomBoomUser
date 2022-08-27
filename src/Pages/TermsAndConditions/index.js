@@ -1,10 +1,40 @@
 import React from "react";
 import {View, Text, ScrollView} from "react-native";
 import styles from "./styles";
-
-const TermsAndConditions = () => {
+import BackIcon from "react-native-vector-icons/AntDesign";
+const TermsAndConditions = ({navigation}) => {
   return (
     <ScrollView>
+      <View style={{flex: 1}}>
+        <View
+          style={{
+            flexDirection: "row",
+            paddingHorizontal: 25,
+            paddingTop: 20,
+            backgroundColor: "black",
+          }}>
+          <BackIcon
+            name="arrowleft"
+            color="white"
+            size={20}
+            style={{marginBottom: 10}}
+            onPress={() => navigation.goBack()}
+          />
+          <View style={{width: "80%"}}>
+            <Text
+              style={{
+                marginLeft: 5,
+                color: "white",
+                fontSize: 18,
+                marginBottom: 20,
+                textAlign: "center",
+                fontWeight: "400",
+              }}>
+              Terms and Conditions
+            </Text>
+          </View>
+        </View>
+      </View>
       <View style={styles.container}>
         <View>
           <Text style={styles.header}>TERMS AND CONDITIONS FOR USERS</Text>

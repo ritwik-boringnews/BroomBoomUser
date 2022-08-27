@@ -72,6 +72,7 @@ const EnterDestination = ({onConfirmPickup}) => {
           alignItems: "center",
           marginTop: 10,
           marginStart: 20,
+          backgroundColor: "#F5C001",
         }}
         onPress={onConfirmPickup}
         disabled={!loc}>

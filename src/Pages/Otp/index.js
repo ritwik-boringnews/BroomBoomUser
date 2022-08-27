@@ -24,6 +24,7 @@ const Otp = ({navigation, route}) => {
       });
 
       if (response.status === 1 && response.data) {
+        console.log("data", response.data);
         dispatch(
           login({
             clientToken: response.data.token,

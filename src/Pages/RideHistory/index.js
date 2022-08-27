@@ -12,8 +12,8 @@ import Api from "../../Services";
 import moment from "moment";
 import {useDispatch} from "react-redux";
 import {notify} from "../../../Redux/Actions";
-
-const RideHistory = () => {
+import BackIcon from "react-native-vector-icons/AntDesign";
+const RideHistory = ({navigation}) => {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const [rideHistory, setRideHistory] = useState([]);
@@ -41,7 +41,38 @@ const RideHistory = () => {
   }, []);
 
   return (
-    <View style={{justifyContent: "center", alignItems: "center", flex: 1}}>
+    <View style={{justifyContent: "center"}}>
+      <View>
+        <View
+          style={{
+            flexDirection: "row",
+            paddingHorizontal: 25,
+            paddingTop: 20,
+            backgroundColor: "black",
+            width: "100%",
+          }}>
+          <BackIcon
+            name="arrowleft"
+            color="white"
+            size={20}
+            style={{marginBottom: 10}}
+            onPress={() => navigation.goBack()}
+          />
+          <View style={{width: "80%"}}>
+            <Text
+              style={{
+                marginLeft: 5,
+                color: "white",
+                fontSize: 18,
+                marginBottom: 20,
+                textAlign: "center",
+                fontWeight: "400",
+              }}>
+              Ride History
+            </Text>
+          </View>
+        </View>
+      </View>
       {rideHistory &&
         rideHistory.map((item, id) => {
           return (
@@ -57,7 +88,7 @@ const RideHistory = () => {
         })}
 
       {!rideHistory.length && (
-        <View style={{alignItems: "center"}}>
+        <View style={{alignItems: "center", paddingVertical: 80}}>
           <Text
             style={{
               color: "black",

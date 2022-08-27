@@ -22,7 +22,7 @@ const Notifications = ({navigation}) => {
               image: require("../../../assets/notification.png"),
               title: item.notification,
               subtitle: item.message,
-              icon: require("../../../assets/icon.png"),
+              // icon: require("../../../assets/icon.png"),
               date: moment(item.createdAt).format("llll"),
             });
           });
@@ -34,7 +34,7 @@ const Notifications = ({navigation}) => {
               subtitle:
                 "Thank you for registering with us we will keep you updated with the latest offers",
               image: require("../../../assets/notification.png"),
-              icon: require("../../../assets/icon.png"),
+              // icon: require("../../../assets/icon.png"),
               date: moment().format("llll"),
             },
           ]);
@@ -73,7 +73,7 @@ const Notifications = ({navigation}) => {
             flexDirection: "row",
             // justifyContent: "center",
           }}>
-          <View
+          {/* <View
             style={{
               justifyContent: "center",
               width: "10%",
@@ -87,8 +87,8 @@ const Notifications = ({navigation}) => {
                 resizeMode: "contain",
               }}
             />
-          </View>
-          <View style={{width: "100%"}}>
+          </View> */}
+          <View style={{width: "100%", paddingHorizontal: 20}}>
             <Text style={{fontWeight: "bold", color: "black"}}>
               {item.title}
             </Text>

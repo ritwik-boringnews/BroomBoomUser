@@ -62,6 +62,7 @@ const ServiceNotAvailable = ({onChooseAnotherPlace}) => {
           alignItems: "center",
           marginTop: 10,
           marginStart: 20,
+          backgroundColor: "#F5C001",
         }}
         onPress={onChooseAnotherPlace}>
         <Text style={{color: "black", fontWeight: "bold"}}>
