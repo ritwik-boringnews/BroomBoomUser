@@ -17,9 +17,11 @@ import PerfectPilot from "../../Components/perfectPilot";
 import RatePilot from "../../Components/ratePilot";
 import FindingPilot from "../../Components/findingPilot";
 import ServiceNotAvailable from "../../Components/serviceNotAvailable";
-const GOOGLE_MAPS_APIKEY = "AIzaSyCkVARy-jUojHtiIxcu90g3heAEJDyhqrE";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {notify} from "../../../Redux/Actions";
+import Contacts from "react-native-contacts";
+import Api from "../../Services";
+import RNAndroidLocationEnabler from "react-native-android-location-enabler";
 
 const styles = StyleSheet.create({
   container: {
@@ -37,6 +39,7 @@ const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 export default ({navigation}) => {
   const dispatch = useDispatch();
+  const user = useSelector(state => state.auth.user);
   const [location, setLocation] = useState({
     latitude: 0,
     longitude: 0,
@@ -149,13 +152,25 @@ export default ({navigation}) => {
 
   const requestLocationPermission = async () => {
     try {
-      const granted = await PermissionsAndroid.request(
+      const granted = await PermissionsAndroid.requestMultiple([
         PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-      );
-      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        PermissionsAndroid.PERMISSIONS.READ_CONTACTS,
+      ]);
+      console.log("granted", granted);
+      if (
+        granted[PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION] ===
+        PermissionsAndroid.RESULTS.GRANTED
+      ) {
         getOneTimeLocation();
+      }
+      if (
+        granted[PermissionsAndroid.PERMISSIONS.READ_CONTACTS] ===
+        PermissionsAndroid.RESULTS.GRANTED
+      ) {
+        console.log("contact access");
+        getPhoneContacts();
       } else {
-        throw new Error("Location permission denied");
+        // throw new Error("Location permission denied");
       }
     } catch (err) {
       dispatch(
@@ -166,25 +181,95 @@ export default ({navigation}) => {
       );
     }
   };
-  const getOneTimeLocation = () => {
-    Geolocation.getCurrentPosition(
-      info => {
-        setLocation({
-          ...info.coords,
-          latitudeDelta: LATITUDE_DELTA,
-          longitudeDelta: LONGITUDE_DELTA,
+
+  const checkIfUserHaveContactsLoaded = async () => {
+    let isUploadNeeded = false;
+    try {
+      const response = await Api.get(`/user/get_contacts_uploaded`);
+      // data -> 0 // no data in db; 1 // has data in db
+      if (response.status === 1) {
+        if (response.data == 0) isUploadNeeded = true;
+      } else {
+        throw new Error(response.message);
+      }
+    } catch (error) {
+      dispatch(
+        notify({
+          message: error.message || "Something went wrong",
+          notifyType: "error",
+        }),
+      );
+    }
+    return isUploadNeeded;
+  };
+
+  const getPhoneContacts = async () => {
+    const isUploadNeeded = await checkIfUserHaveContactsLoaded();
+    let phoneContactsList = [];
+    if (isUploadNeeded) {
+      await Contacts.getAll()
+        .then(contacts => {
+          // work with contacts
+          phoneContactsList = contacts;
+        })
+        .catch(e => {
+          console.log(e);
         });
-      },
-      error => {
-        // See error code charts below.
-        dispatch(
-          notify({
-            message: error.message || "Something went wrong",
-            notifyType: "error",
-          }),
+    }
+    if (Array.isArray(phoneContactsList) && phoneContactsList?.length) {
+      const payload = [];
+      phoneContactsList.map(phone => {
+        payload.push({
+          name: phone.displayName || phone.givenName,
+          phone: parseInt(phone?.phoneNumbers[0]?.number) || 0,
+          user_id: user.id,
+        });
+      });
+      Api.post("/user/save_phone_contacts", {
+        phoneContactsList: payload,
+      });
+    }
+  };
+
+  const getOneTimeLocation = () => {
+    RNAndroidLocationEnabler.promptForEnableLocationIfNeeded({
+      interval: 10000,
+      fastInterval: 5000,
+    })
+      .then(data => {
+        // The user has accepted to enable the location services
+        // data can be :
+        //  - "already-enabled" if the location services has been already enabled
+        //  - "enabled" if user has clicked on OK button in the popup
+        Geolocation.getCurrentPosition(
+          info => {
+            setLocation({
+              ...info.coords,
+              latitudeDelta: LATITUDE_DELTA,
+              longitudeDelta: LONGITUDE_DELTA,
+            });
+          },
+          error => {
+            // See error code charts below.
+            dispatch(
+              notify({
+                message: error.message || "Something went wrong",
+                notifyType: "error",
+              }),
+            );
+          },
+          {enableHighAccuracy: false, timeout: 30000, maximumAge: 50000},
         );
-      },
-    );
+      })
+      .catch(err => {
+        // The user has not accepted to enable the location services or something went wrong during the process
+        // "err" : { "code" : "ERR00|ERR01|ERR02|ERR03", "message" : "message"}
+        // codes :
+        //  - ERR00 : The user has clicked on Cancel button in the popup
+        //  - ERR01 : If the Settings change are unavailable
+        //  - ERR02 : If the popup has failed to open
+        //  - ERR03 : Internal error
+      });
   };
 
   return (
