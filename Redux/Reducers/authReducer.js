@@ -1,4 +1,9 @@
-import {ADD_TOKEN, LOGOUT, UPDATE_USER} from "../actionTypes";
+import {
+  ADD_TOKEN,
+  LOGOUT,
+  REFER_TOKEN_ADDED,
+  UPDATE_USER,
+} from "../actionTypes";
 
 const INITIAL_STATE = {
   clientToken: "",
@@ -18,6 +23,8 @@ const reducer = (state = INITIAL_STATE, action) => {
       return {...state, clientToken: "", user: ""};
     case UPDATE_USER:
       return {...state, user: action.user};
+    case REFER_TOKEN_ADDED:
+      return {...state, user: {...state.user, refer_token_added: 1}};
     default:
       return state;
   }

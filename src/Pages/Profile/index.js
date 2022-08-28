@@ -124,7 +124,7 @@ const Profile = () => {
               textAlign: "center",
               fontWeight: "400",
             }}>
-            Notifications
+            Profile
           </Text>
         </View>
       </View>

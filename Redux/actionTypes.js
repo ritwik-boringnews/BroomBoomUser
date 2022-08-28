@@ -10,3 +10,6 @@ export const POP_REQUEST = "POP_REQUEST";
 // Notification
 export const NOTIFY = "NOTIFY";
 export const HIDE = "HIDE";
+
+// misc
+export const REFER_TOKEN_ADDED = "REFER_TOKEN_ADDED";

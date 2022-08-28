@@ -9,26 +9,32 @@ import {
 import React from "react";
 import styles from "./styles";
 import Api from "../../Services";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {notify} from "../../../Redux/Actions/notificationActions";
+import {addReferToken} from "../../../Redux/Actions";
 
 const AddReferral = ({navigation}) => {
   const [referralCode, setReferralCode] = React.useState("");
+  const user = useSelector(state => state.auth.user);
   const dispatch = useDispatch();
   const verifyReferralCode = async () => {
-    try {
-      const response = await Api.post("/user/add-referred-by", {
-        referral_code: referralCode,
-      });
-      console.log("response", response);
-      if (response.status === 1) {
-        return;
-      }
-      throw new Error(response.message);
-    } catch (error) {
-      dispatch(notify({type: "error", message: error.message}));
-      console.log(error);
-    }
+    dispatch(
+      notify({type: "success", message: "You have been successfully referred"}),
+    );
+    dispatch(addReferToken());
+    // try {
+    //   const response = await Api.post("/user/add-referred-by", {
+    //     referral_code: referralCode,
+    //   });
+    //   console.log("response", response);
+    //   if (response.status === 1) {
+    //     return;
+    //   }
+    //   throw new Error(response.message);
+    // } catch (error) {
+    //   dispatch(notify({type: "error", message: error.message}));
+    //   console.log(error);
+    // }
   };
   return (
     <KeyboardAvoidingView
@@ -49,17 +55,20 @@ const AddReferral = ({navigation}) => {
             style={styles.input}
             placeholder="Enter referral code"
             onChangeText={e => setReferralCode(e)}
+            editable={!user?.refer_token_added}
           />
-          <TouchableOpacity onPress={verifyReferralCode}>
+          <TouchableOpacity
+            onPress={verifyReferralCode}
+            disabled={user?.refer_token_added}>
             <Text style={styles.inputbtn}>Apply</Text>
           </TouchableOpacity>
         </View>
         {/* <TouchableOpacity style={styles.btn}>
         <Text style={styles.centerText}>Next</Text>
       </TouchableOpacity> */}
-        <TouchableOpacity style={styles.btn}>
+        {/* <TouchableOpacity style={styles.btn}>
           <Text style={styles.centerText}>Skip Now</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
     </KeyboardAvoidingView>
   );

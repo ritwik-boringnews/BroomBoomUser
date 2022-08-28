@@ -2,10 +2,11 @@ import {View, Text, Image, FlatList, StyleSheet} from "react-native";
 import React, {useEffect, useState} from "react";
 import Api from "../../Services";
 import moment from "moment";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import BackIcon from "react-native-vector-icons/AntDesign";
 const Notifications = ({navigation}) => {
   const dispatch = useDispatch();
+  const user = useSelector(state => state.auth.user);
   const [isLoading, setIsLoading] = useState(false);
   const [notifications, setNotifications] = useState([]);
   useEffect(() => {
@@ -35,7 +36,7 @@ const Notifications = ({navigation}) => {
                 "Thank you for registering with us we will keep you updated with the latest offers",
               image: require("../../../assets/notification.png"),
               // icon: require("../../../assets/icon.png"),
-              date: moment().format("llll"),
+              date: moment(user.createdAt).format("llll"),
             },
           ]);
         } else {
@@ -56,7 +57,6 @@ const Notifications = ({navigation}) => {
   }, []);
 
   const ListItem = ({item}) => {
-    console.log(item);
     return (
       <View
         key={item.id}
