@@ -12,7 +12,9 @@ import CopyIcon from "react-native-vector-icons/Feather";
 import GiftIcon from "react-native-vector-icons/Feather";
 import Api from "../../Services";
 import Clipboard from "@react-native-clipboard/clipboard";
-const ReferAndEarn = () => {
+import BackIcon from "react-native-vector-icons/AntDesign";
+import QuestionIcon from "react-native-vector-icons/AntDesign";
+const ReferAndEarn = ({navigation}) => {
   const [referralCode, setReferralCode] = React.useState("");
   React.useEffect(() => {
     getReferralCode();
@@ -50,6 +52,19 @@ const ReferAndEarn = () => {
 
   return (
     <ScrollView style={{flex: 1, backgroundColor: "white"}}>
+      <View style={{flexDirection: "row", marginHorizontal: 18, marginTop: 10}}>
+        <BackIcon
+          name="arrowleft"
+          // color="white"
+          size={20}
+          style={{marginBottom: 10}}
+          onPress={() => navigation.goBack()}
+        />
+        {/* <View style={{flexDirection: "row"}}>
+          <Text>Help</Text>
+          <QuestionIcon name="questioncircleo" size={18} />
+        </View> */}
+      </View>
       <View style={styles.container}>
         <Text style={styles.title}>
           INVITE YOUR FRIEND AND EARN UPTO 100 BROOMBOOM COINS

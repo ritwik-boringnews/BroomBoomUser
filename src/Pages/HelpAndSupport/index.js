@@ -8,39 +8,46 @@ import {
 } from "react-native";
 import React from "react";
 import Icon from "react-native-vector-icons/Ionicons";
-
+import BackIcon from "react-native-vector-icons/AntDesign";
 const HelpAndSupport = ({navigation}) => {
   return (
-    <View
-      style={{flex: 1, paddingHorizontal: 30, justifyContent: "space-between"}}>
-      <View style={{alignSelf: "flex-start"}}>
-        <View style={{paddingHorizontal: 30}}>
-          {/* <View
-          style={{
-            width: '100%',
-
-            borderRadius: 50,
-            marginTop: 30,
-            backgroundColor: 'rgba(245, 192, 1, 0.2)',
-            flexDirection: 'row',
-            alignItems: 'center',
-          }}>
-          <Icon name="search-outline" size={15} style={{marginLeft: 8}} />
-          <TextInput
-            placeholder="Search issue"
-            style={{
-              fontSize: 16,
-              fontWeight: '500',
-            }}></TextInput>
-        </View> */}
-        </View>
+    <View style={{flex: 1}}>
+      <View>
         <View
           style={{
             flexDirection: "row",
-            alignItems: "center",
-            marginTop: 50,
+            paddingHorizontal: 25,
+            paddingTop: 20,
+            backgroundColor: "black",
+          }}>
+          <BackIcon
+            name="arrowleft"
+            color="white"
+            size={20}
+            style={{marginBottom: 10}}
+            onPress={() => navigation.goBack()}
+          />
+          <View style={{width: "100%"}}>
+            <Text
+              style={{
+                marginLeft: 5,
+                color: "white",
+                fontSize: 18,
+                marginBottom: 20,
+                textAlign: "center",
+                fontWeight: "400",
+              }}>
+              Help and Support
+            </Text>
+          </View>
+        </View>
+      </View>
+      <View style={{marginTop: 40, paddingHorizontal: 20}}>
+        <View
+          style={{
+            flexDirection: "row",
+            // marginTop: 50,
             justifyContent: "space-between",
-            // paddingHorizontal: 100,
             width: "100%",
           }}>
           <TouchableOpacity
@@ -51,7 +58,7 @@ const HelpAndSupport = ({navigation}) => {
               style={{height: 45, width: 45, marginBottom: 5}}
             />
 
-            <Text style={{textAlign: "center"}}>FAQs{"\n"}</Text>
+            <Text style={{textAlign: "center", color: "#000"}}>FAQs{"\n"}</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={{justifyContent: "center", alignItems: "center"}}
@@ -64,7 +71,7 @@ const HelpAndSupport = ({navigation}) => {
                 paddingVertical: 5,
               }}>
               <Image
-                source={require("../../../assets/file-contract-solid.png")}
+                source={require("../../../assets/help3.png")}
                 style={{
                   height: 30,
                   width: 30,
@@ -73,7 +80,9 @@ const HelpAndSupport = ({navigation}) => {
                 }}
               />
             </View>
-            <Text style={{textAlign: "center"}}>Terms & Conditions{"\n"}</Text>
+            <Text style={{textAlign: "center", color: "#000"}}>
+              Terms & Conditions{"\n"}
+            </Text>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -84,13 +93,15 @@ const HelpAndSupport = ({navigation}) => {
               style={{height: 45, width: 45, marginBottom: 5}}
             />
 
-            <Text style={{textAlign: "center"}}>Contact {"\n"} Us</Text>
+            <Text style={{textAlign: "center", color: "#000"}}>
+              Contact {"\n"} Us
+            </Text>
           </TouchableOpacity>
         </View>
       </View>
       <View
         style={{
-          alignSelf: "flex-end",
+          marginTop: "auto",
           width: "100%",
           marginBottom: 30,
         }}>

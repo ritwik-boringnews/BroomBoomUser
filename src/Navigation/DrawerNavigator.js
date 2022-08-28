@@ -22,6 +22,7 @@ import Profile from "../Pages/Profile";
 import ProfileIcon from "react-native-vector-icons/AntDesign";
 import Faq from "../Pages/Faq";
 import TermsAndConditions from "../Pages/TermsAndConditions";
+import AddReferral from "../Pages/AddReferral";
 function HomeDrawerScreen({navigation}) {
   return (
     <View style={{flex: 1, alignItems: "center", justifyContent: "center"}}>
@@ -169,6 +170,15 @@ const DrawerNavigator = ({navigation}) => {
         options={{
           drawerIcon: ({color}) => (
             <Support name="support" size={22} color={color} />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="Add Referral"
+        component={AddReferral}
+        options={{
+          drawerIcon: ({color}) => (
+            <ProfileIcon name="user" size={22} color={color} />
           ),
         }}
       />

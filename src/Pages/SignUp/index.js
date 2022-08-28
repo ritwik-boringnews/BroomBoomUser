@@ -76,7 +76,7 @@ const SignUp = ({navigation}) => {
             textAlign: "center",
             marginBottom: 35,
           }}>
-          Otp will be sent to this number
+          OTP will be sent to this number
         </Text>
         <View
           style={{
@@ -156,22 +156,11 @@ const SignUp = ({navigation}) => {
             color={"#F5C001"}
           />
           <Text style={{marginBottom: 15}}>
-            By continuing,you agree to the{" "}
-            <Text style={{color: "blue"}} onPress={() => Linking.openURL("#")}>
-              terms {""}
-            </Text>
-            <Text style={{color: "blue"}} onPress={() => Linking.openURL("#")}>
-              & conditions {""}
-            </Text>
-            <Text
-              style={{color: "blue", textAlign: "left"}}
-              onPress={() => Linking.openURL("#")}>
-              and {""}
-            </Text>
-            <Text style={{color: "blue"}} onPress={() => Linking.openURL("#")}>
-              privacy policy {""}
-            </Text>
-            of BroomBoom User
+            By continuing, you agree to the <Text>Terms {""}</Text>
+            <Text>& Conditions {""}</Text>
+            <Text style={{textAlign: "left"}}>and {""}</Text>
+            <Text>privacy policy {""}</Text>
+            of BroomBoom
           </Text>
         </View>
         <TouchableOpacity
