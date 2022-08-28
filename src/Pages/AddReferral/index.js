@@ -18,23 +18,30 @@ const AddReferral = ({navigation}) => {
   const user = useSelector(state => state.auth.user);
   const dispatch = useDispatch();
   const verifyReferralCode = async () => {
-    dispatch(
-      notify({type: "success", message: "You have been successfully referred"}),
-    );
-    dispatch(addReferToken());
-    // try {
-    //   const response = await Api.post("/user/add-referred-by", {
-    //     referral_code: referralCode,
-    //   });
-    //   console.log("response", response);
-    //   if (response.status === 1) {
-    //     return;
-    //   }
-    //   throw new Error(response.message);
-    // } catch (error) {
-    //   dispatch(notify({type: "error", message: error.message}));
-    //   console.log(error);
-    // }
+    // dispatch(
+    //   notify({type: "success", message: "You have been successfully referred"}),
+    // );
+    try {
+      const response = await Api.post("/user/add-referred-by", {
+        referral_code: referralCode,
+      });
+      console.log("response", response);
+      if (response.status === 1) {
+        dispatch(
+          notify({
+            type: "success",
+            message: "You have been successfully referred",
+          }),
+        );
+        dispatch(addReferToken());
+
+        return;
+      }
+      throw new Error(response.message);
+    } catch (error) {
+      dispatch(notify({type: "error", message: error.message}));
+      console.log(error);
+    }
   };
   return (
     <KeyboardAvoidingView
