@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {NavigationContainer} from "@react-navigation/native";
 import {HomeNavigator} from "./src/Navigation";
 import {enableLatestRenderer} from "react-native-maps";
@@ -7,10 +7,14 @@ import {Provider} from "react-redux";
 import {PersistGate} from "redux-persist/integration/react";
 import {store, persistor} from "./Redux/store";
 import SnackBar from "./src/Components/AppSnackBar";
+import SplashScreen from "react-native-splash-screen";
 enableLatestRenderer();
 
 const App = () => {
   const [loc, setLoc] = useState("");
+  useEffect(() => {
+    SplashScreen.hide();
+  }, []);
 
   return (
     <Provider store={store}>

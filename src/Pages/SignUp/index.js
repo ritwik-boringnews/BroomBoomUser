@@ -24,7 +24,7 @@ const SignUp = ({navigation}) => {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const [checked, setChecked] = useState(true);
-  const [mobile, setmobile] = useState('8240451131');
+  const [mobile, setmobile] = useState("");
 
   const onSubmit = async () => {
     setIsLoading(true);
@@ -107,7 +107,8 @@ const SignUp = ({navigation}) => {
             onChangeText={text => {
               setmobile(text);
             }}
-            value={mobile}         placeholder="Enter your mobile number"
+            value={mobile}
+            placeholder="Enter your mobile number"
             maxLength={10}
             style={{
               borderWidth: 0,
