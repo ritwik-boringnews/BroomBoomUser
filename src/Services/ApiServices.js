@@ -48,7 +48,6 @@ export default class API {
   async httpRequest(method, url, params, header = null) {
     let state = store.getState();
     let clientToken = state.auth.clientToken;
-    console.log("apiservice page", method, header);
 
     return new Promise((resolve, reject) => {
       let options;

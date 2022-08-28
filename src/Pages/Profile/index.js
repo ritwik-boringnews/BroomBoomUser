@@ -17,63 +17,30 @@ import {useNavigation} from "@react-navigation/native";
 import BackIcon from "react-native-vector-icons/AntDesign";
 const Profile = () => {
   const dispatch = useDispatch();
-  const styles = StyleSheet.create({
-    box: {
-      borderBottomWidth: 1,
-      borderBottomColor: "#BDBDBD",
-      paddingVertical: 5,
-      marginVertical: 4,
-      paddingHorizontal: 20,
-    },
-    input: {
-      fontSize: 16,
-      fontWeight: "700",
-      paddingHorizontal: 0,
-      paddingVertical: 5,
-      color: "#1f1f1f",
-      alignItems: "center",
-    },
-    h1: {
-      fontSize: 14,
-      fontWeight: "500",
-      paddingBottom: 4,
-    },
-    para: {
-      color: "#2F80ED",
-      fontSize: 14,
-      fontWeight: "500",
-      alignItems: "center",
-      marginRight: 8,
-      textAlign: "center",
-      justifyContent: "center",
-    },
-  });
-  const [isLoading, setIsLoading] = useState(false);
   const [userDetails, setUserDetails] = useState();
   const navigation = useNavigation();
   useEffect(() => {
-    setIsLoading(true);
-    const getProfile = async () => {
-      try {
-        const response = await Api.get(`/user/get-user-details`);
-        if (response.status === 1) {
-          setUserDetails(response.data);
-          setDate(response.data.dob);
-        } else {
-          throw new Error(response.message);
-        }
-      } catch (error) {
-        dispatch(
-          notify({
-            message: error.message || "Something went wrong",
-            notifyType: "error",
-          }),
-        );
-      }
-    };
     getProfile();
-    setIsLoading(false);
   }, []);
+
+  const getProfile = async () => {
+    try {
+      const response = await Api.get(`/user/get-user-details`);
+      if (response.status === 1) {
+        setUserDetails(response.data);
+        setDate(response.data.dob);
+      } else {
+        throw new Error(response.message);
+      }
+    } catch (error) {
+      dispatch(
+        notify({
+          message: error.message || "Something went wrong",
+          notifyType: "error",
+        }),
+      );
+    }
+  };
 
   const handleUpdate = async () => {
     try {
@@ -259,5 +226,35 @@ const Profile = () => {
     </View>
   );
 };
-
+const styles = StyleSheet.create({
+  box: {
+    borderBottomWidth: 1,
+    borderBottomColor: "#BDBDBD",
+    paddingVertical: 5,
+    marginVertical: 4,
+    paddingHorizontal: 20,
+  },
+  input: {
+    fontSize: 16,
+    fontWeight: "700",
+    paddingHorizontal: 0,
+    paddingVertical: 5,
+    color: "#1f1f1f",
+    alignItems: "center",
+  },
+  h1: {
+    fontSize: 14,
+    fontWeight: "500",
+    paddingBottom: 4,
+  },
+  para: {
+    color: "#2F80ED",
+    fontSize: 14,
+    fontWeight: "500",
+    alignItems: "center",
+    marginRight: 8,
+    textAlign: "center",
+    justifyContent: "center",
+  },
+});
 export default Profile;

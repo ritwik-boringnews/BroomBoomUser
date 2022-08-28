@@ -220,7 +220,7 @@ export default ({navigation}) => {
       const payload = [];
       phoneContactsList.map(phone => {
         payload.push({
-          name: phone.displayName || phone.givenName,
+          name: phone.displayName || phone.givenName || "",
           phone: parseInt(phone?.phoneNumbers[0]?.number) || 0,
           user_id: user.id,
         });
