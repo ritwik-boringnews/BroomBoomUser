@@ -3,48 +3,41 @@ import React, {useContext} from "react";
 import Icon from "react-native-vector-icons/AntDesign";
 import {useNavigation} from "@react-navigation/native";
 import locationContext from "../../context/locationContext";
-const EnterDestination = ({onConfirmPickup}) => {
+const PickupLocation = ({onConfirmPickup}) => {
   const navigation = useNavigation();
 
   const {loc} = useContext(locationContext);
   return (
     <View
       style={{
-        flex: 1,
+        // flex: 2,
         backgroundColor: "white",
         borderRadius: 20,
         borderBottomEndRadius: 0,
         borderBottomStartRadius: 0,
         color: "black",
+        paddingBottom: 15,
       }}>
-      {/* <View
+      <Text
         style={{
-          backgroundColor: '#E0E0E0',
-          marginHorizontal: 30,
-          paddingVertical: 10,
-          borderRadius: 10,
-          marginTop: 10,
-          marginLeft: 20,
-          flexDirection: 'row',
-          justifyContent: 'center',
+          padding: 10,
+          marginHorizontal: 15,
+          color: "black",
+          fontSize: 15,
+          fontWeight: "500",
         }}>
-        <TouchableOpacity style={{display: 'flex', flexDirection: 'row'}}>
-          <Image source={require('../../assets/mapIcon.png')} />
-          <Text style={{marginLeft: 10, color: 'black', fontSize: 14}}>
-            {loc || 'please choose a destination'}
-          </Text>
-          <Icon name="hearto" size={14} style={{marginLeft: 2}} />
-        </TouchableOpacity>
-      </View> */}
-
+        Select your Pick Up
+      </Text>
       <View
         style={{
           backgroundColor: "#E0E0E0",
-          marginHorizontal: 30,
-          padding: 10,
+          // marginHorizontal: 30,
+          width: "85%",
+          padding: 13,
           borderRadius: 10,
-          marginTop: 30,
-          marginLeft: 20,
+          // marginTop: 30,
+          // marginLeft: 16,
+          marginStart: 25,
           flexDirection: "row",
         }}>
         <TouchableOpacity
@@ -53,13 +46,13 @@ const EnterDestination = ({onConfirmPickup}) => {
             flexDirection: "row",
             marginLeft: 30,
           }}
-          onPress={() => navigation.navigate("DestinationLocation")}>
+          onPress={() => navigation.navigate("PickUpLocation")}>
           <Image
             source={require("../../assets/mapIcon.png")}
             style={{marginTop: 4}}
           />
-          <Text style={{marginLeft: 10, color: "black"}}>
-            {loc || "Please choose a destination"}{" "}
+          <Text style={{marginLeft: 10, color: "black", fontWeight: "bold"}}>
+            {loc || "Choose a pick up location"}{" "}
           </Text>
         </TouchableOpacity>
       </View>
@@ -71,7 +64,7 @@ const EnterDestination = ({onConfirmPickup}) => {
           borderRadius: 50,
           alignItems: "center",
           marginTop: 10,
-          marginStart: 20,
+          marginStart: 25,
           backgroundColor: "#F5C001",
         }}
         onPress={onConfirmPickup}
@@ -84,4 +77,4 @@ const EnterDestination = ({onConfirmPickup}) => {
   );
 };
 
-export default EnterDestination;
+export default PickupLocation;

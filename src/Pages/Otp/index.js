@@ -1,5 +1,5 @@
 import React, {useEffect} from "react";
-import {View, Text, Button} from "react-native";
+import {View, Text, Button, Image} from "react-native";
 import OTPTextView from "../../Components/AppOtpInput";
 import Api from "../../Services";
 import {TextInput, ActivityIndicator} from "react-native-paper";
@@ -47,7 +47,7 @@ const Otp = ({navigation, route}) => {
   };
 
   return (
-    <View style={{marginTop: 30, paddingHorizontal: 30}}>
+    <View style={{marginTop: 30, paddingHorizontal: 30, flex: 1}}>
       <Text
         style={{
           fontSize: 22,
@@ -95,6 +95,18 @@ const Otp = ({navigation, route}) => {
         </Text> */}
 
         {/* <Button onPress={onSubmitOtp} title="Verify" color="#F5C001" style={{}}/> */}
+      </View>
+      <View
+        style={{
+          alignItems: "center",
+          width: "120%",
+          position: "absolute",
+          bottom: 20,
+        }}>
+        <Image
+          source={require("../../../assets/broomboomLogo.png")}
+          style={{height: 140, width: 140, resizeMode: "contain"}}
+        />
       </View>
     </View>
   );

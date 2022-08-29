@@ -11,7 +11,7 @@ import Icon from "react-native-vector-icons/Ionicons";
 import {GooglePlacesAutocomplete} from "react-native-google-places-autocomplete";
 import locationContext from "../../../context/locationContext";
 
-const DestinationLocation = ({navigation}) => {
+const PickUpLocation = ({navigation}) => {
   const styles = StyleSheet.create({
     container: {
       paddingHorizontal: 20,
@@ -46,7 +46,7 @@ const DestinationLocation = ({navigation}) => {
               textAlign: "center",
               marginBottom: 20,
             }}>
-            Choose your destination
+            Choose a pick up destination
           </Text>
         </View>
       </View>
@@ -114,4 +114,4 @@ const DestinationLocation = ({navigation}) => {
   );
 };
 
-export default DestinationLocation;
+export default PickUpLocation;
