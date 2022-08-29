@@ -25,7 +25,7 @@ import RunningRide from "../Pages/RunningRide/index.js";
 import CancelOrderModal from "../Pages/CancelOrderModal/index.js";
 import FindingPilot from "../Components/findingPilot.js";
 import ServiceNotAvailable from "../Components/serviceNotAvailable.js";
-import AddReferral from "../Pages/AddReferral";
+// import AddReferral from "../Pages/AddReferral";
 import {useSelector} from "react-redux";
 const Stack = createNativeStackNavigator();
 
@@ -73,7 +73,7 @@ function App() {
       <Stack.Screen name="TermsAndConditions" component={TermsAndConditions} />
       <Stack.Screen name="PrivacyPolicy" component={PrivacyPolicy} />
       <Stack.Screen name="Signup" component={SignUp} />
-      <Stack.Screen name="AddReferral" component={AddReferral} />
+      {/* <Stack.Screen name="AddReferral" component={AddReferral} /> */}
       <Stack.Screen name="Otp" component={Otp} />
       <Stack.Screen name="Welcome" component={Welcome} />
       <Stack.Screen name="Faq" component={Faq} />

@@ -23,6 +23,7 @@ import ProfileIcon from "react-native-vector-icons/AntDesign";
 import Faq from "../Pages/Faq";
 import TermsAndConditions from "../Pages/TermsAndConditions";
 import AddReferral from "../Pages/AddReferral";
+import PickUpLocation from "../Pages/PickupLocation";
 function HomeDrawerScreen({navigation}) {
   return (
     <View style={{flex: 1, alignItems: "center", justifyContent: "center"}}>
@@ -41,6 +42,7 @@ const HomePageMain = () => {
       screenOptions={{headerShown: false}}>
       <Stack.Screen name="SourceMap" component={GMapHome} />
       <Stack.Screen name="SearchPickup" component={SearchPickup} />
+      <Stack.Screen name="PickUpLocation" component={PickUpLocation} />
       <Stack.Screen
         name="DestinationLocation"
         component={DestinationLocation}

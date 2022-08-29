@@ -10,7 +10,8 @@ import MapView, {Marker, PROVIDER_GOOGLE} from "react-native-maps";
 import MyLocation from "react-native-vector-icons/MaterialIcons";
 import Geolocation from "@react-native-community/geolocation";
 import HambergerHome from "../../Components/HambergerHome";
-import EnterDestination from "../../Components/enterDestination";
+import PickupLocation from "../../Components/pickupLocation";
+import PickUpLocation from "../PickupLocation";
 import ChooseLocation from "../../Components/chooseLocation";
 import ChooseVehicleScooty from "../ChooseVehicleScooty";
 import PerfectPilot from "../../Components/perfectPilot";
@@ -46,7 +47,7 @@ export default ({navigation}) => {
     latitudeDelta: LATITUDE_DELTA,
     longitudeDelta: LONGITUDE_DELTA,
   });
-  const [type, setType] = useState("CHOOSE_DESTINATION");
+  const [type, setType] = useState("PICKUP_LOCATION");
 
   useEffect(() => {
     Geolocation.getCurrentPosition(
@@ -62,15 +63,15 @@ export default ({navigation}) => {
 
   const MapType = ({type}) => {
     switch (type) {
-      case "CHOOSE_LOCATION":
+      case "PICKUP_LOCATION":
         return (
-          <ChooseLocation
-            onConfirmPickup={() => setType("SERVICE_NOT_AVAILABLE")}
+          <PickupLocation
+            onConfirmPickup={() => setType("CHOOSE_DESTINATION")}
           />
         );
       case "CHOOSE_DESTINATION":
         return (
-          <EnterDestination
+          <ChooseLocation
             onConfirmPickup={() => setType("SERVICE_NOT_AVAILABLE")}
           />
         );
