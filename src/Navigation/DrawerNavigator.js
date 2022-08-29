@@ -24,6 +24,7 @@ import Faq from "../Pages/Faq";
 import TermsAndConditions from "../Pages/TermsAndConditions";
 import AddReferral from "../Pages/AddReferral";
 import PickUpLocation from "../Pages/PickupLocation";
+import {useSelector} from "react-redux";
 function HomeDrawerScreen({navigation}) {
   return (
     <View style={{flex: 1, alignItems: "center", justifyContent: "center"}}>
@@ -67,9 +68,10 @@ const SupportStack = () => {
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
 const DrawerNavigator = ({navigation}) => {
+  const user = useSelector(state => state.auth.user);
   return (
     <Drawer.Navigator
-      initialRouteName="SourceMap"
+      initialRouteName={user.email ? "SourceMap" : "Profile"}
       drawerContent={props => <CustomDrawer {...props} />}
       screenOptions={{
         drawerActiveBackgroundColor: "#F5C001",

@@ -25,7 +25,11 @@ const CustomDrawer = props => {
             alignItems: "center",
           }}>
           <Image
-            source={require("../../assets/userIcon.png")}
+            source={
+              auth.user.image
+                ? {uri: auth.user.image}
+                : require("../../assets/userIcon.png")
+            }
             style={{height: 30, width: 30, resizeMode: "contain"}}
           />
           <View style={{marginLeft: 10}}>

@@ -15,9 +15,11 @@ import {notify, updateUser} from "../../../Redux/Actions";
 import {useDispatch} from "react-redux";
 import {useNavigation} from "@react-navigation/native";
 import BackIcon from "react-native-vector-icons/AntDesign";
+import AppDocumentPicker from "../../Components/AppDocumentPicker";
 const Profile = () => {
   const dispatch = useDispatch();
-  const [userDetails, setUserDetails] = useState();
+  const [userDetails, setUserDetails] = useState({});
+  const [image, setImage] = useState("");
   const navigation = useNavigation();
   useEffect(() => {
     getProfile();
@@ -27,7 +29,10 @@ const Profile = () => {
     try {
       const response = await Api.get(`/user/get-user-details`);
       if (response.status === 1) {
-        setUserDetails(response.data);
+        setUserDetails({
+          ...response.data,
+          image: response.data?.image?.split("_")[1],
+        });
         setDate(response.data.dob);
       } else {
         throw new Error(response.message);
@@ -49,6 +54,7 @@ const Profile = () => {
         email: userDetails.email,
         gender: userDetails.gender,
         dob: datee,
+        image: image,
       });
       if (response.status === 1 && response.data) {
         dispatch(
@@ -63,6 +69,7 @@ const Profile = () => {
           name: response.data?.name,
           email: response.data?.email,
           gender: response.data?.gender,
+          image: response.data?.image?.split("_")[1],
         });
         setDate(response.data?.dob);
       } else {
@@ -207,6 +214,25 @@ const Profile = () => {
           mode="date"
           onConfirm={handleConfirm}
           onCancel={hideDatePicker}
+        />
+      </View>
+
+      <View style={styles.box}>
+        <Text style={styles.h1}>Upload Image</Text>
+        <AppDocumentPicker
+          title={userDetails.image || "Upload"}
+          buttonStyle={{
+            color: "white",
+            backgroundColor: "#347EEA",
+            justifyContent: "center",
+            flexDirection: "row",
+            padding: 10,
+            borderRadius: 50,
+          }}
+          onDocumentPicked={uri => {
+            setUserDetails({...userDetails, image: uri.Location.split("_")[1]});
+            setImage(uri.Location);
+          }}
         />
       </View>
       <TouchableOpacity
