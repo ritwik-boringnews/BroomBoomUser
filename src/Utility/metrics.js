@@ -1,4 +1,4 @@
-import {Dimensions, Platform} from "react-native";
+import {Dimensions, Platform, StatusBar} from "react-native";
 const {width, height} = Dimensions.get("window");
 const X_WIDTH = 375;
 const X_HEIGHT = 812;
@@ -6,6 +6,7 @@ const XSMAX_WIDTH = 414;
 const XSMAX_HEIGHT = 896;
 const guidelineBaseWidth = 380;
 const guidelineBaseHeight = 815;
+const STATUSBAR_HEIGHT = StatusBar.currentHeight;
 
 const metrics = {
   screenWidth: width < height ? width : height,
@@ -28,5 +29,6 @@ const metrics = {
   verticalScale: size => (height / guidelineBaseHeight) * size,
   moderateScale: (size, factor = 0.25) =>
     size + (metrics.scale(size) - size) * factor,
+  STATUSBAR_HEIGHT,
 };
 export default metrics;

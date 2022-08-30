@@ -8,6 +8,8 @@ import {PersistGate} from "redux-persist/integration/react";
 import {store, persistor} from "./Redux/store";
 import SnackBar from "./src/Components/AppSnackBar";
 import SplashScreen from "react-native-splash-screen";
+import {useDoubleBackPressExit} from "./src/Hooks/useDoubleBackPressExit";
+import {BackHandler} from "react-native";
 enableLatestRenderer();
 
 const App = () => {
@@ -15,6 +17,10 @@ const App = () => {
   useEffect(() => {
     SplashScreen.hide();
   }, []);
+
+  useDoubleBackPressExit(() => {
+    BackHandler.exitApp();
+  });
 
   return (
     <Provider store={store}>

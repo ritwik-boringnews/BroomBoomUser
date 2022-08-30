@@ -1,8 +1,8 @@
 import * as React from "react";
-import {Button, View} from "react-native";
+// import {Button, View} from "react-native";
 import {createDrawerNavigator} from "@react-navigation/drawer";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
-import Payments from "../Pages/Payments";
+// import Payments from "../Pages/Payments";
 import RideHistory from "../Pages/RideHistory";
 import ReferAndEarn from "../Pages/ReferAndEarn";
 
@@ -25,16 +25,16 @@ import TermsAndConditions from "../Pages/TermsAndConditions";
 import AddReferral from "../Pages/AddReferral";
 import PickUpLocation from "../Pages/PickupLocation";
 import {useSelector} from "react-redux";
-function HomeDrawerScreen({navigation}) {
-  return (
-    <View style={{flex: 1, alignItems: "center", justifyContent: "center"}}>
-      <Button
-        onPress={() => navigation.navigate("Notifications")}
-        title="Go to notifications"
-      />
-    </View>
-  );
-}
+// function HomeDrawerScreen({navigation}) {
+//   return (
+//     <View style={{flex: 1, alignItems: "center", justifyContent: "center"}}>
+//       <Button
+//         onPress={() => navigation.navigate("Notifications")}
+//         title="Go to notifications"
+//       />
+//     </View>
+//   );
+// }
 
 const HomePageMain = () => {
   return (
