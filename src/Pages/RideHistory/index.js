@@ -1,9 +1,7 @@
 import {
-  ScrollView,
   View,
   Text,
   StyleSheet,
-  TouchableOpacity,
   Image,
 } from "react-native";
 import React, {useEffect, useState} from "react";
@@ -12,7 +10,8 @@ import Api from "../../Services";
 import moment from "moment";
 import {useDispatch} from "react-redux";
 import {notify} from "../../../Redux/Actions";
-import BackIcon from "react-native-vector-icons/AntDesign";
+import BackButtonPage from "../../Components/BackButtonPage.js";
+
 const RideHistory = ({navigation}) => {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
@@ -41,38 +40,7 @@ const RideHistory = ({navigation}) => {
   }, []);
 
   return (
-    <View style={{justifyContent: "center"}}>
-      <View>
-        <View
-          style={{
-            flexDirection: "row",
-            paddingHorizontal: 25,
-            paddingTop: 20,
-            backgroundColor: "black",
-            width: "100%",
-          }}>
-          <BackIcon
-            name="arrowleft"
-            color="white"
-            size={20}
-            style={{marginBottom: 10}}
-            onPress={() => navigation.goBack()}
-          />
-          <View style={{width: "80%"}}>
-            <Text
-              style={{
-                marginLeft: 5,
-                color: "white",
-                fontSize: 18,
-                marginBottom: 20,
-                textAlign: "center",
-                fontWeight: "400",
-              }}>
-              Ride History
-            </Text>
-          </View>
-        </View>
-      </View>
+    <BackButtonPage pageName="Ride History" navigation={navigation}>
       {rideHistory &&
         rideHistory.map((item, id) => {
           return (
@@ -104,7 +72,7 @@ const RideHistory = ({navigation}) => {
           />
         </View>
       )}
-    </View>
+    </BackButtonPage>
   );
 };
 

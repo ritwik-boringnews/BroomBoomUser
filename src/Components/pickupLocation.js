@@ -1,8 +1,8 @@
-import {View, Text, Image, TouchableOpacity} from "react-native";
 import React, {useContext} from "react";
-import Icon from "react-native-vector-icons/AntDesign";
+import {View, Text, Image, TouchableOpacity} from "react-native";
 import {useNavigation} from "@react-navigation/native";
 import locationContext from "../../context/locationContext";
+
 const PickupLocation = ({onConfirmPickup}) => {
   const navigation = useNavigation();
 
@@ -10,13 +10,10 @@ const PickupLocation = ({onConfirmPickup}) => {
   return (
     <View
       style={{
-        // flex: 2,
         backgroundColor: "white",
-        borderRadius: 20,
-        borderBottomEndRadius: 0,
-        borderBottomStartRadius: 0,
-        color: "black",
-        paddingBottom: 15,
+        borderTopLeftRadius: 30,
+        borderTopRightRadius: 30,
+        paddingBottom: 25
       }}>
       <Text
         style={{

@@ -4,18 +4,17 @@ import {
   StyleSheet,
   TextInput,
   TouchableOpacity,
-  Button,
 } from "react-native";
 import React, {useEffect, useState} from "react";
-import Icon from "react-native-vector-icons/AntDesign";
 import Api from "../../Services";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import moment from "moment";
 import {notify, updateUser} from "../../../Redux/Actions";
 import {useDispatch} from "react-redux";
 import {useNavigation} from "@react-navigation/native";
-import BackIcon from "react-native-vector-icons/AntDesign";
 import AppDocumentPicker from "../../Components/AppDocumentPicker";
+import BackButtonPage from "../../Components/BackButtonPage";
+
 const Profile = () => {
   const dispatch = useDispatch();
   const [userDetails, setUserDetails] = useState({});
@@ -106,36 +105,7 @@ const Profile = () => {
   };
 
   return (
-    <View>
-      <View
-        style={{
-          flexDirection: "row",
-          paddingHorizontal: 25,
-          paddingTop: 20,
-          backgroundColor: "black",
-        }}>
-        <BackIcon
-          name="arrowleft"
-          color="white"
-          size={20}
-          style={{marginBottom: 10}}
-          onPress={() => navigation.goBack()}
-        />
-        <View style={{width: "80%"}}>
-          <Text
-            style={{
-              marginLeft: 5,
-              color: "white",
-              fontSize: 18,
-              marginBottom: 20,
-              textAlign: "center",
-              fontWeight: "400",
-            }}>
-            Profile
-          </Text>
-        </View>
-      </View>
-
+    <BackButtonPage pageName="Profile" navigation={navigation}>
       <View style={styles.box}>
         <Text style={styles.h1}>Name</Text>
         <TextInput
@@ -249,7 +219,7 @@ const Profile = () => {
         onPress={handleUpdate}>
         <Text style={{color: "black", fontWeight: "bold"}}>Update</Text>
       </TouchableOpacity>
-    </View>
+    </BackButtonPage>
   );
 };
 const styles = StyleSheet.create({

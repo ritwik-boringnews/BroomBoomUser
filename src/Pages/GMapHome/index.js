@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   PermissionsAndroid,
   Dimensions,
+  Platform,
 } from "react-native";
 import MapView, {Marker, PROVIDER_GOOGLE} from "react-native-maps";
 import MyLocation from "react-native-vector-icons/MaterialIcons";
@@ -25,7 +26,7 @@ import RNAndroidLocationEnabler from "react-native-android-location-enabler";
 
 const styles = StyleSheet.create({
   container: {
-    flex: 2,
+    flex: 1,
   },
   map: {
     ...StyleSheet.absoluteFillObject,
@@ -283,6 +284,7 @@ export default ({navigation}) => {
       <HambergerHome navigation={navigation} />
       <View style={styles.container}>
         <MapView
+          // mapType={Platform.OS == "android" ? "none" : "standard"}
           style={styles.map}
           initialRegion={location}
           provider={PROVIDER_GOOGLE}
@@ -293,7 +295,7 @@ export default ({navigation}) => {
         <View
           style={{
             position: "absolute",
-            bottom: 40,
+            bottom: 220,
             padding: 8,
             borderRadius: 10,
             right: 20,
@@ -304,7 +306,15 @@ export default ({navigation}) => {
           </TouchableOpacity>
         </View>
       </View>
-      <MapType type={type} />
+      <View
+        style={{
+          position: "absolute",
+          bottom: 0,
+          left: 0,
+          right: 0,
+        }}>
+        <MapType type={type} />
+      </View>
     </View>
   );
 };
