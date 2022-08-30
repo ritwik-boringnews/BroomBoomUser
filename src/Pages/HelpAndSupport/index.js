@@ -1,47 +1,16 @@
 import {
   View,
   Text,
-  TextInput,
   Image,
   TouchableOpacity,
   Linking,
 } from "react-native";
 import React from "react";
-import Icon from "react-native-vector-icons/Ionicons";
-import BackIcon from "react-native-vector-icons/AntDesign";
+import BackButtonPage from "../../Components/BackButtonPage";
+
 const HelpAndSupport = ({navigation}) => {
   return (
-    <View style={{flex: 1}}>
-      <View>
-        <View
-          style={{
-            flexDirection: "row",
-            paddingHorizontal: 25,
-            paddingTop: 20,
-            backgroundColor: "black",
-          }}>
-          <BackIcon
-            name="arrowleft"
-            color="white"
-            size={20}
-            style={{marginBottom: 10}}
-            onPress={() => navigation.goBack()}
-          />
-          <View style={{width: "100%"}}>
-            <Text
-              style={{
-                marginLeft: 5,
-                color: "white",
-                fontSize: 18,
-                marginBottom: 20,
-                textAlign: "center",
-                fontWeight: "400",
-              }}>
-              Help and Support
-            </Text>
-          </View>
-        </View>
-      </View>
+    <BackButtonPage pageName="Help and Support" navigation={navigation}>
       <View style={{marginTop: 40, paddingHorizontal: 20}}>
         <View
           style={{
@@ -125,7 +94,7 @@ const HelpAndSupport = ({navigation}) => {
           <Text style={{textAlign: 'center'}}>Payment {'\n'}& Wallets </Text>
         </View> */}
       </View>
-    </View>
+    </BackButtonPage>
   );
 };
 

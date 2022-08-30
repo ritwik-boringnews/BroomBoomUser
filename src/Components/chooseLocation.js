@@ -1,18 +1,18 @@
-import {View, Text, Image, TouchableOpacity} from "react-native";
 import React, {useContext} from "react";
+import {View, Text, Image, TouchableOpacity} from "react-native";
 import locationContext from "../../context/locationContext";
 import {useNavigation} from "@react-navigation/native";
+
 const ChooseLocation = ({onConfirmPickup}) => {
   const {loc} = useContext(locationContext);
   const navigation = useNavigation();
   return (
     <View
       style={{
-        flex: 1,
         backgroundColor: "white",
-        borderRadius: 20,
-        borderBottomEndRadius: 0,
-        borderBottomStartRadius: 0,
+        borderTopLeftRadius: 30,
+        borderTopRightRadius: 30,
+        paddingBottom: 25
       }}>
       <View
         style={{
@@ -20,7 +20,7 @@ const ChooseLocation = ({onConfirmPickup}) => {
           marginHorizontal: 30,
           paddingVertical: 10,
           borderRadius: 10,
-          marginTop: 10,
+          marginTop: 20,
           marginLeft: 20,
           flexDirection: "row",
           justifyContent: "center",

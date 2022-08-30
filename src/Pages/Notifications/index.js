@@ -1,9 +1,10 @@
-import {View, Text, Image, FlatList, StyleSheet} from "react-native";
+import {View, Text, Image, FlatList} from "react-native";
 import React, {useEffect, useState} from "react";
 import Api from "../../Services";
 import moment from "moment";
 import {useDispatch, useSelector} from "react-redux";
-import BackIcon from "react-native-vector-icons/AntDesign";
+import BackButtonPage from "../../Components/BackButtonPage";
+
 const Notifications = ({navigation}) => {
   const dispatch = useDispatch();
   const user = useSelector(state => state.auth.user);
@@ -122,62 +123,36 @@ const Notifications = ({navigation}) => {
     );
   };
   return (
-    <View style={{flex: 1}}>
-      <View
-        style={{
-          flexDirection: "row",
-          paddingHorizontal: 25,
-          paddingTop: 20,
-          backgroundColor: "black",
-        }}>
-        <BackIcon
-          name="arrowleft"
-          color="white"
-          size={20}
-          style={{marginBottom: 10}}
-          onPress={() => navigation.goBack()}
-        />
-        <View style={{width: "80%"}}>
-          <Text
-            style={{
-              marginLeft: 5,
-              color: "white",
-              fontSize: 18,
-              marginBottom: 20,
-              textAlign: "center",
-              fontWeight: "400",
-            }}>
-            Notifications
-          </Text>
-        </View>
-      </View>
-      {notifications.length ? (
-        <View style={{paddingHorizontal: 20}}>
-          <FlatList
-            data={notifications}
-            renderItem={ListItem}
-            keyExtractor={e => e.id}
-          />
-        </View>
-      ) : (
-        <View style={{alignItems: "center", justifyContent: "center"}}>
-          <Text
-            style={{
-              color: "black",
-              marginTop: 20,
-              fontWeight: "600",
-              fontSize: 15,
-            }}>
-            Thank you for registering with us we will keep you updated with the
-            latest offers
-          </Text>
-          <Image
-            source={require("../../../assets/rideHistory.png")}
-            style={{marginTop: 20}}
-          />
-        </View>
-      )}
-    </View>
+    <BackButtonPage pageName="Notification" navigation={navigation}>
+      <>
+        {notifications.length ? (
+          <View style={{paddingHorizontal: 20}}>
+            <FlatList
+              data={notifications}
+              renderItem={ListItem}
+              keyExtractor={e => e.id}
+            />
+          </View>
+        ) : (
+          <View style={{alignItems: "center", justifyContent: "center"}}>
+            <Text
+              style={{
+                color: "black",
+                marginTop: 20,
+                fontWeight: "600",
+                fontSize: 15,
+              }}>
+              Thank you for registering with us we will keep you updated with
+              the latest offers
+            </Text>
+            <Image
+              source={require("../../../assets/rideHistory.png")}
+              style={{marginTop: 20}}
+            />
+          </View>
+        )}
+      </>
+    </BackButtonPage>
   );
 };
 
