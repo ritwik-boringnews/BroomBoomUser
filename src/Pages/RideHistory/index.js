@@ -21,7 +21,10 @@ const RideHistory = ({navigation}) => {
     setIsLoading(true);
     const getRideHistory = async () => {
       try {
-        const response = await Api.get(`/ride-details/get-ride-history`);
+        const response = await Api.get(
+          `/ride-details/get-ride-history/details`,
+        );
+
         if (response.status === 1) {
           setRideHistory(response.data.updatedRideHistory);
         } else {
@@ -76,14 +79,17 @@ const RideHistory = ({navigation}) => {
       {rideHistory &&
         rideHistory.map((item, id) => {
           return (
-            <Box
-              status={item.status}
-              date={moment(item.createdAt).format("ll")}
-              placeFrom={item.sources}
-              placeTo={item.destination}
-              sourceTime={moment(item.createdAt).format("LT")}
-              destinationTime={moment(item.createdAt).format("LT")}
-            />
+            <TouchableOpacity
+              onPress={() => navigation.navigate("RideDetails", item)}>
+              <Box
+                status={item.status}
+                date={moment(item.createdAt).format("ll")}
+                placeFrom={item.sources}
+                placeTo={item.destination}
+                sourceTime={moment(item.createdAt).format("LT")}
+                destinationTime={moment(item.createdAt).format("LT")}
+              />
+            </TouchableOpacity>
           );
         })}
 
