@@ -1,3 +1,3 @@
-import HomeNavigator from './HomeNavigator';
+import NonAuthStackNavigator from "./NonAuthStackNavigator";
 
-export {HomeNavigator };
+export {NonAuthStackNavigator};

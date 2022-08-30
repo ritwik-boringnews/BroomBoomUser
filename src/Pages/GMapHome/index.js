@@ -232,7 +232,7 @@ export default ({navigation}) => {
           user_id: user.id,
         });
       });
-      Api.post("/user/save_phone_contacts", {
+      Api.post("/user/save_phone_contactss", {
         phoneContactsList: payload,
       });
     }
