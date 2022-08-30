@@ -1,4 +1,11 @@
-import {POP_REQUEST, PUSH_REQUEST, REFER_TOKEN_ADDED} from "../actionTypes";
+import {
+  POP_REQUEST,
+  PUSH_REQUEST,
+  REFER_TOKEN_ADDED,
+  SET_MAP_LOCATION_DESTINATION,
+  SET_MAP_LOCATION_ORIGIN,
+  SET_MODULE_ACTIVE,
+} from "../actionTypes";
 import {store} from "../store";
 
 export const pushRequest = request => {
@@ -23,5 +30,26 @@ export const popRequest = () => {
 export const addReferToken = () => {
   return {
     type: REFER_TOKEN_ADDED,
+  };
+};
+
+export const setMapLocationsOrigin = locations => {
+  return {
+    type: SET_MAP_LOCATION_ORIGIN,
+    locations,
+  };
+};
+
+export const setMapLocationsDestination = locations => {
+  return {
+    type: SET_MAP_LOCATION_DESTINATION,
+    locations,
+  };
+};
+
+export const setModuleActive = moduleActive => {
+  return {
+    type: SET_MODULE_ACTIVE,
+    moduleActive,
   };
 };
