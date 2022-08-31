@@ -42,23 +42,23 @@ const Indicator = ({ scrollX }) => {
 const data = [
   {
     id: '1',
-    title: "Bengal's Own Cab",
-    body: "Short description",
+    title: "Bengal's Own Cab Service",
+    // body: "Short description",
     // image: require('../../../assets/Card.png'),
-    image: "https://broomboomimages.s3.ap-south-1.amazonaws.com/Order+Done+1.png",
+    image: "https://broomboomimages.s3.ap-south-1.amazonaws.com/Group.png",
   },
   {
     id: '2',
-    title: "Bengal's Own Bike Taxi",
-    body: "Short description",
+    title: "Bengal's Own Bike Taxi Service",
+    // body: "Short description",
     image: "https://broomboomimages.s3.ap-south-1.amazonaws.com/Order+Done+1.png",
     // image: require('../../../assets/Card.png'),
   },
   {
     id: '3',
-    title: "Be a BroomBoom Pilot",
-    body: "Short description",
-    image: "https://broomboomimages.s3.ap-south-1.amazonaws.com/Order+Done+1.png",
+    title: "Be a BroomBoom User",
+    // body: "Short description",
+    image: "https://broomboomimages.s3.ap-south-1.amazonaws.com/Contact+Befor+Order+Received+1.png",
     // image: require('../../../assets/Card.png'),
   },
 ];
@@ -114,13 +114,9 @@ const Welcome = () => {
           <Image source={Images.Slider} style={{ height: 10, width: 87, resizeMode: 'contain', marginVertical: 28 }} />
         </View> */}
 
-      <View style={{width: '100%', position: 'absolute', bottom: 0}}>
-        <TouchableOpacity style={{ width: '100%', borderWidth: 1, padding: 12, alignItems: 'center', borderRadius: 50 }}>
-          <Text style={{ fontWeight: '500', fontSize: 16, color: '#000' }}>Next</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={{ width: '100%', borderWidth: 1, padding: 12, backgroundColor: 'rgba(245, 192, 1, 0.2)', marginVertical: 15, alignItems: 'center', borderRadius: 50 }}>
-          <Text style={{ fontWeight: '500', fontSize: 16, color: '#333' }}>Skip</Text>
+      <View style={{width: '100%', position: 'absolute', bottom: 20}}>
+        <TouchableOpacity style={{ width: '100%', padding: 15, alignItems: 'center', borderRadius: 50, backgroundColor: '#F5C001' }}>
+          <Text style={{ fontWeight: '600', fontSize: 16, color: '#000' }}>Get Started</Text>
         </TouchableOpacity>
       </View>
     </View>
