@@ -15,10 +15,15 @@ const RideDetails = ({navigation, route}) => {
   return (
     <ScrollView>
       <View>
-        <View style={{padding: 20}}>
+        <View style={{padding: 18}}>
           <Image
             source={require("../../../assets/map.png")}
-            style={{width: "100%", borderRadius: 10}}
+            style={{
+              height: 160,
+              width: "100%",
+              resizeMode: "contain",
+              borderRadius: 10,
+            }}
           />
         </View>
         <View
@@ -26,13 +31,23 @@ const RideDetails = ({navigation, route}) => {
             flexDirection: "row",
             justifyContent: "space-around",
           }}>
-          <Text style={{color: "black"}}>
+          <Text style={{color: "black", marginRight: 50, fontWeight: "700"}}>
             {moment(rideDetails.createdAt).format("ll")}
           </Text>
-          <Text style={{color: "green", fontWeight: "bold", paddingLeft: 50}}>
+          <Text style={{color: "#00AD00", fontWeight: "bold", paddingLeft: 50}}>
             {rideDetails.status}
           </Text>
         </View>
+        <View
+          style={{
+            borderBottomWidth: 0.5,
+            width: "83%",
+
+            padding: 5,
+
+            marginStart: 30,
+          }}
+        />
         <View style={{flexDirection: "row", marginTop: 30, marginLeft: 30}}>
           <View style={{paddingRight: 5}}>
             <Text>{rideDetails?.ride_start_time}</Text>
@@ -59,13 +74,13 @@ const RideDetails = ({navigation, route}) => {
           onPress={() => navigation.navigate("PilotDetails", rideDetails)}>
           <View
             style={{
-              backgroundColor: "white",
+              backgroundColor: "#FFFBFE",
               margin: 20,
-              borderRadius: 10,
+              borderRadius: 8,
               flexDirection: "row",
               justifyContent: "space-evenly",
-              paddingTop: 20,
-              paddingBottom: 20,
+              paddingTop: 25,
+              paddingBottom: 25,
             }}>
             <View>
               <Image
@@ -82,7 +97,7 @@ const RideDetails = ({navigation, route}) => {
                   justifyContent: "center",
                   marginTop: 5,
                 }}>
-                <Icon name="star" size={15} color="yellow" />
+                <Icon name="star" size={15} color="#F4B400" />
                 <Text style={{paddingLeft: 4, color: "black"}}>4.5</Text>
               </View>
             </View>
@@ -90,8 +105,7 @@ const RideDetails = ({navigation, route}) => {
               <Text style={{color: "black"}}>
                 {rideDetails.pilotDetails?.vehicle_description}
               </Text>
-              <Text style={{marginTop: 3, color: "blue"}}>
-                {" "}
+              <Text style={{marginTop: 3, color: "#347EEA"}}>
                 {rideDetails?.pilotDetails?.vehicle_type}
               </Text>
             </View>
@@ -117,7 +131,9 @@ const RideDetails = ({navigation, route}) => {
           }}>
           <Image source={require("../../../assets/a.png")} />
           <Image source={require("../../../assets/amazon.png")} />
-          <Text>₹{rideDetails?.payment_amount}</Text>
+          <Text style={{color: "black", fontWeight: "bold"}}>
+            ₹{rideDetails?.payment_amount}
+          </Text>
         </View>
         <TouchableOpacity
           style={{
@@ -128,6 +144,7 @@ const RideDetails = ({navigation, route}) => {
             alignItems: "center",
             marginStart: 20,
             marginBottom: 20,
+            backgroundColor: "#F4B400",
           }}>
           <Text style={{color: "black", fontWeight: "bold"}}>Feedback</Text>
         </TouchableOpacity>

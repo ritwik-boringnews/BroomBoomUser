@@ -1,6 +1,7 @@
 import {View, Text, Image} from "react-native";
 import React, {useEffect, useState} from "react";
 import moment from "moment";
+import BackIcon from "react-native-vector-icons/AntDesign";
 const PilotDetails = ({navigation, route}) => {
   const [pilotDetails, setPilotDetails] = useState([]);
   useEffect(() => {
@@ -12,18 +13,49 @@ const PilotDetails = ({navigation, route}) => {
       <View
         style={{
           flexDirection: "row",
-          justifyContent: "center",
+          paddingHorizontal: 25,
+          paddingTop: 20,
+          backgroundColor: "black",
+        }}>
+        <BackIcon
+          name="arrowleft"
+          color="white"
+          size={20}
+          style={{marginBottom: 10}}
+          onPress={() => navigation.goBack()}
+        />
+        <View style={{width: "80%"}}>
+          <Text
+            style={{
+              marginLeft: 5,
+              color: "white",
+              fontSize: 18,
+              marginBottom: 20,
+              textAlign: "center",
+              fontWeight: "400",
+            }}>
+            Pilot Details
+          </Text>
+        </View>
+      </View>
+      <View
+        style={{
+          flexDirection: "row",
+          // justifyContent: "space-evenly",
+          // paddingLeft: 50,
           marginTop: 30,
+
+          paddingHorizontal: 60,
         }}>
         <Image
           source={require("../../../assets/UserImage.png")}
           style={{height: 50, width: 50}}
         />
-        <View style={{paddingHorizontal: 20}}>
+        <View style={{paddingHorizontal: 15}}>
           <Text style={{color: "black", fontSize: 17}}>
             {pilotDetails?.pilot?.name}
           </Text>
-          <Text style={{color: "blue"}}>
+          <Text style={{color: "#347EEA"}}>
             {pilotDetails?.pilotDetails?.vehicle_description}
           </Text>
         </View>
@@ -31,23 +63,25 @@ const PilotDetails = ({navigation, route}) => {
       <View
         style={{
           flexDirection: "row",
-          marginTop: 50,
+          marginTop: 20,
           justifyContent: "space-evenly",
-          paddingHorizontal: 60,
+          paddingHorizontal: 50,
+          // marginVertical: 20,
         }}>
         <View
           style={{
+            height: "80%",
             backgroundColor: "white",
             alignItems: "center",
-            paddingHorizontal: 30,
+            paddingHorizontal: 25,
             paddingVertical: 5,
             borderRadius: 5,
           }}>
           <Image
             source={require("../../../assets/star.png")}
             style={{
-              height: 30,
-              width: 30,
+              height: 20,
+              width: 20,
               marginBottom: 5,
             }}
           />
@@ -55,18 +89,18 @@ const PilotDetails = ({navigation, route}) => {
         </View>
         <View
           style={{
+            height: "80%",
             backgroundColor: "white",
-            justifyContent: "center",
             alignItems: "center",
-            paddingHorizontal: 20,
+            paddingHorizontal: 25,
             paddingVertical: 5,
             borderRadius: 5,
           }}>
           <Image
             source={require("../../../assets/aeroplane.png")}
             style={{
-              height: 30,
-              width: 30,
+              height: 20,
+              width: 20,
               marginBottom: 5,
             }}
           />
@@ -76,22 +110,23 @@ const PilotDetails = ({navigation, route}) => {
         </View>
         <View
           style={{
+            height: "80%",
             backgroundColor: "white",
-            justifyContent: "center",
             alignItems: "center",
-            paddingHorizontal: 20,
+            paddingHorizontal: 15,
             paddingVertical: 5,
             borderRadius: 5,
           }}>
           <Image
             source={require("../../../assets/Subtract.png")}
             style={{
-              height: 30,
-              width: 30,
+              height: 20,
+              width: 20,
+
               marginBottom: 5,
             }}
           />
-          <Text style={{fontSize: 16, color: "#333", fontWeight: "500"}}>
+          <Text style={{color: "#333", marginBottom: 10}}>
             {moment().from(pilotDetails?.pilot?.createdAt)}
           </Text>
         </View>
