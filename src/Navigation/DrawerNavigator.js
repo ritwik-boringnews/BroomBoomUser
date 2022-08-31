@@ -69,9 +69,14 @@ const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
 const DrawerNavigator = ({navigation}) => {
   const user = useSelector(state => state.auth.user);
+  const getInitialRouteName = () => {
+    if (!user.referral_status) return "AddReferral";
+    else if (user.email) return "SourceMap";
+    else return "Profile";
+  };
   return (
     <Drawer.Navigator
-      initialRouteName={user.email ? "SourceMap" : "Profile"}
+      initialRouteName={getInitialRouteName()}
       drawerContent={props => <CustomDrawer {...props} />}
       screenOptions={{
         drawerActiveBackgroundColor: "#F5C001",
@@ -93,6 +98,7 @@ const DrawerNavigator = ({navigation}) => {
           ),
         }}
       /> */}
+      <Drawer.Screen name="AddReferral" component={AddReferral} />
       <Drawer.Screen
         name="Booking"
         component={HomePageMain}

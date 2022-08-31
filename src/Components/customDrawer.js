@@ -83,16 +83,6 @@ const CustomDrawer = props => {
           <TouchableOpacity
             onPress={() => {
               dispatch(logout());
-              navigation.dispatch(
-                CommonActions.reset({
-                  index: 0,
-                  routes: [
-                    {
-                      name: "Signup",
-                    },
-                  ],
-                }),
-              );
             }}>
             <Text style={{color: "white", paddingLeft: 10}}>Logout</Text>
           </TouchableOpacity>

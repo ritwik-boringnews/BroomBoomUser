@@ -12,7 +12,6 @@ import MyLocation from "react-native-vector-icons/MaterialIcons";
 import Geolocation from "@react-native-community/geolocation";
 import HambergerHome from "../../Components/HambergerHome";
 import PickupLocation from "../../Components/pickupLocation";
-import PickUpLocation from "../PickupLocation";
 import ChooseLocation from "../../Components/chooseLocation";
 import ChooseVehicleScooty from "../ChooseVehicleScooty";
 import PerfectPilot from "../../Components/perfectPilot";
@@ -20,7 +19,7 @@ import RatePilot from "../../Components/ratePilot";
 import FindingPilot from "../../Components/findingPilot";
 import ServiceNotAvailable from "../../Components/serviceNotAvailable";
 import {useDispatch, useSelector} from "react-redux";
-import {notify} from "../../../Redux/Actions";
+import {notify, setModuleActive} from "../../../Redux/Actions";
 import Contacts from "react-native-contacts";
 import Api from "../../Services";
 import RNAndroidLocationEnabler from "react-native-android-location-enabler";
@@ -67,13 +66,19 @@ export default ({navigation}) => {
       case "PICKUP_LOCATION":
         return (
           <PickupLocation
-            onConfirmPickup={() => setType("CHOOSE_DESTINATION")}
+            onConfirmPickup={() => {
+              setType("CHOOSE_DESTINATION");
+              dispatch(setModuleActive("PICKUP_LOCATION"));
+            }}
           />
         );
       case "CHOOSE_DESTINATION":
         return (
           <ChooseLocation
-            onConfirmPickup={() => setType("SERVICE_NOT_AVAILABLE")}
+            onConfirmPickup={() => {
+              setType("SERVICE_NOT_AVAILABLE");
+              dispatch(setModuleActive("CHOOSE_DESTINATION"));
+            }}
           />
         );
       case "CHOOSE_VEHICLE_TYPE":
@@ -279,7 +284,7 @@ export default ({navigation}) => {
       <HambergerHome navigation={navigation} />
       <View style={styles.container}>
         <MapView
-          mapType={Platform.OS == "android" ? "none" : "standard"}
+          // mapType={Platform.OS == "android" ? "none" : "standard"}
           style={styles.map}
           initialRegion={location}
           provider={PROVIDER_GOOGLE}

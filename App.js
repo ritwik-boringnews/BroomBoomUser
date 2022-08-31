@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {NavigationContainer} from "@react-navigation/native";
-import {HomeNavigator} from "./src/Navigation";
+import {NonAuthStackNavigator} from "./src/Navigation";
 import {enableLatestRenderer} from "react-native-maps";
 import locationContext from "./context/locationContext";
 import {Provider} from "react-redux";
@@ -28,7 +28,7 @@ const App = () => {
         <locationContext.Provider value={{loc, setLoc}}>
           <NavigationContainer>
             <SnackBar />
-            <HomeNavigator />
+            <NonAuthStackNavigator />
           </NavigationContainer>
         </locationContext.Provider>
       </PersistGate>

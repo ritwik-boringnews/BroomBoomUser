@@ -10,6 +10,11 @@ import React, {useContext, useState} from "react";
 import Icon from "react-native-vector-icons/Ionicons";
 import {GooglePlacesAutocomplete} from "react-native-google-places-autocomplete";
 import locationContext from "../../../context/locationContext";
+import {useDispatch, useSelector} from "react-redux";
+import {
+  setMapLocationsDestination,
+  setMapLocationsOrigin,
+} from "../../../Redux/Actions/configActions";
 
 const PickUpLocation = ({navigation}) => {
   const styles = StyleSheet.create({
@@ -20,7 +25,8 @@ const PickUpLocation = ({navigation}) => {
       color: "black",
     },
   });
-  const {setLoc} = useContext(locationContext);
+  const dispatch = useDispatch();
+  const config = useSelector(state => state.config);
   const [searchText, setSearchText] = useState(null);
   return (
     <View style={styles.container}>
@@ -58,7 +64,10 @@ const PickUpLocation = ({navigation}) => {
           language: "en",
         }}
         onPress={(data, details = null) => {
-          setLoc(data.description);
+          config.active === "PICKUP_LOCATION"
+            ? dispatch(setMapLocationsOrigin(data.description))
+            : dispatch(setMapLocationsDestination(data.description));
+          // setLoc(data.description);
           navigation.goBack();
         }}
         onFail={error => console.error(error)}
