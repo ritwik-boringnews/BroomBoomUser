@@ -1,4 +1,6 @@
 import axios from "axios";
+import {popRequest, pushRequest} from "../../Redux/Actions/";
+import {store} from "../../Redux/store";
 export default class API {
   constructor(options) {
     this.axiosInstance = axios.create({
@@ -6,24 +8,24 @@ export default class API {
     });
     this.axiosInstance.interceptors.request.use(
       function (config) {
-        
+        store.dispatch(pushRequest(config));
         return config;
       },
       function (error) {
         return Promise.reject(error);
-      }
+      },
     );
 
     this.axiosInstance.interceptors.response.use(
       function (response) {
-        
+        store.dispatch(popRequest());
         return response;
       },
       function (error) {
         // Any status codes that falls outside the range of 2xx cause this function to trigger
         // Do something with response error
         return Promise.reject(error);
-      }
+      },
     );
   }
 
@@ -44,8 +46,9 @@ export default class API {
   }
 
   async httpRequest(method, url, params, header = null) {
-   
-    let clientToken = "localgettoken";
+    let state = store.getState();
+    let clientToken = state.auth.clientToken;
+
     return new Promise((resolve, reject) => {
       let options;
       if (method === "GET") {
@@ -74,13 +77,13 @@ export default class API {
       }
       this.axiosInstance
         .request(options)
-        .then((response) => {
+        .then(response => {
           resolve({
             status: response.status,
             ...response.data,
           });
         })
-        .catch((error) => {
+        .catch(error => {
           reject(error);
         });
     });

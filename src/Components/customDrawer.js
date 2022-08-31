@@ -1,33 +1,51 @@
-import {View, Text, Image, TouchableOpacity} from 'react-native';
-import React from 'react';
+import {View, Text, Image, TouchableOpacity} from "react-native";
+import React from "react";
 import {
   DrawerContentScrollView,
   DrawerItemList,
-} from '@react-navigation/drawer';
-import Icon from 'react-native-vector-icons/AntDesign';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+} from "@react-navigation/drawer";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import {useDispatch, useSelector} from "react-redux";
+import {logout} from "../../Redux/Actions";
+import {CommonActions, useNavigation} from "@react-navigation/native";
 const CustomDrawer = props => {
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
+  const auth = useSelector(state => state.auth);
   return (
     <View style={{flex: 1}}>
       <DrawerContentScrollView
         {...props}
-        contentContainerStyle={{backgroundColor: 'white'}}>
+        contentContainerStyle={{backgroundColor: "white"}}>
         <View
           style={{
-            flexDirection: 'row',
+            flexDirection: "row",
             padding: 30,
-            backgroundColor: 'black',
+            backgroundColor: "black",
+            alignItems: "center",
           }}>
           <Image
-            source={require('../../assets/userIcon.png')}
-            style={{height: 30, width: 30, resizeMode: 'contain'}}
+            source={
+              auth.user.image
+                ? {uri: auth.user.image}
+                : require("../../assets/userIcon.png")
+            }
+            style={{height: 30, width: 30, resizeMode: "contain"}}
           />
           <View style={{marginLeft: 10}}>
-            <Text style={{fontSize: 16, color: 'white'}}>User name</Text>
-            <Text style={{fontSize: 10, color: 'white'}}>+91 6678765475</Text>
+            {auth.user?.name && (
+              <Text style={{fontSize: 16, color: "white"}}>
+                {auth.user.name}
+              </Text>
+            )}
+            {auth.user?.mobile && (
+              <Text style={{fontSize: 16, color: "white"}}>
+                +91 {auth.user.mobile}
+              </Text>
+            )}
           </View>
         </View>
-        <View
+        {/* <View
           style={{
             flexDirection: 'row',
             justifyContent: 'space-around',
@@ -49,21 +67,34 @@ const CustomDrawer = props => {
             resizeMode: 'contain',
             marginLeft: 30,
           }}
-        />
+        /> */}
         <View style={{padding: 20}}>
           <DrawerItemList {...props} />
         </View>
         <View
           style={{
-            backgroundColor: 'black',
+            backgroundColor: "black",
             padding: 10,
             marginHorizontal: 50,
-            flexDirection: 'row',
-            justifyContent: 'center',
+            flexDirection: "row",
+            justifyContent: "center",
           }}>
           <MaterialCommunityIcons name="logout" size={15} color="white" />
-          <TouchableOpacity>
-            <Text style={{color: 'white', paddingLeft: 10}}>Logout</Text>
+          <TouchableOpacity
+            onPress={() => {
+              dispatch(logout());
+              navigation.dispatch(
+                CommonActions.reset({
+                  index: 0,
+                  routes: [
+                    {
+                      name: "Signup",
+                    },
+                  ],
+                }),
+              );
+            }}>
+            <Text style={{color: "white", paddingLeft: 10}}>Logout</Text>
           </TouchableOpacity>
         </View>
       </DrawerContentScrollView>

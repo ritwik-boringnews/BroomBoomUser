@@ -1,110 +1,158 @@
-import {View, Text, Image, FlatList, StyleSheet} from 'react-native';
-import React from 'react';
+import {View, Text, Image, FlatList} from "react-native";
+import React, {useEffect, useState} from "react";
+import Api from "../../Services";
+import moment from "moment";
+import {useDispatch, useSelector} from "react-redux";
+import BackButtonPage from "../../Components/BackButtonPage";
 
-const Notifications = () => {
-  const DATA = [
-    {
-      id:1,
-      image: require('../../../assets/notification.png'),
-      title: 'You have earned ₹50 Reward',
-      subtitle:
-        'Long Description Nemo enim ipsam{"\n"} voxoxhhs hahshcg vohmsk',
-      icon: require('../../../assets/icon.png'),
-      date: '27 May at 12:23 pm',
-    },
-    {
-      id:2,
-      image: require('../../../assets/notification.png'),
-      title: 'You have earned ₹50 Reward',
-      subtitle:
-        'Long Description Nemo enim ipsam{"\n"} voxoxhhs hahshcg vohmsk',
-      icon: require('../../../assets/icon.png'),
-      date: '27 May at 12:23 pm',
-    },
-    {
-      id:3,
-      image: require('../../../assets/notification.png'),
-      title: 'You have earned ₹50 Reward',
-      subtitle:
-        'Long Description Nemo enim ipsam{"\n"} voxoxhhs hahshcg vohmsk',
-      icon: require('../../../assets/icon.png'),
-      date: '27 May at 12:23 pm',
-    },
-  ];
+const Notifications = ({navigation}) => {
+  const dispatch = useDispatch();
+  const user = useSelector(state => state.auth.user);
+  const [isLoading, setIsLoading] = useState(false);
+  const [notifications, setNotifications] = useState([]);
+  useEffect(() => {
+    setIsLoading(true);
+    const getNotification = async () => {
+      try {
+        const response = await Api.get(`/notification/get-notification`);
+
+        const store = [];
+        if (response.status === 1) {
+          response.data.notification.forEach(item => {
+            store.push({
+              id: item.id,
+              image: require("../../../assets/notification.png"),
+              title: item.notification,
+              subtitle: item.message,
+              // icon: require("../../../assets/icon.png"),
+              date: moment(item.createdAt).format("llll"),
+            });
+          });
+          setNotifications([
+            ...store,
+            {
+              id: 1,
+              title: "Registration Successful",
+              subtitle:
+                "Thank you for registering with us we will keep you updated with the latest offers",
+              image: require("../../../assets/notification.png"),
+              // icon: require("../../../assets/icon.png"),
+              date: moment(user.createdAt).format("llll"),
+            },
+          ]);
+        } else {
+          throw new Error(response.message);
+        }
+      } catch (error) {
+        dispatch(
+          notify({
+            message: error.message || "Something went wrong",
+            notifyType: "error",
+          }),
+        );
+      }
+    };
+    getNotification();
+
+    setIsLoading(false);
+  }, []);
+
   const ListItem = ({item}) => {
     return (
       <View
+        key={item.id}
         style={{
-          backgroundColor: '#FFFBC8',
+          backgroundColor: "#FFFBC8",
           marginTop: 10,
           borderRadius: 15,
+          width: "100%",
 
-          marginHorizontal: 30,
           paddingVertical: 10,
         }}>
         <View
           style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
+            flexDirection: "row",
+            // justifyContent: "center",
           }}>
-          <View
+          {/* <View
             style={{
-              flexDirection: 'row',
-              justifyContent: 'center',
+              justifyContent: "center",
+              width: "10%",
+              marginHorizontal: 10,
             }}>
             <Image
               source={item.image}
               style={{
-                marginTop: 10,
-                marginLeft: 20,
-
                 width: 20,
                 height: 20,
-                resizeMode: 'contain',
+                resizeMode: "contain",
               }}
             />
-            <View style={{paddingLeft: 30}}>
-              <Text style={{fontWeight: 'bold', color: 'black'}}>
-                {item.title}
-              </Text>
-              <Text
-                style={{
-                  fontSize: 10,
-                  color: 'black',
-                }}>
-                {item.subtitle}
-              </Text>
-            </View>
-          </View>
-          <View>
-            <Image
-              source={item.icon}
+          </View> */}
+          <View style={{width: "100%", paddingHorizontal: 20}}>
+            <Text style={{fontWeight: "bold", color: "black"}}>
+              {item.title}
+            </Text>
+
+            <Text
               style={{
-                marginTop: 10,
-                marginHorizontal: 12,
-              }}
-            />
+                fontSize: 12,
+                color: "black",
+                marginTop: 5,
+                width: "80%",
+              }}>
+              {item.subtitle}
+            </Text>
           </View>
         </View>
+
         <View
           style={{
             marginHorizontal: 14,
             height: 1,
-            width: '90%',
-            backgroundColor: 'grey',
+            width: "90%",
+            backgroundColor: "grey",
             marginTop: 10,
           }}
         />
-        <View style={{display: 'flex', alignItems: 'flex-end'}}>
+        <View
+          style={{display: "flex", alignItems: "flex-end", marginRight: 15}}>
           <Text style={{fontSize: 10, marginTop: 10}}>{item.date}</Text>
         </View>
       </View>
     );
   };
   return (
-    <View>
-      <FlatList data={DATA} renderItem={ListItem} keyExtractor={e => e.id} />
-    </View>
+    <BackButtonPage pageName="Notification" navigation={navigation}>
+      <>
+        {notifications.length ? (
+          <View style={{paddingHorizontal: 20}}>
+            <FlatList
+              data={notifications}
+              renderItem={ListItem}
+              keyExtractor={e => e.id}
+            />
+          </View>
+        ) : (
+          <View style={{alignItems: "center", justifyContent: "center"}}>
+            <Text
+              style={{
+                color: "black",
+                marginTop: 20,
+                fontWeight: "600",
+                fontSize: 15,
+              }}>
+              Thank you for registering with us we will keep you updated with
+              the latest offers
+            </Text>
+            <Image
+              source={require("../../../assets/rideHistory.png")}
+              style={{marginTop: 20}}
+            />
+          </View>
+        )}
+      </>
+    </BackButtonPage>
   );
 };
 

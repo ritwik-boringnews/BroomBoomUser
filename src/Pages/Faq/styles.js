@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import {StyleSheet} from "react-native";
 
 export default styles = StyleSheet.create({
   container: {
@@ -7,7 +7,7 @@ export default styles = StyleSheet.create({
     // display: "flex",
     // justifyContent: "center",
     backgroundColor: "#f5f5f5",
-    paddingHorizontal: 20,
+    // paddingHorizontal: 30,
   },
   accordionContainer: {
     justifyContent: "center",

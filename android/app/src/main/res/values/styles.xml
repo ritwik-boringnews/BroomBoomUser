@@ -5,5 +5,9 @@
         <!-- Customize your theme here. -->
         <item name="android:editTextBackground">@drawable/rn_edit_text_material</item>
     </style>
-
+    <color name="ic_launcher_background">#ffffff</color>
+    <color name="primary_dark">#F5C001</color>
+    <style name="SplashScreenTheme" parent="SplashScreen_SplashTheme">
+        <item name="colorPrimaryDark">@color/status_bar_color</item>
+    </style>
 </resources>
