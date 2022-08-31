@@ -31,7 +31,7 @@ const Otp = ({navigation, route}) => {
             user: response.data.user,
           }),
         );
-        navigation.navigate("DrawerNavigator", {otp: otp});
+        // navigation.navigate("DrawerNavigator", {otp: otp});
       } else {
         throw new Error(response.message);
       }

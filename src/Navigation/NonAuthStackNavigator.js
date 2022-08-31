@@ -28,6 +28,7 @@ import ServiceNotAvailable from "../Components/serviceNotAvailable.js";
 // import AddReferral from "../Pages/AddReferral";
 import {useSelector} from "react-redux";
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
+import AddReferral from "../Pages/AddReferral";
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
@@ -41,7 +42,18 @@ function App() {
           index: 0,
           routes: [
             {
-              name: "DrawerNavigator",
+              name: "HomeScreens",
+            },
+          ],
+        }),
+      );
+    else
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 0,
+          routes: [
+            {
+              name: "LoginScreens",
             },
           ],
         }),
@@ -88,11 +100,10 @@ function App() {
   // );
   const LoginStackScreen = () => {
     return (
-      <Stack.Navigator>
+      <Stack.Navigator screenOptions={{headerShown: false}}>
         <Stack.Screen name="Signup" component={SignUp} />
         <Stack.Screen name="Otp" component={Otp} />
         {/* <Stack.Screen name="Welcome" component={Welcome} /> */}
-        <Stack.Screen name="AddReferral" component={AddRe} />
       </Stack.Navigator>
     );
   };
