@@ -1,39 +1,30 @@
 import * as React from "react";
-// import {Button, View} from "react-native";
+//// import {Button, View} from "react-native";
 import {createDrawerNavigator} from "@react-navigation/drawer";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
-// import Payments from "../Pages/Payments";
-import RideHistory from "../Pages/RideHistory";
-import ReferAndEarn from "../Pages/ReferAndEarn";
-
-import HelpAndSupport from "../Pages/HelpAndSupport";
-import Notifications from "../Pages/Notifications";
-import CustomDrawer from "../Components/customDrawer";
+import {useSelector} from "react-redux";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import History from "react-native-vector-icons/MaterialIcons";
+import ProfileIcon from "react-native-vector-icons/AntDesign";
 import AntDesign from "react-native-vector-icons/AntDesign";
-
 import Support from "react-native-vector-icons/FontAwesome";
+//// screens
 import GMapHome from "../Pages/GMapHome/index.js";
 import SearchPickup from "../Pages/SearchPickup";
 import Profile from "../Pages/Profile";
-import ProfileIcon from "react-native-vector-icons/AntDesign";
 import Faq from "../Pages/Faq";
 import TermsAndConditions from "../Pages/TermsAndConditions";
 import AddReferral from "../Pages/AddReferral";
 import LocationPicker from "../Pages/LocationPicker";
-import {useSelector} from "react-redux";
-// function HomeDrawerScreen({navigation}) {
-//   return (
-//     <View style={{flex: 1, alignItems: "center", justifyContent: "center"}}>
-//       <Button
-//         onPress={() => navigation.navigate("Notifications")}
-//         title="Go to notifications"
-//       />
-//     </View>
-//   );
-// }
+import RideHistory from "../Pages/RideHistory";
+import ReferAndEarn from "../Pages/ReferAndEarn";
+import HelpAndSupport from "../Pages/HelpAndSupport";
+import Notifications from "../Pages/Notifications";
+import CustomDrawer from "../Components/customDrawer";
+//// screens
+const Drawer = createDrawerNavigator();
+const Stack = createNativeStackNavigator();
 
 const HomePageMain = () => {
   return (
@@ -55,17 +46,13 @@ const SupportStack = () => {
       <Stack.Screen name="HelpAndSupport" component={HelpAndSupport} />
       <Stack.Screen name="Faq" component={Faq} />
       <Stack.Screen name="termsAndConditions" component={TermsAndConditions} />
-      {/* <Stack.Screen name="Payments" component={Payments} /> */}
     </Stack.Navigator>
   );
 };
 
-const Drawer = createDrawerNavigator();
-const Stack = createNativeStackNavigator();
-const DrawerNavigator = ({navigation}) => {
+const DrawerNavigator = () => {
   const user = useSelector(state => state.auth.user);
   const getInitialRouteName = () => {
-    console.log('user.referral_status',user.referral_status);
     if (!user.referral_status) return "Add Referral";
     else if (user.email) return "SourceMap";
     else return "Profile";
@@ -85,15 +72,6 @@ const DrawerNavigator = ({navigation}) => {
           fontSize: 15,
         },
       }}>
-      {/* <Drawer.Screen
-        name="EnterDestination"
-        component={EnterDestination}
-        options={{
-          drawerIcon: ({color}) => (
-            <MaterialIcons name="payment" size={22} color={color} />
-          ),
-        }}
-      /> */}
       <Drawer.Screen
         name="Booking"
         component={HomePageMain}
@@ -112,25 +90,6 @@ const DrawerNavigator = ({navigation}) => {
           ),
         }}
       />
-      {/* <Drawer.Screen
-        name="SearchPickup"
-        component={SearchPickup}
-        options={{
-          drawerIcon: ({color}) => (
-            <MaterialIcons name="payment" size={22} color={color} />
-          ),
-        }}
-      />
-      <Drawer.Screen
-        name="DestinationLocation"
-        component={DestinationLocation}
-        options={{
-          drawerIcon: ({color}) => (
-            <MaterialIcons name="payment" size={22} color={color} />
-          ),
-        }}
-      /> */}
-
       <Drawer.Screen
         name="Notification"
         component={Notifications}
@@ -140,16 +99,6 @@ const DrawerNavigator = ({navigation}) => {
           ),
         }}
       />
-      {/* <Drawer.Screen
-        name="Payment"
-        component={Payments}
-        options={{
-          drawerIcon: ({color}) => (
-            <MaterialIcons name="payment" size={22} color={color} />
-          ),
-        }}
-      /> */}
-
       <Drawer.Screen
         name="Ride History"
         component={RideHistory}
@@ -168,7 +117,6 @@ const DrawerNavigator = ({navigation}) => {
           ),
         }}
       />
-
       <Drawer.Screen
         name="Support"
         component={SupportStack}
@@ -182,6 +130,7 @@ const DrawerNavigator = ({navigation}) => {
         name="Add Referral"
         component={AddReferral}
         options={{
+          drawerItemStyle: {height: 0},
           drawerIcon: ({color}) => (
             <ProfileIcon name="user" size={22} color={color} />
           ),
