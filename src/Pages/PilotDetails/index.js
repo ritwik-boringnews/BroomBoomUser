@@ -38,154 +38,157 @@ const PilotDetails = ({navigation, route}) => {
           </Text>
         </View>
       </View>
-      <View
-        style={{
-          flexDirection: "row",
-          // justifyContent: "space-evenly",
-          // paddingLeft: 50,
-          marginTop: 30,
-
-          paddingHorizontal: 60,
-        }}>
-        <Image
-          source={require("../../../assets/UserImage.png")}
-          style={{height: 50, width: 50}}
-        />
-        <View style={{paddingHorizontal: 15}}>
-          <Text style={{color: "black", fontSize: 17}}>
-            {pilotDetails?.pilot?.name}
-          </Text>
-          <Text style={{color: "#347EEA"}}>
-            {pilotDetails?.pilotDetails?.vehicle_description}
-          </Text>
-        </View>
-      </View>
-      <View
-        style={{
-          flexDirection: "row",
-          marginTop: 20,
-          justifyContent: "space-evenly",
-          paddingHorizontal: 50,
-          // marginVertical: 20,
-        }}>
+      <View style={{paddingHorizontal: 20, alignItems: "center"}}>
         <View
           style={{
-            height: "80%",
-            backgroundColor: "white",
-            alignItems: "center",
-            paddingHorizontal: 25,
-            paddingVertical: 5,
-            borderRadius: 5,
+            flexDirection: "row",
+            marginTop: 30,
+            marginRight: "auto",
+            paddingHorizontal: 20,
           }}>
           <Image
-            source={require("../../../assets/star.png")}
-            style={{
-              height: 20,
-              width: 20,
-              marginBottom: 5,
-            }}
+            source={require("../../../assets/UserImage.png")}
+            style={{height: 50, width: 50}}
           />
-          <Text style={{color: "#333", fontWeight: "700"}}>4.5</Text>
+          <View style={{paddingHorizontal: 15}}>
+            <Text style={{color: "black", fontSize: 17}}>
+              {pilotDetails?.pilot?.name}
+            </Text>
+            <Text style={{color: "#347EEA"}}>
+              {pilotDetails?.pilotDetails?.vehicle_description}
+            </Text>
+          </View>
         </View>
         <View
           style={{
-            height: "80%",
-            backgroundColor: "white",
-            alignItems: "center",
-            paddingHorizontal: 25,
-            paddingVertical: 5,
-            borderRadius: 5,
+            flexDirection: "row",
+            marginTop: 20,
+            justifyContent: "space-between",
+            paddingHorizontal: 20,
+            width: "100%",
           }}>
-          <Image
-            source={require("../../../assets/aeroplane.png")}
+          <View
             style={{
-              height: 20,
-              width: 20,
-              marginBottom: 5,
-            }}
-          />
-          <Text style={{color: "#333", fontWeight: "500"}}>
-            {pilotDetails?.totalRides?.count}
-          </Text>
+              height: "100%",
+              backgroundColor: "white",
+              alignItems: "center",
+              paddingHorizontal: 30,
+              paddingVertical: 10,
+              borderRadius: 5,
+            }}>
+            <Image
+              source={require("../../../assets/star.png")}
+              style={{
+                height: 20,
+                width: 20,
+                marginBottom: 5,
+              }}
+            />
+            <Text style={{color: "#333", fontWeight: "700"}}>4.5</Text>
+          </View>
+          <View
+            style={{
+              height: "100%",
+              backgroundColor: "white",
+              alignItems: "center",
+              paddingHorizontal: 30,
+              paddingVertical: 10,
+              borderRadius: 5,
+            }}>
+            <Image
+              source={require("../../../assets/aeroplane.png")}
+              style={{
+                height: 20,
+                width: 20,
+                marginBottom: 5,
+              }}
+            />
+            <Text style={{color: "#333", fontWeight: "500"}}>
+              {pilotDetails?.totalRides?.count}
+            </Text>
+          </View>
+          <View
+            style={{
+              height: "100%",
+              backgroundColor: "white",
+              alignItems: "center",
+              paddingHorizontal: 20,
+              paddingVertical: 5,
+              borderRadius: 5,
+            }}>
+            <Image
+              source={require("../../../assets/Subtract.png")}
+              style={{
+                height: 20,
+                width: 20,
+                marginTop: 3,
+                marginBottom: 5,
+              }}
+            />
+            <Text style={{color: "#333"}}>
+              {moment().from(pilotDetails?.pilot?.createdAt)}
+            </Text>
+          </View>
         </View>
         <View
           style={{
-            height: "80%",
             backgroundColor: "white",
-            alignItems: "center",
-            paddingHorizontal: 15,
-            paddingVertical: 5,
-            borderRadius: 5,
+
+            width: "100%",
+            borderRadius: 10,
+            marginTop: 20,
           }}>
-          <Image
-            source={require("../../../assets/Subtract.png")}
-            style={{
-              height: 20,
-              width: 20,
-
-              marginBottom: 5,
-            }}
-          />
-          <Text style={{color: "#333", marginBottom: 10}}>
-            {moment().from(pilotDetails?.pilot?.createdAt)}
-          </Text>
-        </View>
-      </View>
-      <View
-        style={{
-          backgroundColor: "white",
-          marginHorizontal: 50,
-
-          borderRadius: 10,
-          marginTop: 20,
-        }}>
-        <View style={{paddingLeft: 10, marginTop: 19, marginBottom: 20}}>
-          <Text style={{fontSize: 11, color: "grey"}}>Member since</Text>
-          <Text style={{marginTop: 5, color: "black"}}>
-            {" "}
-            {moment(pilotDetails?.pilot?.createdAt).format("ll")}
-          </Text>
-          <View
-            style={{
-              marginHorizontal: 3,
-              height: 1,
-              width: "80%",
-              backgroundColor: "grey",
-              marginBottom: 10,
-            }}
-          />
-          <Text style={{fontSize: 11, color: "grey"}}>Vehicle Type</Text>
-          <Text style={{marginTop: 5, color: "black"}}>
-            {" "}
-            {pilotDetails?.pilotDetails?.vehicle_type}
-          </Text>
-          <View
-            style={{
-              marginHorizontal: 3,
-              height: 1,
-              width: "80%",
-              backgroundColor: "grey",
-              marginBottom: 10,
-            }}
-          />
-          <Text style={{fontSize: 11, color: "grey"}}>Vehicle number</Text>
-          <Text style={{marginTop: 5, color: "black"}}>
-            {" "}
-            {pilotDetails?.pilotDetails?.vehicle_number}
-          </Text>
-          <View
-            style={{
-              marginHorizontal: 3,
-              height: 1,
-              width: "80%",
-              backgroundColor: "grey",
-              marginBottom: 10,
-            }}
-          />
-          <Text style={{fontSize: 11, color: "grey"}}>Pilot ID number</Text>
-          <Text style={{marginTop: 5, color: "black"}}>
-            {pilotDetails?.pilot_id}
-          </Text>
+          <View style={{paddingLeft: 10, marginTop: 19, marginBottom: 20}}>
+            <Text style={{fontSize: 11, color: "grey"}}>Member since</Text>
+            <Text style={{marginTop: 5, color: "black"}}>
+              {" "}
+              {moment(pilotDetails?.pilot?.createdAt).format("ll")}
+            </Text>
+            <View
+              style={{
+                marginHorizontal: 3,
+                height: 1,
+                width: "80%",
+                backgroundColor: "grey",
+                marginBottom: 10,
+                marginTop: 5,
+              }}
+            />
+            <Text style={{fontSize: 11, color: "grey"}}>Vehicle Type</Text>
+            <Text style={{marginTop: 5, color: "black"}}>
+              {" "}
+              {pilotDetails?.pilotDetails?.vehicle_type}
+            </Text>
+            <View
+              style={{
+                marginHorizontal: 3,
+                height: 1,
+                width: "80%",
+                backgroundColor: "grey",
+                marginBottom: 10,
+                marginTop: 5,
+              }}
+            />
+            <Text style={{fontSize: 11, color: "grey"}}>Vehicle number</Text>
+            <Text style={{marginTop: 5, color: "black"}}>
+              {" "}
+              {pilotDetails?.pilotDetails?.vehicle_number}
+            </Text>
+            <View
+              style={{
+                marginHorizontal: 3,
+                height: 1,
+                width: "80%",
+                backgroundColor: "grey",
+                marginBottom: 10,
+                marginTop: 5,
+              }}
+            />
+            <Text style={{fontSize: 11, color: "grey"}}>Pilot ID number</Text>
+            <Text style={{marginTop: 5, color: "black"}}>
+              {pilotDetails?.pilot_id}
+            </Text>
+          </View>
         </View>
       </View>
     </View>

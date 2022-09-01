@@ -47,7 +47,7 @@ export default ({navigation}) => {
     latitudeDelta: LATITUDE_DELTA,
     longitudeDelta: LONGITUDE_DELTA,
   });
-  const [type, setType] = useState("PICKUP_LOCATION");
+  const [type, setType] = useState("CHOOSE_VEHICLE_TYPE");
 
   useEffect(() => {
     Geolocation.getCurrentPosition(

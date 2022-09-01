@@ -145,7 +145,10 @@ const RideDetails = ({navigation, route}) => {
             marginStart: 20,
             marginBottom: 20,
             backgroundColor: "#F4B400",
-          }}>
+          }}
+          onPress={() =>
+            navigation.navigate("Feedback", {pilot_id: rideDetails?.pilot_id})
+          }>
           <Text style={{color: "black", fontWeight: "bold"}}>Feedback</Text>
         </TouchableOpacity>
       </View>
