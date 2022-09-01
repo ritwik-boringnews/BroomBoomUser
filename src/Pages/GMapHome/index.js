@@ -5,14 +5,12 @@ import {
   TouchableOpacity,
   PermissionsAndroid,
   Dimensions,
-  Platform,
 } from "react-native";
 import MapView, {Marker, PROVIDER_GOOGLE} from "react-native-maps";
 import MyLocation from "react-native-vector-icons/MaterialIcons";
 import Geolocation from "@react-native-community/geolocation";
 import HambergerHome from "../../Components/HambergerHome";
 import PickupLocation from "../../Components/pickupLocation";
-import ChooseLocation from "../../Components/chooseLocation";
 import ChooseVehicleScooty from "../ChooseVehicleScooty";
 import PerfectPilot from "../../Components/perfectPilot";
 import RatePilot from "../../Components/ratePilot";
@@ -40,14 +38,17 @@ const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 export default ({navigation}) => {
   const dispatch = useDispatch();
-  const user = useSelector(state => state.auth.user);
+  const {
+    auth: {user},
+    map,
+  } = useSelector(state => state);
+
   const [location, setLocation] = useState({
     latitude: 0,
     longitude: 0,
     latitudeDelta: LATITUDE_DELTA,
     longitudeDelta: LONGITUDE_DELTA,
   });
-  const [type, setType] = useState("PICKUP_LOCATION");
 
   useEffect(() => {
     Geolocation.getCurrentPosition(
@@ -61,26 +62,10 @@ export default ({navigation}) => {
     );
   }, []);
 
-  const MapType = ({type}) => {
-    switch (type) {
+  const MapType = () => {
+    switch (map.homeMapUIType) {
       case "PICKUP_LOCATION":
-        return (
-          <PickupLocation
-            onConfirmPickup={() => {
-              setType("CHOOSE_DESTINATION");
-              dispatch(setModuleActive("PICKUP_LOCATION"));
-            }}
-          />
-        );
-      case "CHOOSE_DESTINATION":
-        return (
-          <ChooseLocation
-            onConfirmPickup={() => {
-              setType("SERVICE_NOT_AVAILABLE");
-              dispatch(setModuleActive("CHOOSE_DESTINATION"));
-            }}
-          />
-        );
+        return <PickupLocation />;
       case "CHOOSE_VEHICLE_TYPE":
         return <ChooseVehicleScooty />;
       case "CHOOSE_PERFECT_PILOT":
@@ -90,11 +75,7 @@ export default ({navigation}) => {
       case "FINDING_PILOT":
         return <FindingPilot />;
       case "SERVICE_NOT_AVAILABLE":
-        return (
-          <ServiceNotAvailable
-            onChooseAnotherPlace={() => setType("CHOOSE_DESTINATION")}
-          />
-        );
+        return <ServiceNotAvailable />;
     }
   };
 
@@ -260,7 +241,7 @@ export default ({navigation}) => {
             // See error code charts below.
             dispatch(
               notify({
-                message: error.message || "Something went wrong",
+                // message: error.message || "Something went wrong",
                 notifyType: "error",
               }),
             );
@@ -313,7 +294,7 @@ export default ({navigation}) => {
           left: 0,
           right: 0,
         }}>
-        <MapType type={type} />
+        <MapType />
       </View>
     </View>
   );

@@ -11,7 +11,7 @@ import styles from "./styles";
 import Api from "../../Services";
 import {useDispatch, useSelector} from "react-redux";
 import {notify} from "../../../Redux/Actions/notificationActions";
-import {addReferToken} from "../../../Redux/Actions";
+import {addReferToken, updateUser} from "../../../Redux/Actions";
 
 const AddReferral = ({navigation}) => {
   const [referralCode, setReferralCode] = React.useState("");
@@ -43,6 +43,29 @@ const AddReferral = ({navigation}) => {
       console.log(error);
     }
   };
+
+  const skipReferral = async () => {
+    try {
+      const response = await Api.post("/user/update_user_referral_status");
+      console.log("response", response);
+      if (response.status === 1) {
+        dispatch(
+          notify({
+            type: "success",
+            message: response.message,
+          }),
+        );
+        dispatch(updateUser({...user, referral_status: 1}));
+        navigation.jumpTo("Booking");
+        return;
+      }
+      throw new Error(response.message);
+    } catch (error) {
+      dispatch(notify({type: "error", message: error.message}));
+      console.log(error);
+    }
+  };
+
   return (
     <KeyboardAvoidingView
       // style={styles.container}
@@ -70,6 +93,9 @@ const AddReferral = ({navigation}) => {
             <Text style={styles.inputbtn}>Apply</Text>
           </TouchableOpacity>
         </View>
+        <TouchableOpacity style={{height: 30}} onPress={skipReferral}>
+          <Text>Skip for later</Text>
+        </TouchableOpacity>
         {/* <TouchableOpacity style={styles.btn}>
         <Text style={styles.centerText}>Next</Text>
       </TouchableOpacity> */}

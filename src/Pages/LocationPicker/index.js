@@ -1,22 +1,14 @@
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-  TextInput,
-  Image,
-} from "react-native";
-import React, {useContext, useState} from "react";
+import {View, Text, TouchableOpacity, StyleSheet, Image} from "react-native";
+import React, {useState} from "react";
 import Icon from "react-native-vector-icons/Ionicons";
 import {GooglePlacesAutocomplete} from "react-native-google-places-autocomplete";
-import locationContext from "../../../context/locationContext";
 import {useDispatch, useSelector} from "react-redux";
 import {
-  setMapLocationsDestination,
-  setMapLocationsOrigin,
-} from "../../../Redux/Actions/configActions";
+  setMapLocationDestination,
+  setMapLocationOrigin,
+} from "../../../Redux/Actions/mapActions";
 
-const PickUpLocation = ({navigation}) => {
+const LocationPicker = ({navigation}) => {
   const styles = StyleSheet.create({
     container: {
       paddingHorizontal: 20,
@@ -26,8 +18,11 @@ const PickUpLocation = ({navigation}) => {
     },
   });
   const dispatch = useDispatch();
-  const config = useSelector(state => state.config);
+  const {origin, locInputType, destination} = useSelector(state => state.map);
+
+  // const config = useSelector(state => state.config);
   const [searchText, setSearchText] = useState(null);
+  console.log("searchText", searchText);
   return (
     <View style={styles.container}>
       <View style={{flexDirection: "row", alignItems: "flex-start"}}>
@@ -52,7 +47,9 @@ const PickUpLocation = ({navigation}) => {
               textAlign: "center",
               marginBottom: 20,
             }}>
-            Choose a pick up destination
+            {`Choose ${
+              locInputType === "origin" ? "a pick up" : "destination"
+            }`}
           </Text>
         </View>
       </View>
@@ -64,10 +61,9 @@ const PickUpLocation = ({navigation}) => {
           language: "en",
         }}
         onPress={(data, details = null) => {
-          config.active === "PICKUP_LOCATION"
-            ? dispatch(setMapLocationsOrigin(data.description))
-            : dispatch(setMapLocationsDestination(data.description));
-          // setLoc(data.description);
+          locInputType === "origin"
+            ? dispatch(setMapLocationOrigin(data.description))
+            : dispatch(setMapLocationDestination(data.description));
           navigation.goBack();
         }}
         onFail={error => console.error(error)}
@@ -123,4 +119,4 @@ const PickUpLocation = ({navigation}) => {
   );
 };
 
-export default PickUpLocation;
+export default LocationPicker;

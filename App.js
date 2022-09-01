@@ -1,8 +1,7 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect} from "react";
 import {NavigationContainer} from "@react-navigation/native";
 import {NonAuthStackNavigator} from "./src/Navigation";
 import {enableLatestRenderer} from "react-native-maps";
-import locationContext from "./context/locationContext";
 import {Provider} from "react-redux";
 import {PersistGate} from "redux-persist/integration/react";
 import {store, persistor} from "./Redux/store";
@@ -13,7 +12,6 @@ import {BackHandler} from "react-native";
 enableLatestRenderer();
 
 const App = () => {
-  const [loc, setLoc] = useState("");
   useEffect(() => {
     SplashScreen.hide();
   }, []);
@@ -25,20 +23,13 @@ const App = () => {
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <locationContext.Provider value={{loc, setLoc}}>
-          <NavigationContainer>
-            <SnackBar />
-            <NonAuthStackNavigator />
-          </NavigationContainer>
-        </locationContext.Provider>
+        <NavigationContainer>
+          <SnackBar />
+          <NonAuthStackNavigator />
+        </NavigationContainer>
       </PersistGate>
     </Provider>
   );
 };
 
 export default App;
-
-// signup
-// otp
-// serach city
-//

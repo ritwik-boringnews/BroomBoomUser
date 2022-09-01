@@ -1,5 +1,5 @@
-import {View, Text, Image, TouchableOpacity} from "react-native";
 import React from "react";
+import {View, Text, Image, TouchableOpacity} from "react-native";
 import {
   DrawerContentScrollView,
   DrawerItemList,
@@ -7,10 +7,10 @@ import {
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import {useDispatch, useSelector} from "react-redux";
 import {logout} from "../../Redux/Actions";
-import {CommonActions, useNavigation} from "@react-navigation/native";
+
 const CustomDrawer = props => {
-  const navigation = useNavigation();
   const dispatch = useDispatch();
+  console.log('props =>',props);
   const auth = useSelector(state => state.auth);
   return (
     <View style={{flex: 1}}>

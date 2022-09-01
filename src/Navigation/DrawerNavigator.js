@@ -17,13 +17,12 @@ import AntDesign from "react-native-vector-icons/AntDesign";
 import Support from "react-native-vector-icons/FontAwesome";
 import GMapHome from "../Pages/GMapHome/index.js";
 import SearchPickup from "../Pages/SearchPickup";
-import DestinationLocation from "../Pages/DestinationLocation";
 import Profile from "../Pages/Profile";
 import ProfileIcon from "react-native-vector-icons/AntDesign";
 import Faq from "../Pages/Faq";
 import TermsAndConditions from "../Pages/TermsAndConditions";
 import AddReferral from "../Pages/AddReferral";
-import PickUpLocation from "../Pages/PickupLocation";
+import LocationPicker from "../Pages/LocationPicker";
 import {useSelector} from "react-redux";
 // function HomeDrawerScreen({navigation}) {
 //   return (
@@ -43,11 +42,7 @@ const HomePageMain = () => {
       screenOptions={{headerShown: false}}>
       <Stack.Screen name="SourceMap" component={GMapHome} />
       <Stack.Screen name="SearchPickup" component={SearchPickup} />
-      <Stack.Screen name="PickUpLocation" component={PickUpLocation} />
-      <Stack.Screen
-        name="DestinationLocation"
-        component={DestinationLocation}
-      />
+      <Stack.Screen name="LocationPicker" component={LocationPicker} />
     </Stack.Navigator>
   );
 };
@@ -70,7 +65,8 @@ const Stack = createNativeStackNavigator();
 const DrawerNavigator = ({navigation}) => {
   const user = useSelector(state => state.auth.user);
   const getInitialRouteName = () => {
-    if (!user.referral_status) return "AddReferral";
+    console.log('user.referral_status',user.referral_status);
+    if (!user.referral_status) return "Add Referral";
     else if (user.email) return "SourceMap";
     else return "Profile";
   };
@@ -98,7 +94,6 @@ const DrawerNavigator = ({navigation}) => {
           ),
         }}
       /> */}
-      <Drawer.Screen name="AddReferral" component={AddReferral} />
       <Drawer.Screen
         name="Booking"
         component={HomePageMain}

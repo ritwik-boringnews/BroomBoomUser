@@ -1,11 +1,17 @@
+import React from "react";
 import {View, Text, Image, TouchableOpacity} from "react-native";
-import React, {useContext} from "react";
-import Icon from "react-native-vector-icons/AntDesign";
-import {useNavigation} from "@react-navigation/native";
-import locationContext from "../../context/locationContext";
-const ServiceNotAvailable = ({onChooseAnotherPlace}) => {
-  const navigation = useNavigation();
-  const {loc} = useContext(locationContext);
+import {useDispatch, useSelector} from "react-redux";
+import {resetOriginDestination} from "../../Redux/Actions/mapActions";
+
+const ServiceNotAvailable = () => {
+  const dispatch = useDispatch();
+
+  const {destination} = useSelector(state => state.map);
+
+  const rePickup = () => {
+    dispatch(resetOriginDestination());
+  };
+
   return (
     <View
       style={{
@@ -15,6 +21,7 @@ const ServiceNotAvailable = ({onChooseAnotherPlace}) => {
         borderBottomEndRadius: 0,
         borderBottomStartRadius: 0,
         color: "black",
+        paddingBottom: 30,
       }}>
       <View
         style={{
@@ -33,7 +40,7 @@ const ServiceNotAvailable = ({onChooseAnotherPlace}) => {
             style={{marginTop: 4}}
           />
           <Text style={{marginLeft: 10, color: "black", fontSize: 14}}>
-            {loc}
+            {destination}
           </Text>
         </TouchableOpacity>
       </View>
@@ -64,7 +71,7 @@ const ServiceNotAvailable = ({onChooseAnotherPlace}) => {
           marginStart: 20,
           backgroundColor: "#F5C001",
         }}
-        onPress={onChooseAnotherPlace}>
+        onPress={rePickup}>
         <Text style={{color: "black", fontWeight: "bold"}}>
           Choose another pick up
         </Text>
