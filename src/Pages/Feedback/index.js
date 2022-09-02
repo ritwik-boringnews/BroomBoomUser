@@ -38,6 +38,7 @@ const Feedback = ({route}) => {
         dispatch(
           notify({
             message: "your Feedback has submited successfully",
+            notifyType: "success",
           }),
         );
       } else {

@@ -70,6 +70,13 @@ const AddReferral = ({navigation}) => {
             <Text style={styles.inputbtn}>Apply</Text>
           </TouchableOpacity>
         </View>
+
+        <TouchableOpacity
+          onPress={verifyReferralCode}
+          disabled={user?.refer_token_added}>
+          <Text style={styles.inputbtn}>Skip</Text>
+        </TouchableOpacity>
+
         {/* <TouchableOpacity style={styles.btn}>
         <Text style={styles.centerText}>Next</Text>
       </TouchableOpacity> */}

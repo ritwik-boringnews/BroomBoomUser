@@ -16,6 +16,8 @@ import {useDispatch} from "react-redux";
 import {useNavigation} from "@react-navigation/native";
 import BackIcon from "react-native-vector-icons/AntDesign";
 import AppDocumentPicker from "../../Components/AppDocumentPicker";
+import {RadioButton, RadioGroup} from "react-native-ui-lib";
+
 const Profile = () => {
   const dispatch = useDispatch();
   const [userDetails, setUserDetails] = useState({});
@@ -104,7 +106,7 @@ const Profile = () => {
     setDate(d);
     hideDatePicker();
   };
-
+  console.log(userDetails);
   return (
     <View>
       <View
@@ -151,30 +153,42 @@ const Profile = () => {
         />
       </View>
       <View style={styles.box}>
-        <Text style={styles.h1}>Mobile No.</Text>
+        <Text style={styles.h1}>Mobile No</Text>
         <TextInput
-          style={styles.input}
+          style={{
+            fontSize: 16,
+            fontWeight: "700",
+            paddingHorizontal: 0,
+            paddingVertical: 5,
+            color: "#BFBDB0",
+            alignItems: "center",
+          }}
           value={userDetails?.mobile?.toString()}
           keyboardType="numeric"
-          disabled={true}
-          editable={false}
+          // disabled={true}
+          // editable={false}
           selectTextOnFocus={false}
         />
       </View>
       <View style={styles.box}>
-        <Text style={styles.h1}>Email ID</Text>
+        <Text style={styles.h1}>Email ID *</Text>
         <View
           style={{
             display: "flex",
             flexDirection: "row",
             justifyContent: "space-between",
-            marginRight: "auto",
             alignItems: "center",
-            width: "100%",
-            marginRight: "auto",
           }}>
           <TextInput
-            style={styles.input}
+            style={{
+              fontSize: 16,
+              fontWeight: "700",
+              paddingHorizontal: 0,
+              paddingVertical: 5,
+              color: "#1f1f1f",
+              alignItems: "center",
+              width: "100%",
+            }}
             value={userDetails?.email}
             keyboardType="text"
             onChangeText={e =>
@@ -188,17 +202,37 @@ const Profile = () => {
       </View>
       <View style={styles.box}>
         <Text style={styles.h1}>Gender</Text>
-        <TextInput
-          style={styles.input}
-          value={userDetails?.gender}
-          keyboardType="text"
-          onChangeText={e =>
+        <RadioGroup
+          initialValue={userDetails?.gender}
+          onValueChange={value =>
             setUserDetails({
               ...userDetails,
-              gender: e,
+              gender: value,
             })
-          }
-        />
+          }>
+          <View style={{flexDirection: "row"}}>
+            <RadioButton
+              value={"male"}
+              label={"Male"}
+              color={"#F5C001"}
+              size={20}
+              containerStyle={{marginRight: 20}}
+            />
+            <RadioButton
+              value={"female"}
+              label={"Female"}
+              color={"#F5C001"}
+              size={20}
+              containerStyle={{marginRight: 20}}
+            />
+            <RadioButton
+              value={"others"}
+              label={"Others"}
+              color={"#F5C001"}
+              size={20}
+            />
+          </View>
+        </RadioGroup>
       </View>
 
       <View style={styles.box}>

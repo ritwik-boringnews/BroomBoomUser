@@ -47,7 +47,7 @@ function App() {
   }, [auth.clientToken]);
   return (
     <Stack.Navigator
-      initialRouteName="Signup"
+      initialRouteName="Profile"
       screenOptions={{headerShown: false}}>
       <Stack.Screen name="CancelOrderModal" component={CancelOrderModal} />
       <Stack.Screen name="DrawerNavigator" component={DrawerNavigator} />
