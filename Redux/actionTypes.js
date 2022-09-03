@@ -12,8 +12,6 @@ export const NOTIFY = "NOTIFY";
 export const HIDE = "HIDE";
 
 // misc
-export const REFER_TOKEN_ADDED = "REFER_TOKEN_ADDED";
-
 
 // map
 export const SET_MAP_LOCATION_ORIGIN = "SET_MAP_LOCATION_ORIGIN";

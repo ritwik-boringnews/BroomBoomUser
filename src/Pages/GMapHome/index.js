@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   PermissionsAndroid,
   Dimensions,
+  Text,
 } from "react-native";
 import MapView, {Marker, PROVIDER_GOOGLE} from "react-native-maps";
 import MyLocation from "react-native-vector-icons/MaterialIcons";
@@ -19,8 +20,10 @@ import ServiceNotAvailable from "../../Components/serviceNotAvailable";
 import {useDispatch, useSelector} from "react-redux";
 import {notify, setModuleActive} from "../../../Redux/Actions";
 import Contacts from "react-native-contacts";
-import Api from "../../Services";
+import Api, {ApiPilot} from "../../Services";
 import RNAndroidLocationEnabler from "react-native-android-location-enabler";
+import io from "socket.io-client";
+import { setMapLocationOrigin } from "../../../Redux/Actions/mapActions";
 
 const styles = StyleSheet.create({
   container: {
@@ -51,16 +54,50 @@ export default ({navigation}) => {
   });
 
   useEffect(() => {
-    Geolocation.getCurrentPosition(
-      info =>
-        info &&
+    Geolocation.getCurrentPosition(info => {
+      if (info) {
         setLocation({
           ...info.coords,
           latitudeDelta: LATITUDE_DELTA,
           longitudeDelta: LONGITUDE_DELTA,
-        }),
-    );
+        });
+        getGeoLocationText(info.coords);
+      }
+    });
   }, []);
+
+  const getGeoLocationText = async coords => {
+    try {
+      const response = await ApiPilot.get(
+        `map/reverse-geo-code/${coords.latitude}/${coords.longitude}`,
+      );
+      console.log("response", response);
+      if (response.status === 1) {
+        dispatch(setMapLocationOrigin(response.data.formattedAddress))
+        return;
+      }
+      throw new Error(response.message);
+    } catch (error) {
+      // dispatch(notify({type: "error", message: error.message}));
+      console.log(error);
+    }
+  };
+
+  const initRequestRideAndSocketConn = () => {
+    if (!location.latitude && !location.longitude) {
+      return;
+    }
+    const newSocket = io(`${localIps}:7000`, {
+      path: "/api/socket",
+    });
+    setSocket(newSocket);
+    socket.emit("user_requesting_ride", {
+      latitude: location?.latitude,
+      longitude: location?.longitude,
+      user_id: user.id,
+      vehicle_type: "car",
+    });
+  };
 
   const MapType = () => {
     switch (map.homeMapUIType) {
@@ -70,7 +107,7 @@ export default ({navigation}) => {
         return <ChooseVehicleScooty />;
       case "CHOOSE_PERFECT_PILOT":
         return <PerfectPilot />;
-      case "RATE_PILOT":
+      case "RATE_PILOT": // call, msg, pin UI
         return <RatePilot />;
       case "FINDING_PILOT":
         return <FindingPilot />;
@@ -213,7 +250,7 @@ export default ({navigation}) => {
           user_id: user.id,
         });
       });
-      Api.post("/user/save_phone_contactss", {
+      Api.post("/user/save_phone_contacts", {
         phoneContactsList: payload,
       });
     }
@@ -246,7 +283,7 @@ export default ({navigation}) => {
               }),
             );
           },
-          {enableHighAccuracy: false, timeout: 30000, maximumAge: 50000},
+          {enableHighAccuracy: true},
         );
       })
       .catch(err => {
@@ -294,6 +331,8 @@ export default ({navigation}) => {
           left: 0,
           right: 0,
         }}>
+        {/* <Text onPress={initRequestRideAndSocketConn}>--- REQUEST RIDE----</Text> */}
+
         <MapType />
       </View>
     </View>

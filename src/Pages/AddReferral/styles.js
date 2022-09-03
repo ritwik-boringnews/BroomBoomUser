@@ -49,9 +49,14 @@ export default styles = StyleSheet.create({
     borderRadius: 5,
     alignItems: "center",
     padding: 10,
-    marginBottom: metrics.verticalScale(50),
+    marginBottom: metrics.verticalScale(30),
     marginTop: metrics.verticalScale(30),
   },
   input: {width: "80%", fontSize: 16},
-  inputbtn: {fontSize: 16, fontWeight: "500", color: "#347EEA"},
+  inputbtn: {
+    fontSize: 16,
+    fontWeight: "500",
+    color: "#347EEA",
+    textAlign: "center",
+  },
 });

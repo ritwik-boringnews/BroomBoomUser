@@ -11,16 +11,13 @@ import styles from "./styles";
 import Api from "../../Services";
 import {useDispatch, useSelector} from "react-redux";
 import {notify} from "../../../Redux/Actions/notificationActions";
-import {addReferToken, updateUser} from "../../../Redux/Actions";
+import {updateUser} from "../../../Redux/Actions";
 
 const AddReferral = ({navigation}) => {
   const [referralCode, setReferralCode] = React.useState("");
   const user = useSelector(state => state.auth.user);
   const dispatch = useDispatch();
   const verifyReferralCode = async () => {
-    // dispatch(
-    //   notify({type: "success", message: "You have been successfully referred"}),
-    // );
     try {
       const response = await Api.post("/user/add-referred-by", {
         referral_code: referralCode,
@@ -33,8 +30,7 @@ const AddReferral = ({navigation}) => {
             message: "You have been successfully referred",
           }),
         );
-        dispatch(addReferToken());
-
+        updateUserInStore();
         return;
       }
       throw new Error(response.message);
@@ -49,13 +45,7 @@ const AddReferral = ({navigation}) => {
       const response = await Api.post("/user/update_user_referral_status");
       console.log("response", response);
       if (response.status === 1) {
-        dispatch(
-          notify({
-            type: "success",
-            message: response.message,
-          }),
-        );
-        dispatch(updateUser({...user, referral_status: 1}));
+        updateUserInStore();
         navigation.jumpTo("Booking");
         return;
       }
@@ -66,9 +56,12 @@ const AddReferral = ({navigation}) => {
     }
   };
 
+  const updateUserInStore = () => {
+    dispatch(updateUser({...user, referral_status: 1}));
+  };
+
   return (
     <KeyboardAvoidingView
-      // style={styles.container}
       behavior={Platform.OS === "ios" ? "padding" : "position"}
       keyboardVerticalOffset={10}
       style={{flex: 1, position: "absolute"}}>
@@ -85,23 +78,21 @@ const AddReferral = ({navigation}) => {
             style={styles.input}
             placeholder="Enter referral code"
             onChangeText={e => setReferralCode(e)}
-            editable={!user?.refer_token_added}
           />
-          <TouchableOpacity
-            onPress={verifyReferralCode}
-            disabled={user?.refer_token_added}>
+          <TouchableOpacity onPress={verifyReferralCode}>
             <Text style={styles.inputbtn}>Apply</Text>
           </TouchableOpacity>
         </View>
-        <TouchableOpacity style={{height: 30}} onPress={skipReferral}>
-          <Text>Skip for later</Text>
+        <TouchableOpacity
+          style={{
+            borderRadius: 10,
+            borderWidth: 1,
+            paddingHorizontal: 50,
+            paddingVertical: 10,
+          }}
+          onPress={skipReferral}>
+          <Text style={styles.inputbtn}>Skip for later</Text>
         </TouchableOpacity>
-        {/* <TouchableOpacity style={styles.btn}>
-        <Text style={styles.centerText}>Next</Text>
-      </TouchableOpacity> */}
-        {/* <TouchableOpacity style={styles.btn}>
-          <Text style={styles.centerText}>Skip Now</Text>
-        </TouchableOpacity> */}
       </View>
     </KeyboardAvoidingView>
   );

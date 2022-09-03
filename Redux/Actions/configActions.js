@@ -1,7 +1,6 @@
 import {
   POP_REQUEST,
   PUSH_REQUEST,
-  REFER_TOKEN_ADDED,
   SET_MAP_LOCATION_DESTINATION,
   SET_MAP_LOCATION_ORIGIN,
   SET_MODULE_ACTIVE,
@@ -24,12 +23,6 @@ export const popRequest = () => {
   return {
     type: POP_REQUEST,
     request: spinner,
-  };
-};
-
-export const addReferToken = () => {
-  return {
-    type: REFER_TOKEN_ADDED,
   };
 };
 

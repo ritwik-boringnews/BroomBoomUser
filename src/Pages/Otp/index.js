@@ -1,20 +1,30 @@
 import React, {useEffect} from "react";
-import {View, Text, Button, Image} from "react-native";
+import {View, Text, TouchableOpacity, Image} from "react-native";
 import OTPTextView from "../../Components/AppOtpInput";
 import Api from "../../Services";
-import {TextInput, ActivityIndicator} from "react-native-paper";
+import {ActivityIndicator} from "react-native-paper";
 import {useDispatch} from "react-redux";
 import {notify, login} from "../../../Redux/Actions";
-const Otp = ({navigation, route}) => {
+
+const Otp = ({route}) => {
   const dispatch = useDispatch();
   const [otp, setOtp] = React.useState("");
   const [isLoading, setLoading] = React.useState(false);
   const {mobile} = route.params;
+  const [counter, setCounter] = React.useState(60);
+
   useEffect(() => {
     if (otp.length === 4) {
       onSubmitOtp();
     }
   }, [otp]);
+
+  useEffect(() => {
+    const timer =
+      counter > 0 && setInterval(() => setCounter(counter - 1), 1000);
+    return () => clearInterval(timer);
+  }, [counter]);
+
   const onSubmitOtp = async () => {
     setLoading(true);
     try {
@@ -31,7 +41,6 @@ const Otp = ({navigation, route}) => {
             user: response.data.user,
           }),
         );
-        // navigation.navigate("DrawerNavigator", {otp: otp});
       } else {
         throw new Error(response.message);
       }
@@ -42,6 +51,30 @@ const Otp = ({navigation, route}) => {
           notifyType: "error",
         }),
       );
+    }
+    setLoading(false);
+  };
+
+  const resendOtp = async () => {
+    setLoading(true);
+    try {
+      const response = await Api.post("/user/resend-otp", {
+        mobile,
+      });
+      if (response.status === 1) {
+        setCounter(60);
+        dispatch(
+          notify({
+            type: "success",
+            message: response.message,
+            notifyType: "success",
+          }),
+        );
+      } else {
+        throw new Error(response.message);
+      }
+    } catch (error) {
+      dispatch(notify({type: "error", message: error.message}));
     }
     setLoading(false);
   };
@@ -76,6 +109,29 @@ const Otp = ({navigation, route}) => {
           marginTop: 20,
           width: "100%",
         }}>
+        {counter === 0 ? (
+          <TouchableOpacity
+            style={{
+              backgroundColor: "#F5C001",
+              padding: 10,
+              borderRadius: 50,
+            }}
+            onPress={resendOtp}>
+            <Text style={{fontSize: 14, fontWeight: "500", color: "#000"}}>
+              Resend OTP
+            </Text>
+          </TouchableOpacity>
+        ) : (
+          <Text
+            style={{
+              fontSize: 14,
+              fontWeight: "500",
+              textAlign: "left",
+              color: "#000",
+            }}>
+            Resend OTP in {counter}s
+          </Text>
+        )}
         {isLoading && (
           <>
             <ActivityIndicator animating={true} color={"red"} />
@@ -84,17 +140,6 @@ const Otp = ({navigation, route}) => {
             </Text>
           </>
         )}
-        {/* <Text
-          style={{
-            fontSize: 14,
-            fontWeight: '500',
-            textAlign: 'right',
-            color: 'black',
-          }}>
-          Resend OTP in 10s
-        </Text> */}
-
-        {/* <Button onPress={onSubmitOtp} title="Verify" color="#F5C001" style={{}}/> */}
       </View>
       <View
         style={{

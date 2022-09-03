@@ -13,7 +13,8 @@ import {notify, updateUser} from "../../../Redux/Actions";
 import {useDispatch} from "react-redux";
 import {useNavigation} from "@react-navigation/native";
 import AppDocumentPicker from "../../Components/AppDocumentPicker";
-import {RadioButton, RadioGroup} from "react-native-ui-lib";
+import Ionicons from "react-native-vector-icons/Ionicons";
+import BackButtonPage from "../../Components/BackButtonPage";
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -103,7 +104,42 @@ const Profile = () => {
     setDate(d);
     hideDatePicker();
   };
-  console.log(userDetails);
+  const RadioButton = ({
+    label,
+    value,
+    onValueChange,
+    containerStyle,
+    isSelected,
+  }) => (
+    <TouchableOpacity
+      onPress={() => onValueChange(value)}
+      style={[
+        {
+          // flex: 1,
+          // padding: 5,
+          // alignItems: 'center',
+          // backgroundColor: isHighlighted ? LineColor : 'white',
+          flexDirection: "row",
+        },
+        containerStyle,
+      ]}>
+      <Ionicons
+        name={
+          isSelected ? "radio-button-on-outline" : "radio-button-off-outline"
+        }
+        size={25}
+        color={"#F5C001"}
+      />
+      <Text
+        style={{
+          fontSize: 16,
+          marginRight: 20,
+        }}>
+        {label}
+      </Text>
+    </TouchableOpacity>
+  );
+
   return (
     <BackButtonPage pageName="Profile" navigation={navigation}>
       <View style={styles.box}>
@@ -170,37 +206,30 @@ const Profile = () => {
       </View>
       <View style={styles.box}>
         <Text style={styles.h1}>Gender</Text>
-        <RadioGroup
-          initialValue={userDetails?.gender}
-          onValueChange={value =>
-            setUserDetails({
-              ...userDetails,
-              gender: value,
-            })
-          }>
-          <View style={{flexDirection: "row"}}>
-            <RadioButton
-              value={"male"}
-              label={"Male"}
-              color={"#F5C001"}
-              size={20}
-              containerStyle={{marginRight: 20}}
-            />
-            <RadioButton
-              value={"female"}
-              label={"Female"}
-              color={"#F5C001"}
-              size={20}
-              containerStyle={{marginRight: 20}}
-            />
-            <RadioButton
-              value={"others"}
-              label={"Others"}
-              color={"#F5C001"}
-              size={20}
-            />
-          </View>
-        </RadioGroup>
+        <View style={{flexDirection: "row"}}>
+          <RadioButton
+            label={"Male"}
+            value={"male"}
+            onValueChange={value =>
+              setUserDetails({
+                ...userDetails,
+                gender: value,
+              })
+            }
+            isSelected={userDetails?.gender === "male"}
+          />
+          <RadioButton
+            label={"Female"}
+            value={"female"}
+            onValueChange={value =>
+              setUserDetails({
+                ...userDetails,
+                gender: value,
+              })
+            }
+            isSelected={userDetails?.gender !== "male"}
+          />
+        </View>
       </View>
 
       <View style={styles.box}>

@@ -1,18 +1,13 @@
-import React, {useRef, useState} from "react";
+import React, {useState} from "react";
 import {
   View,
   Text,
   TextInput,
-  Linking,
   TouchableOpacity,
-  useColorScheme,
   Image,
 } from "react-native";
 import {
   ActivityIndicator,
-  DefaultTheme,
-  Provider as PaperProvider,
-  useTheme,
   Checkbox,
 } from "react-native-paper";
 
@@ -45,6 +40,7 @@ const SignUp = ({navigation}) => {
           notifyType: "error",
         }),
       );
+      console.log('error',error);
     }
     setIsLoading(false);
   };
