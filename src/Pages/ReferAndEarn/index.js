@@ -55,7 +55,7 @@ const ReferAndEarn = ({navigation}) => {
       <View style={{flexDirection: "row", marginHorizontal: 18, marginTop: 10}}>
         <BackIcon
           name="arrowleft"
-          // color="white"
+          color="black"
           size={20}
           style={{marginBottom: 10}}
           onPress={() => navigation.goBack()}
@@ -82,12 +82,12 @@ const ReferAndEarn = ({navigation}) => {
         <View style={styles.copyCodeContainer}>
           <Text style={styles.copyCodeText}>{referralCode}</Text>
           <TouchableOpacity onPress={copyToClipboard}>
-            <CopyIcon name="copy" size={20} />
+            <CopyIcon name="copy" size={20} color="#000" />
           </TouchableOpacity>
         </View>
         <View style={styles.inviteTextContainer}>
           <View style={styles.row}>
-            <GiftIcon name="gift" size={20} />
+            <GiftIcon name="gift" size={20} color="#000" />
             <Text style={styles.inviteText}>Invite Friends to Broomboom</Text>
           </View>
           <TouchableOpacity onPress={onShare}>

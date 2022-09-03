@@ -23,7 +23,7 @@ import Contacts from "react-native-contacts";
 import Api, {ApiPilot} from "../../Services";
 import RNAndroidLocationEnabler from "react-native-android-location-enabler";
 import io from "socket.io-client";
-import { setMapLocationOrigin } from "../../../Redux/Actions/mapActions";
+import {setMapLocationOrigin} from "../../../Redux/Actions/mapActions";
 
 const styles = StyleSheet.create({
   container: {
@@ -73,7 +73,7 @@ export default ({navigation}) => {
       );
       console.log("response", response);
       if (response.status === 1) {
-        dispatch(setMapLocationOrigin(response.data.formattedAddress))
+        dispatch(setMapLocationOrigin(response.data.formattedAddress));
         return;
       }
       throw new Error(response.message);
@@ -276,12 +276,12 @@ export default ({navigation}) => {
           },
           error => {
             // See error code charts below.
-            dispatch(
-              notify({
-                // message: error.message || "Something went wrong",
-                notifyType: "error",
-              }),
-            );
+            // dispatch(
+            //   notify({
+            //     // message: error.message || "Something went wrong",
+            //     notifyType: "error",
+            //   }),
+            // );
           },
           {enableHighAccuracy: true},
         );
@@ -308,7 +308,7 @@ export default ({navigation}) => {
           provider={PROVIDER_GOOGLE}
           region={location}>
           {/* <MarkerType type="MOTOR-BIKE" location={location} /> */}
-          <Marker key={`marker${2}`} coordinate={location} />
+          <Marker key={`marker${2}`} coordinate={location} draggable />
         </MapView>
         <View
           style={{

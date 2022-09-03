@@ -135,7 +135,7 @@ const Otp = ({route}) => {
         {isLoading && (
           <>
             <ActivityIndicator animating={true} color={"red"} />
-            <Text style={{fontSize: 14, fontWeight: "500"}}>
+            <Text style={{fontSize: 14, fontWeight: "500", color: "black"}}>
               Auto verifying
             </Text>
           </>

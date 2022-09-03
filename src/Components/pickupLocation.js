@@ -6,7 +6,7 @@ import {
   setLocInputType,
   setMapHomeUIType,
 } from "../../Redux/Actions/mapActions";
-import { notify } from "../../Redux/Actions";
+import {notify} from "../../Redux/Actions";
 /**
  * common component : pickupUI origin/destination
  * @returns
@@ -54,11 +54,12 @@ const PickupLocation = () => {
         borderTopLeftRadius: 30,
         borderTopRightRadius: 30,
         paddingBottom: 25,
+        paddingHorizontal: 20,
       }}>
       <Text
         style={{
           padding: 10,
-          marginHorizontal: 15,
+
           color: "black",
           fontSize: 15,
           fontWeight: "500",
@@ -69,12 +70,14 @@ const PickupLocation = () => {
         style={{
           backgroundColor: "#E0E0E0",
           // marginHorizontal: 30,
-          width: "85%",
-          padding: 13,
+          width: "100%",
+          paddingHorizontal: 8,
+          paddingVertical: 5,
           borderRadius: 10,
           // marginTop: 30,
           // marginLeft: 16,
-          marginStart: 25,
+          // marginStart: 25,
+
           flexDirection: "row",
         }}>
         <TouchableOpacity
@@ -82,6 +85,7 @@ const PickupLocation = () => {
             display: "flex",
             flexDirection: "row",
             marginLeft: 30,
+            alignItems: "center",
           }}
           onPress={() => {
             // locInputType === "origin"
@@ -90,7 +94,7 @@ const PickupLocation = () => {
           }}>
           <Image
             source={require("../../assets/mapIcon.png")}
-            style={{marginTop: 4}}
+            style={{marginLeft: 4}}
           />
           <Text style={{marginLeft: 10, color: "black", fontWeight: "bold"}}>
             {locInputType === "origin"

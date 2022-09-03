@@ -1,15 +1,6 @@
 import React, {useState} from "react";
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  Image,
-} from "react-native";
-import {
-  ActivityIndicator,
-  Checkbox,
-} from "react-native-paper";
+import {View, Text, TextInput, TouchableOpacity, Image} from "react-native";
+import {ActivityIndicator, Checkbox} from "react-native-paper";
 
 import Api from "../../Services";
 import {useDispatch} from "react-redux";
@@ -40,7 +31,7 @@ const SignUp = ({navigation}) => {
           notifyType: "error",
         }),
       );
-      console.log('error',error);
+      console.log("error", error);
     }
     setIsLoading(false);
   };
@@ -62,6 +53,7 @@ const SignUp = ({navigation}) => {
             fontSize: 22,
             fontWeight: "700",
             textAlign: "center",
+            color: "black",
           }}>
           Enter Your Mobile Number
         </Text>
@@ -71,6 +63,7 @@ const SignUp = ({navigation}) => {
             fontWeight: "500",
             textAlign: "center",
             marginBottom: 35,
+            color: "black",
           }}>
           OTP will be sent to this number
         </Text>
@@ -96,6 +89,7 @@ const SignUp = ({navigation}) => {
               fontWeight: "600",
               marginHorizontal: 10,
               fontSize: 16,
+              color: "black",
             }}>
             +91
           </Text>
@@ -113,7 +107,9 @@ const SignUp = ({navigation}) => {
               // marginTop: 20,
               fontSize: 16,
               paddingVertical: 15,
+              color: "black",
             }}
+            placeholderTextColor="#999"
             keyboardType="number-pad"
           />
         </View>
@@ -152,7 +148,7 @@ const SignUp = ({navigation}) => {
             }}
             color={"#F5C001"}
           />
-          <Text style={{marginBottom: 15}}>
+          <Text style={{marginBottom: 15, color: "black"}}>
             By continuing, you agree to the <Text>Terms {""}</Text>
             <Text>& Conditions {""}</Text>
             <Text style={{textAlign: "left"}}>and {""}</Text>

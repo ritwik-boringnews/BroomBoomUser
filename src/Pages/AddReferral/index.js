@@ -77,6 +77,7 @@ const AddReferral = ({navigation}) => {
           <TextInput
             style={styles.input}
             placeholder="Enter referral code"
+            placeholderTextColor={"#999"}
             onChangeText={e => setReferralCode(e)}
           />
           <TouchableOpacity onPress={verifyReferralCode}>
@@ -85,10 +86,11 @@ const AddReferral = ({navigation}) => {
         </View>
         <TouchableOpacity
           style={{
-            borderRadius: 10,
-            borderWidth: 1,
+            borderRadius: 50,
             paddingHorizontal: 50,
             paddingVertical: 10,
+            width: "100%",
+            backgroundColor: "#F5C001",
           }}
           onPress={skipReferral}>
           <Text style={styles.inputbtn}>Skip for later</Text>

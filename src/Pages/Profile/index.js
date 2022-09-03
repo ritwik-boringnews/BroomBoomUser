@@ -134,6 +134,7 @@ const Profile = () => {
         style={{
           fontSize: 16,
           marginRight: 20,
+          color: "black",
         }}>
         {label}
       </Text>
@@ -154,6 +155,7 @@ const Profile = () => {
               name: e,
             })
           }
+          placeholderTextColor="#999"
         />
       </View>
       <View style={styles.box}>
@@ -167,6 +169,7 @@ const Profile = () => {
             color: "#BFBDB0",
             alignItems: "center",
           }}
+          placeholderTextColor="#999"
           value={userDetails?.mobile?.toString()}
           keyboardType="numeric"
           // disabled={true}
@@ -193,6 +196,7 @@ const Profile = () => {
               alignItems: "center",
               width: "100%",
             }}
+            placeholderTextColor="#999"
             value={userDetails?.email}
             keyboardType="text"
             onChangeText={e =>
@@ -227,14 +231,19 @@ const Profile = () => {
                 gender: value,
               })
             }
-            isSelected={userDetails?.gender !== "male"}
+            isSelected={userDetails?.gender === "female"}
           />
         </View>
       </View>
 
       <View style={styles.box}>
         <TouchableOpacity onPress={showDatePicker}>
-          <Text>DOB</Text>
+          <Text
+            style={{
+              color: "#000",
+            }}>
+            DOB
+          </Text>
 
           <Text style={styles.input}>
             {datee ? moment(datee).format("ll") : null}
@@ -303,6 +312,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: "500",
     paddingBottom: 4,
+    color: "black",
   },
   para: {
     color: "#2F80ED",

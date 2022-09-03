@@ -117,7 +117,9 @@ const Notifications = ({navigation}) => {
         />
         <View
           style={{display: "flex", alignItems: "flex-end", marginRight: 15}}>
-          <Text style={{fontSize: 10, marginTop: 10}}>{item.date}</Text>
+          <Text style={{fontSize: 10, marginTop: 10, color: "#555"}}>
+            {item.date}
+          </Text>
         </View>
       </View>
     );

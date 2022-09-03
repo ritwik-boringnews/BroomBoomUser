@@ -18,12 +18,14 @@ export default styles = StyleSheet.create({
     width: "100%",
     // marginBottom: metrics.verticalScale(20),
     // marginTop: metrics.verticalScale(20),
+    color: "black",
   },
   textP: {
     fontSize: 18,
     textAlign: "center",
     fontWeight: "400",
     marginTop: metrics.verticalScale(10),
+    color: "black",
     marginBottom: metrics.verticalScale(10),
   },
   btn: {
@@ -52,11 +54,11 @@ export default styles = StyleSheet.create({
     marginBottom: metrics.verticalScale(30),
     marginTop: metrics.verticalScale(30),
   },
-  input: {width: "80%", fontSize: 16},
+  input: {width: "80%", fontSize: 16, color: "black"},
   inputbtn: {
     fontSize: 16,
     fontWeight: "500",
-    color: "#347EEA",
+    color: "#000",
     textAlign: "center",
   },
 });
