@@ -42,9 +42,10 @@ const AppDocumentPicker = ({
             },
           );
           setError("");
-          onDocumentPicked(res.data.data);
+          onDocumentPicked(res.data.data, true);
         } catch (error) {
           setError("error!");
+          onDocumentPicked("Something error happened", false);
           dispatch(
             notify({
               message: error.message || "Error uploading document",
@@ -60,35 +61,37 @@ const AppDocumentPicker = ({
       });
   };
   return (
-    <>
-      <View style={containerStyle}>
-        <TouchableOpacity
-          style={[buttonStyle, errormsg && {backgroundColor: "red"}]}
-          onPress={() => {
-            handleDocumentSelection();
-          }}
-          disabled={isLoading}>
-          {isLoading ? (
-            <ActivityIndicator size="small" color="#0000ff" />
-          ) : (
-            <>
-              <Icon name="upload" size={20} color="#fff" />
-              {/* <UploadIcon size={18} color="white" /> */}
-              <Text
-                style={{
-                  textAlign: "center",
-                  fontSize: 16,
-                  fontWeight: "600",
-                  color: "white",
-                  marginLeft: 8,
-                }}>
-                {errormsg || title}
-              </Text>
-            </>
-          )}
-        </TouchableOpacity>
-      </View>
-    </>
+    <TouchableOpacity
+      style={[
+        {
+          flexDirection: "row",
+          backgroundColor: "#347EEA",
+          paddingVertical: 10,
+          paddingHorizontal: 25,
+          borderRadius: 50,
+        },
+        errormsg && {backgroundColor: "red"},
+      ]}
+      onPress={handleDocumentSelection}
+      disabled={isLoading}>
+      {isLoading ? (
+        <ActivityIndicator size="small" color="#fff" />
+      ) : (
+        <>
+          <Icon name="upload" size={20} color="#fff" />
+          <Text
+            style={{
+              textAlign: "center",
+              fontSize: 16,
+              fontWeight: "600",
+              color: "white",
+              marginLeft: 8,
+            }}>
+            Upload
+          </Text>
+        </>
+      )}
+    </TouchableOpacity>
   );
 };
 
