@@ -10,7 +10,6 @@ import {logout} from "../../Redux/Actions";
 
 const CustomDrawer = props => {
   const dispatch = useDispatch();
-  console.log('props =>',props);
   const auth = useSelector(state => state.auth);
   return (
     <View style={{flex: 1}}>
@@ -45,29 +44,6 @@ const CustomDrawer = props => {
             )}
           </View>
         </View>
-        {/* <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-around',
-            marginTop: 20,
-          }}>
-          <Text style={{color: 'black', fontWeight: '600'}}>
-            Finish your profile
-          </Text>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <Text style={{color: 'blue'}}>60%</Text>
-            <Icon name="right" color="blue" style={{paddingLeft: 5}} />
-          </View>
-        </View>
-        <Image
-          source={require('../../assets/progressbar.png')}
-          style={{
-            height: 30,
-            width: 210,
-            resizeMode: 'contain',
-            marginLeft: 30,
-          }}
-        /> */}
         <View style={{padding: 20}}>
           <DrawerItemList {...props} />
         </View>

@@ -15,6 +15,7 @@ import {useNavigation} from "@react-navigation/native";
 import AppDocumentPicker from "../../Components/AppDocumentPicker";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import BackButtonPage from "../../Components/BackButtonPage";
+import { primaryColor } from "../../Constants";
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -128,7 +129,7 @@ const Profile = () => {
           isSelected ? "radio-button-on-outline" : "radio-button-off-outline"
         }
         size={25}
-        color={"#F5C001"}
+        color={primaryColor}
       />
       <Text
         style={{
@@ -284,7 +285,7 @@ const Profile = () => {
           alignItems: "center",
           marginStart: 20,
           marginTop: 30,
-          backgroundColor: "#F5C001",
+          backgroundColor: primaryColor,
         }}
         onPress={handleUpdate}>
         <Text style={{color: "black", fontWeight: "bold"}}>Update</Text>

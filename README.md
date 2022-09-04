@@ -1,85 +1,37 @@
 Error: spawnSync ./gradlew EACCES React Native Error Fix
 https://reactnativeforyou.com/error-spawnsync-gradlew-eacces-react-native-error-fix/
 
+Error: spawnSync ./gradlew EACCES React Native Error Fix
+https://reactnativeforyou.com/error-spawnsync-gradlew-eacces-react-native-error-fix/
 
-location permission page - dashbaord
-- contact access
+
+<!-- // navigation - user app - referal page after otp (skip)
+
+// post - new notification 1. new notification 2. referable add 
+
+// pages ovual
+//  -->
 
 
-import Contacts from "react-native-contacts";
+{"PERMISSION_DENIED": 1, "POSITION_UNAVAILABLE": 2, "TIMEOUT": 3, "code": 2, "message": "No location provider available."}
 
-// PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_CONTACTS, {
-  //   title: "Contacts",
-  //   message: "This app would like to view your contacts.",
-  //   buttonPositive: "Please accept bare mortal",
-  // }).then(
-  //   Contacts.getAll()
-  //     .then(contacts => {
-  //       // work with contacts
-  //       console.log(contacts);
-  //     })
-  //     .catch(e => {
-  //       console.log(e);
-  //     }),
-  // );
 
-  const onSubmit = async () => {
-    try {
-      Contacts.checkPermission().then(permission => {
-        // Contacts.PERMISSION_AUTHORIZED || Contacts.PERMISSION_UNDEFINED || Contacts.PERMISSION_DENIED
-        console.log("permissionpermission", permission);
+need fix :
+> navigation setup, signup page are mixed up with logged in pages
+> navigation names should be in upper camel case with no space
 
-        if (permission === "undefined") {
-          Contacts.requestPermission().then(permission => {
-            // ...
-            console.log("permissionpermission", permission);
-          });
-        }
-        if (permission === "authorized") {
-          // yay!
-        }
-        if (permission === "denied") {
-          // x.x
-        }
-      });
 
-      PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_CONTACTS, {
-        title: "Contacts",
-        message: "This app would like to view your contacts.",
-        buttonPositive: "Please accept bare mortal",
-      }).then(() => console.log("permission granted"));
-    } catch (e) {
-      console.log(e);
-    }
-    // setIsLoading(true);
+OMIT USER REFERRAL STATUS UPDATE NOTIFICATIONS //
+SKIP FOR LATER OPTION SHOULD BE IN A BUTTON //
+GENDER OPTION SHOULD BE IN RADIO BUTTONS //
+EMAIL FIELD IS NOT TOUCH SENSITIVE //
+API MODIFICATION OF REFERRALS STATUS FIELD ON SUCCESSFUL REFERRAL //
 
-    // try {
-    //   const response = await Api.post(`/user/register`, {
-    //     mobile: mobile,
-    //   });
-    //   if (response.status === 1) {
-    //     navigation.navigate("Otp", {mobile: mobile});
-    //   } else {
-    //     throw new Error(response.message);
-    //   }
-    // } catch (error) {
-    //   dispatch(
-    //     notify({
-    //       message: error.message || "Something went wrong",
-    //       notifyType: "error",
-    //     }),
-    //   );
-    // }
-    // setIsLoading(false);
-  };
+NEED A RESEND OTP BUTTON
+WELCOME PAGE HAS A RESPONSIVE ISSUE
+THE FETCHED LOCATION SHOULD BE ADDED IN THE PICKUP LOCATION FIELD //
 
-  const _getContact = () => {
-    Contacts.getAll()
-      .then(contacts => {
-        // work with contacts
-        console.log(contacts);
-      })
-      .catch(e => {
-        console.log(e);
-      });
-  };
+
+add-referred-by
+
+

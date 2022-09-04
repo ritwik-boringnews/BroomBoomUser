@@ -6,7 +6,8 @@ import {
   setLocInputType,
   setMapHomeUIType,
 } from "../../Redux/Actions/mapActions";
-import {notify} from "../../Redux/Actions";
+import { notify } from "../../Redux/Actions";
+import { primaryColor } from "../Constants";
 /**
  * common component : pickupUI origin/destination
  * @returns
@@ -116,7 +117,7 @@ const PickupLocation = () => {
           alignItems: "center",
           marginTop: 10,
           marginStart: 25,
-          backgroundColor: "#F5C001",
+          backgroundColor: primaryColor,
         }}
         onPress={onConfirmLocations}>
         <Text style={{color: "black", fontWeight: "bold"}}>

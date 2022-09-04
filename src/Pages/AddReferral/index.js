@@ -17,6 +17,7 @@ const AddReferral = ({navigation}) => {
   const [referralCode, setReferralCode] = React.useState("");
   const user = useSelector(state => state.auth.user);
   const dispatch = useDispatch();
+  
   const verifyReferralCode = async () => {
     try {
       const response = await Api.post("/user/add-referred-by", {
@@ -46,7 +47,7 @@ const AddReferral = ({navigation}) => {
       console.log("response", response);
       if (response.status === 1) {
         updateUserInStore();
-        navigation.jumpTo("Booking");
+
         return;
       }
       throw new Error(response.message);
@@ -58,6 +59,7 @@ const AddReferral = ({navigation}) => {
 
   const updateUserInStore = () => {
     dispatch(updateUser({...user, referral_status: 1}));
+    navigation.jumpTo(user.email ? "Booking" : "Profile");
   };
 
   return (
@@ -69,7 +71,7 @@ const AddReferral = ({navigation}) => {
         <Text style={styles.text}>Hello User!</Text>
         <Text style={styles.textP}>Have a Referral code?</Text>
         <Text style={styles.textP}>
-          Get upto ₹100 as referral bonus. Bonus will be added into your wallet
+          Get upto ₹51 BB Coins referral bonus. Bonus will be added into your wallet
           soon.
         </Text>
         <Image source={require("../../../assets/reward.png")} />
@@ -93,7 +95,7 @@ const AddReferral = ({navigation}) => {
             backgroundColor: "#F5C001",
           }}
           onPress={skipReferral}>
-          <Text style={styles.inputbtn}>Skip for later</Text>
+          <Text style={styles.inputbtn}>Skip now</Text>
         </TouchableOpacity>
       </View>
     </KeyboardAvoidingView>

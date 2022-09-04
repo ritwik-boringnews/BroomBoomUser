@@ -22,6 +22,7 @@ import ReferAndEarn from "../Pages/ReferAndEarn";
 import HelpAndSupport from "../Pages/HelpAndSupport";
 import Notifications from "../Pages/Notifications";
 import CustomDrawer from "../Components/customDrawer";
+import {primaryColor} from "../Constants/index.js";
 //// screens
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
@@ -62,7 +63,7 @@ const DrawerNavigator = () => {
       initialRouteName={getInitialRouteName()}
       drawerContent={props => <CustomDrawer {...props} />}
       screenOptions={{
-        drawerActiveBackgroundColor: "#F5C001",
+        drawerActiveBackgroundColor: primaryColor,
         drawerActiveTintColor: "#fff",
         drawerInactiveTintColor: "#333",
         headerShown: false,

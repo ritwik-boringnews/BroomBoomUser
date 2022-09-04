@@ -5,6 +5,7 @@ import {ActivityIndicator, Checkbox} from "react-native-paper";
 import Api from "../../Services";
 import {useDispatch} from "react-redux";
 import {notify} from "../../../Redux/Actions";
+import {primaryColor} from "../../Constants";
 
 const SignUp = ({navigation}) => {
   const dispatch = useDispatch();
@@ -146,7 +147,7 @@ const SignUp = ({navigation}) => {
             onPress={() => {
               setChecked(!checked);
             }}
-            color={"#F5C001"}
+            color={primaryColor}
           />
           <Text style={{marginBottom: 15, color: "black"}}>
             By continuing, you agree to the <Text>Terms {""}</Text>
@@ -164,7 +165,7 @@ const SignUp = ({navigation}) => {
             backgroundColor:
               isLoading || mobile.length !== 10 || !checked
                 ? "#ddd"
-                : "#F5C001",
+                : primaryColor,
           }}
           disabled={isLoading || mobile.length !== 10 || !checked}
           onPress={onSubmit}>

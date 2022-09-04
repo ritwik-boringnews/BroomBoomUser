@@ -7,6 +7,7 @@ import {
 } from "react-native";
 import React from "react";
 import BackButtonPage from "../../Components/BackButtonPage";
+import { primaryColor } from "../../Constants";
 
 const HelpAndSupport = ({navigation}) => {
   return (
@@ -34,7 +35,7 @@ const HelpAndSupport = ({navigation}) => {
             onPress={() => navigation.navigate("termsAndConditions")}>
             <View
               style={{
-                backgroundColor: "#F5C001",
+                backgroundColor: primaryColor,
                 borderRadius: 50,
                 paddingHorizontal: 8,
                 paddingVertical: 5,

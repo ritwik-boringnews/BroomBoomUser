@@ -2,6 +2,7 @@ import React from "react";
 import {View, Text, Image, TouchableOpacity} from "react-native";
 import {useDispatch, useSelector} from "react-redux";
 import {resetOriginDestination} from "../../Redux/Actions/mapActions";
+import { primaryColor } from "../Constants";
 
 const ServiceNotAvailable = () => {
   const dispatch = useDispatch();
@@ -69,7 +70,7 @@ const ServiceNotAvailable = () => {
           alignItems: "center",
           marginTop: 10,
           marginStart: 20,
-          backgroundColor: "#F5C001",
+          backgroundColor: primaryColor,
         }}
         onPress={rePickup}>
         <Text style={{color: "black", fontWeight: "bold"}}>

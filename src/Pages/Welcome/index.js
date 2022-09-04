@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import Images from "../../Constants/Images";
 import Animated from "react-native-reanimated";
+import {primaryColor} from "../../Constants";
 
 const {width, height} = Dimensions.get("screen");
 
@@ -134,7 +135,7 @@ const Welcome = ({navigation}) => {
             padding: 15,
             alignItems: "center",
             borderRadius: 50,
-            backgroundColor: "#F5C001",
+            backgroundColor: primaryColor,
           }}
           onPress={() => navigation.replace("SignUp")}>
           <Text style={{fontWeight: "600", fontSize: 16, color: "#000"}}>
@@ -161,7 +162,7 @@ const styles = StyleSheet.create({
   },
 
   title: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: "700",
     marginTop: 12,
     color: "#000000",

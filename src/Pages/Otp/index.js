@@ -5,6 +5,7 @@ import Api from "../../Services";
 import {ActivityIndicator} from "react-native-paper";
 import {useDispatch} from "react-redux";
 import {notify, login} from "../../../Redux/Actions";
+import { primaryColor } from "../../Constants";
 
 const Otp = ({route}) => {
   const dispatch = useDispatch();
@@ -112,7 +113,7 @@ const Otp = ({route}) => {
         {counter === 0 ? (
           <TouchableOpacity
             style={{
-              backgroundColor: "#F5C001",
+              backgroundColor: primaryColor,
               padding: 10,
               borderRadius: 50,
             }}

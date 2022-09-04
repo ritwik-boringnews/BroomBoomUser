@@ -1,5 +1,6 @@
 import metrics from "../../Utility/metrics";
 import {StyleSheet} from "react-native";
+import { primaryColor } from "../../Constants";
 
 export default styles = StyleSheet.create({
   container: {
@@ -36,7 +37,7 @@ export default styles = StyleSheet.create({
     paddingVertical: 10,
     marginTop: metrics.verticalScale(10),
     marginBottom: metrics.verticalScale(10),
-    backgroundColor: "#F5C001",
+    backgroundColor: primaryColor,
   },
   centerText: {
     textAlign: "center",
