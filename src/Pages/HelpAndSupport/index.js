@@ -1,13 +1,7 @@
-import {
-  View,
-  Text,
-  Image,
-  TouchableOpacity,
-  Linking,
-} from "react-native";
+import {View, Text, Image, TouchableOpacity, Linking} from "react-native";
 import React from "react";
 import BackButtonPage from "../../Components/BackButtonPage";
-import { primaryColor } from "../../Constants";
+import {primaryColor} from "../../Constants";
 
 const HelpAndSupport = ({navigation}) => {
   return (
@@ -79,7 +73,7 @@ const HelpAndSupport = ({navigation}) => {
           style={{
             fontSize: 14,
             textAlign: "center",
-
+            fontWeight: "700",
             color: "black",
           }}>
           For more information read

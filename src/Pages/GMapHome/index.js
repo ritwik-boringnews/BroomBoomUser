@@ -24,6 +24,8 @@ import Api, {ApiPilot} from "../../Services";
 import RNAndroidLocationEnabler from "react-native-android-location-enabler";
 import io from "socket.io-client";
 import {setMapLocationOrigin} from "../../../Redux/Actions/mapActions";
+import MapViewDirections from "react-native-maps-directions";
+import {GOOGLE_MAPS_API_KEY} from "../../Utility/config";
 
 const styles = StyleSheet.create({
   container: {
@@ -52,6 +54,12 @@ export default ({navigation}) => {
     latitudeDelta: LATITUDE_DELTA,
     longitudeDelta: LONGITUDE_DELTA,
   });
+  const [destination, setDestination] = useState({
+    latitude: 0,
+    longitude: 0,
+    latitudeDelta: LATITUDE_DELTA,
+    longitudeDelta: LONGITUDE_DELTA,
+  });
 
   useEffect(() => {
     Geolocation.getCurrentPosition(info => {
@@ -66,20 +74,75 @@ export default ({navigation}) => {
     });
   }, []);
 
-  const getGeoLocationText = async coords => {
+  useEffect(() => {
+    _changePickupHandler();
+    if (map.origin === "") {
+      setDestination({
+        latitude: 0,
+        longitude: 0,
+        latitudeDelta: LATITUDE_DELTA,
+        longitudeDelta: LONGITUDE_DELTA,
+      });
+      Geolocation.getCurrentPosition(info => {
+        if (info) {
+          setLocation({
+            ...info.coords,
+            latitudeDelta: LATITUDE_DELTA,
+            longitudeDelta: LONGITUDE_DELTA,
+          });
+        }
+      });
+    }
+  }, [map.origin]);
+
+  useEffect(() => {
+    _changePickupHandler(true);
+  }, [map.destination]);
+
+  const _changePickupHandler = async (drop = false) => {
+    if (map.origin) {
+      const data = await getGeoLocationText(null, false, map.origin);
+      if (data) {
+        if (drop)
+          setDestination({
+            latitude: data.latitude,
+            longitude: data.longitude,
+            latitudeDelta: LATITUDE_DELTA,
+            longitudeDelta: LONGITUDE_DELTA,
+          });
+        else
+          setLocation({
+            latitude: data.latitude,
+            longitude: data.longitude,
+            latitudeDelta: LATITUDE_DELTA,
+            longitudeDelta: LONGITUDE_DELTA,
+          });
+      }
+    }
+  };
+
+  const getGeoLocationText = async (
+    coords = {},
+    encode = true,
+    location = "",
+  ) => {
     try {
-      const response = await ApiPilot.get(
-        `map/reverse-geo-code/${coords.latitude}/${coords.longitude}`,
-      );
-      console.log("response", response);
+      const queryParams = new URLSearchParams({
+        latitude: coords?.latitude,
+        longitude: coords?.longitude,
+        encode,
+        location,
+      }).toString();
+      const response = await ApiPilot.get(`map/get-geo-code?${queryParams}`);
       if (response.status === 1) {
         dispatch(setMapLocationOrigin(response.data.formattedAddress));
-        return;
+        return response.data;
       }
       throw new Error(response.message);
     } catch (error) {
       // dispatch(notify({type: "error", message: error.message}));
-      console.log(error);
+      console.log(error.message);
+      return null;
     }
   };
 
@@ -307,8 +370,25 @@ export default ({navigation}) => {
           initialRegion={location}
           provider={PROVIDER_GOOGLE}
           region={location}>
+          <Marker key={`marker2`} coordinate={location} draggable />
+          {destination.latitude !== 0 && (
+            <Marker key={"marker3"} coordinate={destination} draggable />
+          )}
+          {/* {location.latitude !== 0 && destination.latitude !== 0 && (
+            <MapViewDirections
+              origin={location}
+              destination={destination}
+              apikey={GOOGLE_MAPS_API_KEY}
+              strokeWidth={3}
+              optimizeWaypoints={true}
+              timePrecision={"now"}
+              onReady={result => {
+                console.log(`Distance: ${result.distance} km`);
+                console.log(`Duration: ${result.duration} min.`);
+              }}
+            />
+          )} */}
           {/* <MarkerType type="MOTOR-BIKE" location={location} /> */}
-          <Marker key={`marker${2}`} coordinate={location} draggable />
         </MapView>
         <View
           style={{
