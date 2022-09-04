@@ -11,7 +11,7 @@ import Api, {IS_LOCAL} from "../../Services";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import moment from "moment";
 import {notify, updateUser} from "../../../Redux/Actions";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {useNavigation} from "@react-navigation/native";
 import AppDocumentPicker from "../../Components/AppDocumentPicker";
 import BackButtonPage from "../../Components/BackButtonPage";
@@ -26,6 +26,7 @@ const Profile = () => {
   const [userDetails, setUserDetails] = useState({});
   const [image, setImage] = useState("");
   const navigation = useNavigation();
+  const {user} = useSelector(state => state.auth);
 
   useEffect(() => {
     getProfile();
@@ -57,58 +58,39 @@ const Profile = () => {
   };
 
   const getPhoneContacts = async () => {
-    const isUploadNeeded = await checkIfUserHaveContactsLoaded();
     let phoneContactsList = [];
-    if (isUploadNeeded) {
-      if (IS_LOCAL) {
-        phoneContactsList = [{name: "xyz", phone: 1234, user_id: user.id}];
-      } else {
-        await Contacts.getAll()
-          .then(contacts => {
-            // work with contacts
-            console.log("contacts", contacts);
-            phoneContactsList = contacts;
-          })
-          .catch(e => {
-            console.log(e);
-          });
-      }
-    }
-    console.log("phoneContactsList", phoneContactsList);
-    // if (Array.isArray(phoneContactsList) && phoneContactsList?.length) {
-    //   const payload = [];
-    //   phoneContactsList.map(phone => {
-    //     payload.push({
-    //       name: phone.displayName || phone.givenName || "",
-    //       phone: parseInt(phone?.phoneNumbers[0]?.number) || 0,
-    //       user_id: user.id,
-    //     });
-    //   });
-    //   const response = Api.post("/user/save_phone_contactss", {
-    //     phoneContactsList: payload,
-    //   });
-    // }
-  };
 
-  const checkIfUserHaveContactsLoaded = async () => {
-    let isUploadNeeded = false;
-    try {
-      const response = await Api.get(`/user/get_contacts_uploaded`);
-      // data -> 0 // no data in db; 1 // has data in db
-      if (response.status === 1) {
-        if (response.data == 0) isUploadNeeded = true;
-      } else {
-        throw new Error(response.message);
-      }
-    } catch (error) {
-      dispatch(
-        notify({
-          message: error.message || "Something went wrong",
-          notifyType: "error",
-        }),
-      );
+    if (IS_LOCAL) {
+      phoneContactsList = [{name: "xyz", phone: 1234, user_id: user.id}];
+    } else {
+      await Contacts.getAll()
+        .then(contacts => {
+          // work with contacts
+          console.log("contacts", contacts);
+          phoneContactsList = contacts;
+        })
+        .catch(e => {
+          console.log(e);
+        });
     }
-    return isUploadNeeded;
+    if (Array.isArray(phoneContactsList) && phoneContactsList?.length) {
+      const payload = [];
+      phoneContactsList.map(phone => {
+        payload.push({
+          name: phone.displayName || phone.givenName || "",
+          phone: parseInt(phone?.phoneNumbers[0]?.number) || 0,
+          user_id: user.id,
+        });
+      });
+      try {
+        const response = Api.post("/user/save_phone_contacts", {
+          phoneContactsList: payload,
+        });
+        if (response.status === 1 && response.result) {
+          dispatch(updateUser(response.result));
+        }
+      } catch (error) {}
+    }
   };
 
   const getProfile = async () => {
