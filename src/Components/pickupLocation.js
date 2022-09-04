@@ -6,8 +6,8 @@ import {
   setLocInputType,
   setMapHomeUIType,
 } from "../../Redux/Actions/mapActions";
-import { notify } from "../../Redux/Actions";
-import { primaryColor } from "../Constants";
+import {notify} from "../../Redux/Actions";
+import {primaryColor} from "../Constants";
 /**
  * common component : pickupUI origin/destination
  * @returns
@@ -16,7 +16,6 @@ const PickupLocation = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const {origin, locInputType, destination} = useSelector(state => state.map);
-  console.log("origin", {origin, locInputType, destination});
 
   const onConfirmLocations = () => {
     if (locInputType === "origin" && origin === "") {
@@ -60,54 +59,39 @@ const PickupLocation = () => {
       <Text
         style={{
           padding: 10,
-
           color: "black",
           fontSize: 15,
           fontWeight: "500",
         }}>
         {`${locInputType === "origin" ? "Select your Pick Up" : ""}`}
       </Text>
-      <View
+
+      <TouchableOpacity
         style={{
           backgroundColor: "#E0E0E0",
-          // marginHorizontal: 30,
-          width: "100%",
           paddingHorizontal: 8,
           paddingVertical: 5,
           borderRadius: 10,
-          // marginTop: 30,
-          // marginLeft: 16,
-          // marginStart: 25,
-
           flexDirection: "row",
+          alignItems: "center",
+        }}
+        onPress={() => {
+          navigation.navigate("LocationPicker");
         }}>
-        <TouchableOpacity
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            marginLeft: 30,
-            alignItems: "center",
-          }}
-          onPress={() => {
-            // locInputType === "origin"
-            // dispatch(setLocInputType(data.description))
-            navigation.navigate("LocationPicker");
-          }}>
-          <Image
-            source={require("../../assets/mapIcon.png")}
-            style={{marginLeft: 4}}
-          />
-          <Text style={{marginLeft: 10, color: "black", fontWeight: "bold"}}>
-            {locInputType === "origin"
-              ? origin === ""
-                ? "Choose a pickup location"
-                : origin
-              : destination === ""
-              ? "Choose your destination"
-              : destination}
-          </Text>
-        </TouchableOpacity>
-      </View>
+        <Image
+          source={require("../../assets/mapIcon.png")}
+          style={{marginLeft: 4}}
+        />
+        <Text style={{marginLeft: 10, color: "black", fontWeight: "bold",flex:1}}>
+          {locInputType === "origin"
+            ? origin === ""
+              ? "Choose a pickup location"
+              : origin
+            : destination === ""
+            ? "Choose your destination"
+            : destination}
+        </Text>
+      </TouchableOpacity>
       <TouchableOpacity
         style={{
           width: "85%",

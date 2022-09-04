@@ -1,30 +1,115 @@
+import React, {useEffect, useState} from "react";
 import {
   View,
   Text,
   StyleSheet,
   TextInput,
   TouchableOpacity,
+  PermissionsAndroid,
 } from "react-native";
-import React, {useEffect, useState} from "react";
-import Api from "../../Services";
+import Api, {IS_LOCAL} from "../../Services";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import moment from "moment";
 import {notify, updateUser} from "../../../Redux/Actions";
 import {useDispatch} from "react-redux";
 import {useNavigation} from "@react-navigation/native";
 import AppDocumentPicker from "../../Components/AppDocumentPicker";
-import Ionicons from "react-native-vector-icons/Ionicons";
 import BackButtonPage from "../../Components/BackButtonPage";
-import { primaryColor } from "../../Constants";
+import {primaryColor} from "../../Constants";
+import Icon from "react-native-vector-icons/FontAwesome5";
+import {validateEmail} from "../../Utility/helper";
+import AppRadioButton from "../../Components/AppRadioButton";
+import Contacts from "react-native-contacts";
 
 const Profile = () => {
   const dispatch = useDispatch();
   const [userDetails, setUserDetails] = useState({});
   const [image, setImage] = useState("");
   const navigation = useNavigation();
+
   useEffect(() => {
     getProfile();
   }, []);
+
+  const requestContactsPermission = async () => {
+    try {
+      const grantedCheck = await PermissionsAndroid.check(
+        PermissionsAndroid.PERMISSIONS.READ_CONTACTS,
+      );
+      console.log("grantedCheck", grantedCheck);
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.READ_CONTACTS,
+      );
+      if (granted) {
+        console.log("You can use the READ_CONTACTS");
+        getPhoneContacts();
+      } else {
+        console.log("READ_CONTACTS permission denied");
+      }
+    } catch (err) {
+      dispatch(
+        notify({
+          message: err.message || "Something went wrong",
+          notifyType: "error",
+        }),
+      );
+    }
+  };
+
+  const getPhoneContacts = async () => {
+    const isUploadNeeded = await checkIfUserHaveContactsLoaded();
+    let phoneContactsList = [];
+    if (isUploadNeeded) {
+      if (IS_LOCAL) {
+        phoneContactsList = [{name: "xyz", phone: 1234, user_id: user.id}];
+      } else {
+        await Contacts.getAll()
+          .then(contacts => {
+            // work with contacts
+            console.log("contacts", contacts);
+            phoneContactsList = contacts;
+          })
+          .catch(e => {
+            console.log(e);
+          });
+      }
+    }
+    console.log("phoneContactsList", phoneContactsList);
+    // if (Array.isArray(phoneContactsList) && phoneContactsList?.length) {
+    //   const payload = [];
+    //   phoneContactsList.map(phone => {
+    //     payload.push({
+    //       name: phone.displayName || phone.givenName || "",
+    //       phone: parseInt(phone?.phoneNumbers[0]?.number) || 0,
+    //       user_id: user.id,
+    //     });
+    //   });
+    //   const response = Api.post("/user/save_phone_contactss", {
+    //     phoneContactsList: payload,
+    //   });
+    // }
+  };
+
+  const checkIfUserHaveContactsLoaded = async () => {
+    let isUploadNeeded = false;
+    try {
+      const response = await Api.get(`/user/get_contacts_uploaded`);
+      // data -> 0 // no data in db; 1 // has data in db
+      if (response.status === 1) {
+        if (response.data == 0) isUploadNeeded = true;
+      } else {
+        throw new Error(response.message);
+      }
+    } catch (error) {
+      dispatch(
+        notify({
+          message: error.message || "Something went wrong",
+          notifyType: "error",
+        }),
+      );
+    }
+    return isUploadNeeded;
+  };
 
   const getProfile = async () => {
     try {
@@ -35,6 +120,11 @@ const Profile = () => {
           image: response.data?.image?.split("_")[1],
         });
         setDate(response.data.dob);
+        // check contact_upload_status, if false(0) -> upload contacts
+        if (response.data.contact_upload_status === 0) {
+          requestContactsPermission();
+        }
+        console.log("profile data", response.data);
       } else {
         throw new Error(response.message);
       }
@@ -48,47 +138,62 @@ const Profile = () => {
     }
   };
 
+  const isValidated = () => {
+    if (!validateEmail(userDetails.email)) {
+      dispatch(
+        notify({
+          message: "Please provide a valid email address",
+          notifyType: "error",
+        }),
+      );
+      return false;
+    }
+    return true;
+  };
+
   const handleUpdate = async () => {
-    try {
-      const response = await Api.update("/user/update-user-details", {
-        name: userDetails.name,
-        email: userDetails.email,
-        gender: userDetails.gender,
-        dob: datee,
-        image: image,
-      });
-      if (response.status === 1 && response.data) {
-        dispatch(
-          notify({
-            message: "User details updated successfully",
-            notifyType: "success",
-          }),
-        );
-        dispatch(updateUser(response.data));
-        setUserDetails({
-          ...userDetails,
-          name: response.data?.name,
-          email: response.data?.email,
-          gender: response.data?.gender,
-          image: response.data?.image?.split("_")[1],
+    if (isValidated())
+      try {
+        const response = await Api.update("/user/update-user-details", {
+          name: userDetails.name,
+          email: userDetails.email,
+          gender: userDetails.gender,
+          dob: datee,
+          image: image,
         });
-        setDate(response.data?.dob);
-      } else {
+        if (response.status === 1 && response.data) {
+          dispatch(
+            notify({
+              message: "User details updated successfully",
+              notifyType: "success",
+            }),
+          );
+          dispatch(updateUser(response.data));
+          setUserDetails({
+            ...userDetails,
+            name: response.data?.name,
+            email: response.data?.email,
+            gender: response.data?.gender,
+            image: response.data?.image?.split("_")[1],
+          });
+          setDate(response.data?.dob);
+          // navigation.openDrawer();
+        } else {
+          dispatch(
+            notify({
+              message: response.message || "Something went wrong",
+              notifyType: "error",
+            }),
+          );
+        }
+      } catch (error) {
         dispatch(
           notify({
-            message: response.message || "Something went wrong",
+            message: error.message || "Something went wrong",
             notifyType: "error",
           }),
         );
       }
-    } catch (error) {
-      dispatch(
-        notify({
-          message: error.message || "Something went wrong",
-          notifyType: "error",
-        }),
-      );
-    }
   };
 
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
@@ -105,42 +210,6 @@ const Profile = () => {
     setDate(d);
     hideDatePicker();
   };
-  const RadioButton = ({
-    label,
-    value,
-    onValueChange,
-    containerStyle,
-    isSelected,
-  }) => (
-    <TouchableOpacity
-      onPress={() => onValueChange(value)}
-      style={[
-        {
-          // flex: 1,
-          // padding: 5,
-          // alignItems: 'center',
-          // backgroundColor: isHighlighted ? LineColor : 'white',
-          flexDirection: "row",
-        },
-        containerStyle,
-      ]}>
-      <Ionicons
-        name={
-          isSelected ? "radio-button-on-outline" : "radio-button-off-outline"
-        }
-        size={25}
-        color={primaryColor}
-      />
-      <Text
-        style={{
-          fontSize: 16,
-          marginRight: 20,
-          color: "black",
-        }}>
-        {label}
-      </Text>
-    </TouchableOpacity>
-  );
 
   return (
     <BackButtonPage pageName="Profile" navigation={navigation}>
@@ -173,8 +242,8 @@ const Profile = () => {
           placeholderTextColor="#999"
           value={userDetails?.mobile?.toString()}
           keyboardType="numeric"
-          // disabled={true}
-          // editable={false}
+          disabled={true}
+          editable={false}
           selectTextOnFocus={false}
         />
       </View>
@@ -212,7 +281,7 @@ const Profile = () => {
       <View style={styles.box}>
         <Text style={styles.h1}>Gender</Text>
         <View style={{flexDirection: "row"}}>
-          <RadioButton
+          <AppRadioButton
             label={"Male"}
             value={"male"}
             onValueChange={value =>
@@ -223,7 +292,7 @@ const Profile = () => {
             }
             isSelected={userDetails?.gender === "male"}
           />
-          <RadioButton
+          <AppRadioButton
             label={"Female"}
             value={"female"}
             onValueChange={value =>
@@ -239,13 +308,7 @@ const Profile = () => {
 
       <View style={styles.box}>
         <TouchableOpacity onPress={showDatePicker}>
-          <Text
-            style={{
-              color: "#000",
-            }}>
-            DOB
-          </Text>
-
+          <Text style={styles.h1}>DOB</Text>
           <Text style={styles.input}>
             {datee ? moment(datee).format("ll") : null}
           </Text>
@@ -259,23 +322,28 @@ const Profile = () => {
       </View>
 
       <View style={styles.box}>
-        <Text style={styles.h1}>Upload Image</Text>
-        <AppDocumentPicker
-          title={userDetails.image || "Upload"}
-          buttonStyle={{
-            color: "white",
-            backgroundColor: "#347EEA",
-            justifyContent: "center",
-            flexDirection: "row",
-            padding: 10,
-            borderRadius: 50,
-          }}
-          onDocumentPicked={uri => {
-            setUserDetails({...userDetails, image: uri.Location.split("_")[1]});
-            setImage(uri.Location);
-          }}
-        />
+        <View style={{flexDirection: "row"}}>
+          <Text style={[styles.h1, {flex: 1}]}>Upload Image</Text>
+          <AppDocumentPicker
+            onDocumentPicked={uri => {
+              setUserDetails({
+                ...userDetails,
+                image: uri.Location.split("_")[1],
+              });
+              setImage(uri.Location);
+            }}
+          />
+        </View>
+        {userDetails.image && (
+          <View style={{flexDirection: "row"}}>
+            <Icon name="paperclip" size={20} color="gray" />
+            <Text style={{marginTop: 5, marginLeft: 10}}>
+              {userDetails.image}
+            </Text>
+          </View>
+        )}
       </View>
+
       <TouchableOpacity
         style={{
           width: "90%",
@@ -293,6 +361,7 @@ const Profile = () => {
     </BackButtonPage>
   );
 };
+
 const styles = StyleSheet.create({
   box: {
     borderBottomWidth: 1,
@@ -311,7 +380,7 @@ const styles = StyleSheet.create({
   },
   h1: {
     fontSize: 14,
-    fontWeight: "500",
+    fontWeight: "bold",
     paddingBottom: 4,
     color: "black",
   },

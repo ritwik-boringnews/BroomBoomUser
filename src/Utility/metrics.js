@@ -7,7 +7,9 @@ const XSMAX_HEIGHT = 896;
 const guidelineBaseWidth = 380;
 const guidelineBaseHeight = 815;
 const STATUSBAR_HEIGHT = StatusBar.currentHeight;
-
+const ASPECT_RATIO = width / height;
+const LATITUDE_DELTA = 0.0922;
+const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 const metrics = {
   screenWidth: width < height ? width : height,
   screenHeight: width < height ? height : width,
@@ -30,5 +32,7 @@ const metrics = {
   moderateScale: (size, factor = 0.25) =>
     size + (metrics.scale(size) - size) * factor,
   STATUSBAR_HEIGHT,
+  LONGITUDE_DELTA,
+  LATITUDE_DELTA,
 };
 export default metrics;

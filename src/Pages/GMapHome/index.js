@@ -4,8 +4,6 @@ import {
   View,
   TouchableOpacity,
   PermissionsAndroid,
-  Dimensions,
-  Text,
 } from "react-native";
 import MapView, {Marker, PROVIDER_GOOGLE} from "react-native-maps";
 import MyLocation from "react-native-vector-icons/MaterialIcons";
@@ -18,26 +16,12 @@ import RatePilot from "../../Components/ratePilot";
 import FindingPilot from "../../Components/findingPilot";
 import ServiceNotAvailable from "../../Components/serviceNotAvailable";
 import {useDispatch, useSelector} from "react-redux";
-import {notify, setModuleActive} from "../../../Redux/Actions";
-import Contacts from "react-native-contacts";
-import Api, {ApiPilot} from "../../Services";
+import {notify} from "../../../Redux/Actions";
+import {ApiPilot} from "../../Services";
 import RNAndroidLocationEnabler from "react-native-android-location-enabler";
 import io from "socket.io-client";
 import {setMapLocationOrigin} from "../../../Redux/Actions/mapActions";
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  map: {
-    ...StyleSheet.absoluteFillObject,
-  },
-});
-
-const {width, height} = Dimensions.get("window");
-const ASPECT_RATIO = width / height;
-const LATITUDE_DELTA = 0.0922;
-const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
+import metrics from "../../Utility/metrics";
 
 export default ({navigation}) => {
   const dispatch = useDispatch();
@@ -49,8 +33,8 @@ export default ({navigation}) => {
   const [location, setLocation] = useState({
     latitude: 0,
     longitude: 0,
-    latitudeDelta: LATITUDE_DELTA,
-    longitudeDelta: LONGITUDE_DELTA,
+    latitudeDelta: metrics.LATITUDE_DELTA,
+    longitudeDelta: metrics.LONGITUDE_DELTA,
   });
 
   useEffect(() => {
@@ -58,8 +42,8 @@ export default ({navigation}) => {
       if (info) {
         setLocation({
           ...info.coords,
-          latitudeDelta: LATITUDE_DELTA,
-          longitudeDelta: LONGITUDE_DELTA,
+          latitudeDelta: metrics.LATITUDE_DELTA,
+          longitudeDelta: metrics.LONGITUDE_DELTA,
         });
         getGeoLocationText(info.coords);
       }
@@ -101,7 +85,7 @@ export default ({navigation}) => {
 
   const MapType = () => {
     switch (map.homeMapUIType) {
-      case "PICKUP_LOCATION":
+      case "PICKUP_LOCATION": // pickup origin and destination
         return <PickupLocation />;
       case "CHOOSE_VEHICLE_TYPE":
         return <ChooseVehicleScooty />;
@@ -177,25 +161,14 @@ export default ({navigation}) => {
 
   const requestLocationPermission = async () => {
     try {
-      const granted = await PermissionsAndroid.requestMultiple([
+      const granted = await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-        PermissionsAndroid.PERMISSIONS.READ_CONTACTS,
-      ]);
-      console.log("granted", granted);
-      if (
-        granted[PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION] ===
-        PermissionsAndroid.RESULTS.GRANTED
-      ) {
+      );
+      if (granted) {
+        console.log("You can use the ACCESS_FINE_LOCATION");
         getOneTimeLocation();
-      }
-      if (
-        granted[PermissionsAndroid.PERMISSIONS.READ_CONTACTS] ===
-        PermissionsAndroid.RESULTS.GRANTED
-      ) {
-        console.log("contact access");
-        getPhoneContacts();
       } else {
-        // throw new Error("Location permission denied");
+        console.log("ACCESS_FINE_LOCATION permission denied");
       }
     } catch (err) {
       dispatch(
@@ -204,55 +177,6 @@ export default ({navigation}) => {
           notifyType: "error",
         }),
       );
-    }
-  };
-
-  const checkIfUserHaveContactsLoaded = async () => {
-    let isUploadNeeded = false;
-    try {
-      const response = await Api.get(`/user/get_contacts_uploaded`);
-      // data -> 0 // no data in db; 1 // has data in db
-      if (response.status === 1) {
-        if (response.data == 0) isUploadNeeded = true;
-      } else {
-        throw new Error(response.message);
-      }
-    } catch (error) {
-      dispatch(
-        notify({
-          message: error.message || "Something went wrong",
-          notifyType: "error",
-        }),
-      );
-    }
-    return isUploadNeeded;
-  };
-
-  const getPhoneContacts = async () => {
-    const isUploadNeeded = await checkIfUserHaveContactsLoaded();
-    let phoneContactsList = [];
-    if (isUploadNeeded) {
-      await Contacts.getAll()
-        .then(contacts => {
-          // work with contacts
-          phoneContactsList = contacts;
-        })
-        .catch(e => {
-          console.log(e);
-        });
-    }
-    if (Array.isArray(phoneContactsList) && phoneContactsList?.length) {
-      const payload = [];
-      phoneContactsList.map(phone => {
-        payload.push({
-          name: phone.displayName || phone.givenName || "",
-          phone: parseInt(phone?.phoneNumbers[0]?.number) || 0,
-          user_id: user.id,
-        });
-      });
-      Api.post("/user/save_phone_contacts", {
-        phoneContactsList: payload,
-      });
     }
   };
 
@@ -270,8 +194,8 @@ export default ({navigation}) => {
           info => {
             setLocation({
               ...info.coords,
-              latitudeDelta: LATITUDE_DELTA,
-              longitudeDelta: LONGITUDE_DELTA,
+              latitudeDelta: metrics.LATITUDE_DELTA,
+              longitudeDelta: metrics.LONGITUDE_DELTA,
             });
           },
           error => {
@@ -338,3 +262,11 @@ export default ({navigation}) => {
     </View>
   );
 };
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  map: {
+    ...StyleSheet.absoluteFillObject,
+  },
+});
