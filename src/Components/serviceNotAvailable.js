@@ -2,7 +2,7 @@ import React from "react";
 import {View, Text, Image, TouchableOpacity} from "react-native";
 import {useDispatch, useSelector} from "react-redux";
 import {resetOriginDestination} from "../../Redux/Actions/mapActions";
-import { primaryColor } from "../Constants";
+import {primaryColor} from "../Constants";
 
 const ServiceNotAvailable = () => {
   const dispatch = useDispatch();
@@ -26,21 +26,29 @@ const ServiceNotAvailable = () => {
       }}>
       <View
         style={{
-          backgroundColor: "#E0E0E0",
           marginHorizontal: 30,
           paddingVertical: 10,
           borderRadius: 10,
-          marginTop: 10,
+          marginTop: 15,
           marginLeft: 20,
           flexDirection: "row",
           justifyContent: "center",
+          backgroundColor: "#E0E0E0",
+          paddingHorizontal: 8,
+          alignItems: "center",
         }}>
         <TouchableOpacity style={{display: "flex", flexDirection: "row"}}>
           <Image
             source={require("../../assets/mapIcon.png")}
             style={{marginTop: 4}}
           />
-          <Text style={{marginLeft: 10, color: "black", fontSize: 14}}>
+          <Text
+            style={{
+              marginLeft: 10,
+              color: "black",
+              fontWeight: "bold",
+              flex: 1,
+            }}>
             {destination}
           </Text>
         </TouchableOpacity>

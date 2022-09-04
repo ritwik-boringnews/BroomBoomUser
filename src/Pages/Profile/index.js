@@ -50,7 +50,7 @@ const Profile = () => {
     } catch (err) {
       dispatch(
         notify({
-          message: err.message || "Something went wrong",
+          message: err?.message || "Something went wrong",
           notifyType: "error",
         }),
       );
@@ -103,7 +103,8 @@ const Profile = () => {
         });
         setDate(response.data.dob);
         // check contact_upload_status, if false(0) -> upload contacts
-        if (response.data.contact_upload_status === 0) {
+        console.log('contact_upload_status',response.data.contact_upload_status);
+        if (response.data.contact_upload_status === 1) {
           requestContactsPermission();
         }
         console.log("profile data", response.data);
@@ -159,7 +160,7 @@ const Profile = () => {
             image: response.data?.image?.split("_")[1],
           });
           setDate(response.data?.dob);
-          // navigation.openDrawer();
+          navigation.openDrawer();
         } else {
           dispatch(
             notify({
