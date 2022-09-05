@@ -14,7 +14,7 @@ const RideDetails = ({navigation, route}) => {
   console.log("ride details", rideDetails);
   return (
     <ScrollView>
-      <View>
+      <View style={{backgroundColor: "white"}}>
         <View style={{padding: 18}}>
           <Image
             source={require("../../../assets/map.png")}

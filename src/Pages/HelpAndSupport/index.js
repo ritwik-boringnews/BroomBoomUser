@@ -6,7 +6,12 @@ import {primaryColor} from "../../Constants";
 const HelpAndSupport = ({navigation}) => {
   return (
     <BackButtonPage pageName="Help and Support" navigation={navigation}>
-      <View style={{marginTop: 40, paddingHorizontal: 20}}>
+      <View
+        style={{
+          marginTop: 40,
+          paddingHorizontal: 20,
+          backgroundColor: "white",
+        }}>
         <View
           style={{
             flexDirection: "row",

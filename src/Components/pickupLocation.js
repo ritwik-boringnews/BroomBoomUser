@@ -82,7 +82,8 @@ const PickupLocation = () => {
           source={require("../../assets/mapIcon.png")}
           style={{marginLeft: 4}}
         />
-        <Text style={{marginLeft: 10, color: "black", fontWeight: "bold",flex:1}}>
+        <Text
+          style={{marginLeft: 10, color: "black", fontWeight: "bold", flex: 1}}>
           {locInputType === "origin"
             ? origin === ""
               ? "Choose a pickup location"

@@ -67,7 +67,7 @@ const ReferAndEarn = ({navigation}) => {
       </View>
       <View style={styles.container}>
         <Text style={styles.title}>
-          INVITE YOUR FRIEND AND EARN UPTO 100 BROOMBOOM COINS
+          INVITE YOUR FRIEND AND EARN UPTO 51 BROOMBOOM COINS
         </Text>
         <Image
           source={{
@@ -115,9 +115,9 @@ const ReferAndEarn = ({navigation}) => {
             </View>
             <View>
               <Text style={styles.stepsCounterTitle}>
-                YOUR FRIEND COMPLETES FIRST 10 RIDES
+                YOUR FRIEND COMPLETES FIRST 3 RIDES
               </Text>
-              <Text style={styles.mutedText}>YOU EARN 100 BROOMBOOM COINS</Text>
+              <Text style={styles.mutedText}>YOU EARN 51 BROOMBOOM COINS</Text>
             </View>
           </View>
         </View>

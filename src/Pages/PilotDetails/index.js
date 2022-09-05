@@ -9,7 +9,7 @@ const PilotDetails = ({navigation, route}) => {
   }, []);
   console.log("pilot details", route.params);
   return (
-    <View>
+    <View style={{backgroundColor: "white"}}>
       <View
         style={{
           flexDirection: "row",

@@ -1,25 +1,26 @@
 export default styles = {
   container: {
     top: 30,
-    width: '100%',
+    width: "100%",
     paddingLeft: 25,
     paddingRight: 25,
     paddingBottom: 50,
+    backgroundColor: "white",
   },
   header: {
-    textAlign: 'center',
+    textAlign: "center",
     fontSize: 16,
-    fontWeight: '500',
-    textTransform: 'uppercase',
+    fontWeight: "500",
+    textTransform: "uppercase",
   },
   paragraph: {
     lineHeight: 24,
-    textAlign: 'justify',
+    textAlign: "justify",
     marginTop: 9,
   },
   title: {
     fontSize: 13,
-    fontWeight: '200',
-    fontWeight: 'bold',
+    fontWeight: "200",
+    fontWeight: "bold",
   },
 };

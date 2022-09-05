@@ -5,7 +5,7 @@ import Api from "../../Services";
 import {ActivityIndicator} from "react-native-paper";
 import {useDispatch} from "react-redux";
 import {notify, login} from "../../../Redux/Actions";
-import { primaryColor } from "../../Constants";
+import {primaryColor} from "../../Constants";
 
 const Otp = ({route}) => {
   const dispatch = useDispatch();
@@ -81,7 +81,13 @@ const Otp = ({route}) => {
   };
 
   return (
-    <View style={{marginTop: 30, paddingHorizontal: 30, flex: 1}}>
+    <View
+      style={{
+        marginTop: 30,
+        paddingHorizontal: 30,
+        flex: 1,
+        backgroundColor: "white",
+      }}>
       <Text
         style={{
           fontSize: 22,

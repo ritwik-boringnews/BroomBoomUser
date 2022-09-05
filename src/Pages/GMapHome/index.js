@@ -83,6 +83,17 @@ export default ({navigation}) => {
     _changePickupHandler(true);
   }, [map.destination]);
 
+  const locateCurrentPosition = () => {
+    Geolocation.getCurrentPosition(position => {
+      setLocation({
+        ...position.coords,
+        latitudeDelta: metrics.LATITUDE_DELTA,
+        longitudeDelta: metrics.LONGITUDE_DELTA,
+      });
+      getGeoLocationText(position.coords);
+    });
+  };
+
   const _changePickupHandler = async (drop = false) => {
     if (map.origin) {
       const data = await getGeoLocationText(null, false, map.origin);
@@ -274,6 +285,7 @@ export default ({navigation}) => {
         );
       })
       .catch(err => {
+        console.log("ERR getOneTimeLocation", err);
         // The user has not accepted to enable the location services or something went wrong during the process
         // "err" : { "code" : "ERR00|ERR01|ERR02|ERR03", "message" : "message"}
         // codes :
@@ -285,7 +297,7 @@ export default ({navigation}) => {
   };
 
   return (
-    <View style={{flex: 1}}>
+    <View style={{flex: 1, backgroundColor: "white"}}>
       <HambergerHome navigation={navigation} />
       <View style={styles.container}>
         <MapView
@@ -323,7 +335,7 @@ export default ({navigation}) => {
             right: 20,
             backgroundColor: "white",
           }}>
-          <TouchableOpacity onPress={getOneTimeLocation}>
+          <TouchableOpacity onPress={locateCurrentPosition}>
             <MyLocation name="my-location" size={20} color="black" />
           </TouchableOpacity>
         </View>
