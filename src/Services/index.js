@@ -24,8 +24,8 @@ export default Api;
 
 export const API_ENDPOINTS = {
   PILOT: {
-    getGeoLocationText: "map/reverse-geo-code/:latitude/:longitude",
+    getGeoLocationText: "map/get-geo-code",
   },
 };
 
-export const IS_LOCAL = true;
+export const IS_LOCAL = false;
