@@ -1,6 +1,6 @@
-import React, {useState} from 'react';
-import {Alert, Modal, StyleSheet, Text, Pressable, View} from 'react-native';
-import Icon from 'react-native-vector-icons/Entypo';
+import React, {useState} from "react";
+import {Alert, Modal, StyleSheet, Text, Pressable, View} from "react-native";
+import Icon from "react-native-vector-icons/Entypo";
 const CancelOrderModal = () => {
   const [modalVisible, setModalVisible] = useState(false);
   return (
@@ -14,89 +14,89 @@ const CancelOrderModal = () => {
           setModalVisible(!modalVisible);
         }}>
         <View style={styles.modalView}>
-          <View style={{justifyContent: 'flex-end', flexDirection: 'row'}}>
+          <View style={{justifyContent: "flex-end", flexDirection: "row"}}>
             <Pressable onPress={() => setModalVisible(!modalVisible)}>
               <Icon name="cross" size={18} />
             </Pressable>
           </View>
           <Text
             style={{
-              color: 'black',
+              color: "black",
               marginTop: 25,
-              textAlign: 'center',
+              textAlign: "center",
               fontSize: 15,
             }}>
             Why do you want to cancel the ride?
           </Text>
-          <Text style={{textAlign: 'center', marginTop: 10, fontSize: 13}}>
+          <Text style={{textAlign: "center", marginTop: 10, fontSize: 13}}>
             Please select the reason for cancelation
           </Text>
           <View
-            style={{borderWidth: 1, borderColor: '#828282', marginTop: 20}}
+            style={{borderWidth: 1, borderColor: "#828282", marginTop: 20}}
           />
           <View style={{padding: 23}}>
-            <Text style={{fontWeight: '600', fontSize: 17, color: 'black'}}>
+            <Text style={{fontWeight: "600", fontSize: 17, color: "black"}}>
               Change of plans
             </Text>
             <Text
               style={{
-                fontWeight: '600',
+                fontWeight: "600",
                 fontSize: 17,
-                color: 'black',
+                color: "black",
                 marginTop: 14,
               }}>
               Drop location denied
             </Text>
             <Text
               style={{
-                fontWeight: '600',
+                fontWeight: "600",
                 fontSize: 17,
-                color: 'black',
+                color: "black",
                 marginTop: 14,
               }}>
               Ask to pay extra
             </Text>
             <Text
               style={{
-                fontWeight: '600',
+                fontWeight: "600",
                 fontSize: 17,
-                color: 'black',
+                color: "black",
                 marginTop: 14,
               }}>
               Wrong pickup location
             </Text>
             <Text
               style={{
-                fontWeight: '600',
+                fontWeight: "600",
                 fontSize: 17,
-                color: 'black',
+                color: "black",
                 marginTop: 14,
               }}>
               Asked to change payment mode
             </Text>
             <Text
               style={{
-                fontWeight: '600',
+                fontWeight: "600",
                 fontSize: 17,
-                color: 'black',
+                color: "black",
                 marginTop: 14,
               }}>
               Taking longer than expected
             </Text>
             <Text
               style={{
-                fontWeight: '600',
+                fontWeight: "600",
                 fontSize: 17,
-                color: 'black',
+                color: "black",
                 marginTop: 14,
               }}>
               Found better price elsewhere
             </Text>
             <Text
               style={{
-                fontWeight: '600',
+                fontWeight: "600",
                 fontSize: 17,
-                color: 'black',
+                color: "black",
                 marginTop: 14,
               }}>
               Others
@@ -104,9 +104,9 @@ const CancelOrderModal = () => {
           </View>
           <Text
             style={{
-              color: 'red',
+              color: "red",
               fontSize: 12,
-              textAlign: 'center',
+              textAlign: "center",
               marginBottom: 15,
             }}>
             Note* Penalty will be applied if you cancel the ride
@@ -125,13 +125,14 @@ const CancelOrderModal = () => {
 const styles = StyleSheet.create({
   centeredView: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     marginTop: 22,
+    backgroundColor: "white",
   },
   modalView: {
     margin: 35,
-    backgroundColor: 'white',
+    backgroundColor: "white",
     borderRadius: 20,
     padding: 10,
   },

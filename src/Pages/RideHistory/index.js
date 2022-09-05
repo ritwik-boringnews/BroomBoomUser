@@ -1,9 +1,4 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-} from "react-native";
+import {View, Text, StyleSheet, Image, TouchableOpacity} from "react-native";
 import React, {useEffect, useState} from "react";
 import Box from "../RideHistory/box.js";
 import Api from "../../Services";

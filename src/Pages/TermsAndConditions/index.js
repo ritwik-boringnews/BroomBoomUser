@@ -5,7 +5,7 @@ import BackIcon from "react-native-vector-icons/AntDesign";
 const TermsAndConditions = ({navigation}) => {
   return (
     <ScrollView>
-      <View style={{flex: 1}}>
+      <View style={{flex: 1, backgroundColor: "white"}}>
         <View
           style={{
             flexDirection: "row",
