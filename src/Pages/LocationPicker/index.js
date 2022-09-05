@@ -13,7 +13,7 @@ const LocationPicker = ({navigation}) => {
     container: {
       paddingHorizontal: 20,
       flex: 1,
-      backgroundColor: "#fff",
+      backgroundColor: "white",
       color: "black",
     },
   });

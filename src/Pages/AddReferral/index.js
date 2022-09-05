@@ -17,7 +17,7 @@ const AddReferral = ({navigation}) => {
   const [referralCode, setReferralCode] = React.useState("");
   const user = useSelector(state => state.auth.user);
   const dispatch = useDispatch();
-  
+
   const verifyReferralCode = async () => {
     try {
       const response = await Api.post("/user/add-referred-by", {
@@ -66,13 +66,13 @@ const AddReferral = ({navigation}) => {
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "position"}
       keyboardVerticalOffset={10}
-      style={{flex: 1, position: "absolute"}}>
+      style={{flex: 1, position: "absolute", backgroundColor: "white"}}>
       <View style={styles.container}>
         <Text style={styles.text}>Hello User!</Text>
         <Text style={styles.textP}>Have a Referral code?</Text>
         <Text style={styles.textP}>
-          Get upto ₹51 BB Coins referral bonus. Bonus will be added into your wallet
-          soon.
+          Get upto ₹51 BB Coins referral bonus. Bonus will be added into your
+          wallet soon.
         </Text>
         <Image source={require("../../../assets/reward.png")} />
         <View style={styles.inputContainer}>

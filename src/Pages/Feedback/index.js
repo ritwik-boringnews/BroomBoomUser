@@ -54,7 +54,7 @@ const Feedback = ({route}) => {
     }
   };
   return (
-    <View>
+    <View style={{backgroundColor: "white"}}>
       <View
         style={{
           backgroundColor: "white",

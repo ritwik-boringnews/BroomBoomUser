@@ -4,10 +4,7 @@ export default styles = StyleSheet.create({
   container: {
     width: "100%",
     height: "100%",
-    // display: "flex",
-    // justifyContent: "center",
-    backgroundColor: "#f5f5f5",
-    // paddingHorizontal: 30,
+    backgroundColor: "white",
   },
   accordionContainer: {
     justifyContent: "center",

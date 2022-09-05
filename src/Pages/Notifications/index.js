@@ -62,7 +62,7 @@ const Notifications = ({navigation}) => {
       <View
         key={item.id}
         style={{
-          backgroundColor: "#FFFBC8",
+          backgroundColor: "white",
           marginTop: 10,
           borderRadius: 15,
           width: "100%",
@@ -72,23 +72,7 @@ const Notifications = ({navigation}) => {
         <View
           style={{
             flexDirection: "row",
-            // justifyContent: "center",
           }}>
-          {/* <View
-            style={{
-              justifyContent: "center",
-              width: "10%",
-              marginHorizontal: 10,
-            }}>
-            <Image
-              source={item.image}
-              style={{
-                width: 20,
-                height: 20,
-                resizeMode: "contain",
-              }}
-            />
-          </View> */}
           <View style={{width: "100%", paddingHorizontal: 20}}>
             <Text style={{fontWeight: "bold", color: "black"}}>
               {item.title}

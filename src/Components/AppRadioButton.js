@@ -1,7 +1,7 @@
 import React from "react";
 import {Text, TouchableOpacity} from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import { primaryColor } from "../Constants";
+import {primaryColor} from "../Constants";
 
 const AppRadioButton = ({
   label,
@@ -15,6 +15,7 @@ const AppRadioButton = ({
     style={[
       {
         flexDirection: "row",
+        alignItems: "center",
       },
       containerStyle,
     ]}>

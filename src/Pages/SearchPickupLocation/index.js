@@ -4,17 +4,17 @@ import {
   TouchableOpacity,
   StyleSheet,
   TextInput,
-} from 'react-native';
-import React from 'react';
+} from "react-native";
+import React from "react";
 
-import Icon from 'react-native-vector-icons/Ionicons';
+import Icon from "react-native-vector-icons/Ionicons";
 
 const SearchPickupLocation = () => {
   const styles = StyleSheet.create({
     container: {
       paddingHorizontal: 40,
       flex: 1,
-      backgroundColor: '#fff',
+      backgroundColor: "white",
     },
   });
   return (
@@ -29,29 +29,29 @@ const SearchPickupLocation = () => {
       />
       <View
         style={{
-          width: '100%',
+          width: "100%",
           padding: 8,
           borderWidth: 1,
           borderRadius: 50,
           marginTop: 30,
-          backgroundColor: 'rgba(245, 192, 1, 0.2)',
-          flexDirection: 'row',
-          alignItems: 'center',
+          backgroundColor: "rgba(245, 192, 1, 0.2)",
+          flexDirection: "row",
+          alignItems: "center",
         }}>
         <Icon name="search-outline" size={15} style={{marginLeft: 8}} />
         <TextInput
           placeholder="Search Pickup Location"
           style={{
             fontSize: 16,
-            fontWeight: '500',
+            fontWeight: "500",
           }}></TextInput>
       </View>
 
       <Text
         style={{
-          color: 'black',
+          color: "black",
           marginTop: 15,
-          fontWeight: '500',
+          fontWeight: "500",
           fontSize: 16,
         }}>
         History
@@ -59,20 +59,20 @@ const SearchPickupLocation = () => {
       <View>
         <Text
           style={{
-            fontWeight: '700',
-            color: 'black',
+            fontWeight: "700",
+            color: "black",
             marginTop: 15,
             fontSize: 16,
           }}>
           South Dumdum,West Bengal 700028
         </Text>
-        <Text style={{marginTop: 10, fontWeight: '700', fontSize: 14}}>
+        <Text style={{marginTop: 10, fontWeight: "700", fontSize: 14}}>
           Dum Dum Junction,Dum Dum Junction
         </Text>
         <Text
           style={{
             borderBottomWidth: 1,
-            borderBottomColor: '#828282',
+            borderBottomColor: "#828282",
             paddingBottom: 7,
             fontSize: 14,
           }}>
@@ -82,8 +82,8 @@ const SearchPickupLocation = () => {
       <View>
         <Text
           style={{
-            fontWeight: '500',
-            color: 'black',
+            fontWeight: "500",
+            color: "black",
             marginTop: 15,
           }}>
           South Dumdum,West Bengal 700028
@@ -94,7 +94,7 @@ const SearchPickupLocation = () => {
         <Text
           style={{
             borderBottomWidth: 1,
-            borderBottomColor: '#828282',
+            borderBottomColor: "#828282",
             paddingBottom: 7,
             fontSize: 14,
           }}>
@@ -102,7 +102,7 @@ const SearchPickupLocation = () => {
         </Text>
       </View>
       <View>
-        <Text style={{fontWeight: '500', color: 'black', marginTop: 16}}>
+        <Text style={{fontWeight: "500", color: "black", marginTop: 16}}>
           South Dumdum,West Bengal 700028
         </Text>
         <Text style={{marginTop: 10, fontSize: 14}}>
@@ -112,21 +112,21 @@ const SearchPickupLocation = () => {
           style={{
             paddingBottom: 7,
             fontSize: 14,
-            fontWeight: '700',
+            fontWeight: "700",
           }}>
           Railway Station Kolkata West Bengal
         </Text>
       </View>
       <TouchableOpacity
         style={{
-          width: '100%',
+          width: "100%",
           padding: 10,
           borderWidth: 1,
           borderRadius: 50,
-          alignItems: 'center',
-          top: '25%',
+          alignItems: "center",
+          top: "25%",
         }}>
-        <Text style={{color: 'black', fontWeight: 'bold'}}>
+        <Text style={{color: "black", fontWeight: "bold"}}>
           Select From Map
         </Text>
       </TouchableOpacity>

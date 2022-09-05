@@ -103,7 +103,10 @@ const Profile = () => {
         });
         setDate(response.data.dob);
         // check contact_upload_status, if false(0) -> upload contacts
-        console.log('contact_upload_status',response.data.contact_upload_status);
+        console.log(
+          "contact_upload_status",
+          response.data.contact_upload_status,
+        );
         if (response.data.contact_upload_status === 1) {
           requestContactsPermission();
         }
@@ -273,6 +276,7 @@ const Profile = () => {
                 gender: value,
               })
             }
+            style={{textAlign: "center"}}
             isSelected={userDetails?.gender === "male"}
           />
           <AppRadioButton
@@ -352,6 +356,7 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     marginVertical: 4,
     paddingHorizontal: 20,
+    backgroundColor: "white",
   },
   input: {
     fontSize: 16,

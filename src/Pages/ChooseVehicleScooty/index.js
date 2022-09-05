@@ -63,11 +63,11 @@ const ChooseVehicleScooty = () => {
           backgroundColor: "white",
           marginTop: 10,
           borderRadius: 15,
-
           marginHorizontal: 30,
           paddingVertical: 10,
           flexDirection: "row",
           justifyContent: "space-between",
+          backgroundColor: "white",
         }}>
         <View
           style={{
