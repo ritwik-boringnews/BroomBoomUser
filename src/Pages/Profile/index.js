@@ -5,9 +5,8 @@ import {
   StyleSheet,
   TextInput,
   TouchableOpacity,
-  PermissionsAndroid,
 } from "react-native";
-import Api, {IS_LOCAL} from "../../Services";
+import Api from "../../Services";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import moment from "moment";
 import {notify, updateUser} from "../../../Redux/Actions";
@@ -19,7 +18,9 @@ import {primaryColor} from "../../Constants";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import {validateEmail} from "../../Utility/helper";
 import AppRadioButton from "../../Components/AppRadioButton";
-import Contacts from "react-native-contacts";
+import useContactPermission, {
+  PERMISSIONS_TYPES,
+} from "../../Hooks/useContactPermission";
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -32,65 +33,36 @@ const Profile = () => {
     getProfile();
   }, []);
 
-  const requestContactsPermission = async () => {
-    try {
-      const grantedCheck = await PermissionsAndroid.check(
-        PermissionsAndroid.PERMISSIONS.READ_CONTACTS,
-      );
-      console.log("grantedCheck", grantedCheck);
-      const granted = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.READ_CONTACTS,
-      );
-      if (granted) {
-        console.log("You can use the READ_CONTACTS");
-        getPhoneContacts();
-      } else {
-        console.log("READ_CONTACTS permission denied");
-      }
-    } catch (err) {
-      dispatch(
-        notify({
-          message: err?.message || "Something went wrong",
-          notifyType: "error",
-        }),
-      );
-    }
-  };
-
-  const getPhoneContacts = async () => {
-    let phoneContactsList = [];
-
-    if (IS_LOCAL) {
-      phoneContactsList = [{name: "xyz", phone: 1234, user_id: user.id}];
-    } else {
+  const uploadPhoneContacts = async () => {
+    const environment = process.env.NODE_ENV || "development";
+    let payload = [];
+    if (environment === "production") {
       await Contacts.getAll()
         .then(contacts => {
           // work with contacts
-          console.log("contacts", contacts);
-          phoneContactsList = contacts;
+          contacts.map(phone => {
+            payload.push({
+              name: phone.displayName || phone.givenName || "",
+              phone: parseInt(phone?.phoneNumbers[0]?.number) || 0,
+              user_id: user.id,
+            });
+          });
         })
         .catch(e => {
           console.log(e);
         });
+    } else {
+      payload = [{name: "xyz", phone: 1234, user_id: user.id}];
     }
-    if (Array.isArray(phoneContactsList) && phoneContactsList?.length) {
-      const payload = [];
-      phoneContactsList.map(phone => {
-        payload.push({
-          name: phone.displayName || phone.givenName || "",
-          phone: parseInt(phone?.phoneNumbers[0]?.number) || 0,
-          user_id: user.id,
-        });
+    try {
+      const response = Api.post("/user/save_phone_contacts", {
+        phoneContactsList: payload,
       });
-      try {
-        const response = Api.post("/user/save_phone_contacts", {
-          phoneContactsList: payload,
-        });
-        if (response.status === 1 && response.result) {
-          dispatch(updateUser(response.result));
-        }
-      } catch (error) {}
-    }
+
+      if (response.status === 1 && response.result) {
+        dispatch(updateUser(response.result));
+      }
+    } catch (error) {}
   };
 
   const getProfile = async () => {
@@ -102,15 +74,12 @@ const Profile = () => {
           image: response.data?.image?.split("_")[1],
         });
         setDate(response.data.dob);
-        // check contact_upload_status, if false(0) -> upload contacts
-        console.log(
-          "contact_upload_status",
-          response.data.contact_upload_status,
-        );
         if (response.data.contact_upload_status === 1) {
-          requestContactsPermission();
+          const permissionG = await useContactPermission();
+          if (permissionG === PERMISSIONS_TYPES.GRANTED) {
+            uploadPhoneContacts();
+          }
         }
-        console.log("profile data", response.data);
       } else {
         throw new Error(response.message);
       }

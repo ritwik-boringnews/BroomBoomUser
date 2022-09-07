@@ -4,13 +4,28 @@ import {
   SET_MAP_HOME_UI_TYPE,
   SET_LOC_INPUT_TYPE,
   RESET_MAP_LOC,
+  SET_MAP_VISIBLE_MARKER_TYPE
 } from "../actionTypes";
+import metrics from "../../src/Utility/metrics";
 
 const INITIAL_STATE = {
-  origin: "",
-  destination: "",
+  origin: {
+    latitude: 0,
+    longitude: 0,
+    latitudeDelta: metrics.LATITUDE_DELTA,
+    longitudeDelta: metrics.LONGITUDE_DELTA,
+    text: "",
+  },
+  destination: {
+    latitude: 0,
+    longitude: 0,
+    latitudeDelta: metrics.LATITUDE_DELTA,
+    longitudeDelta: metrics.LONGITUDE_DELTA,
+    text: "",
+  },
   homeMapUIType: "PICKUP_LOCATION",
   locInputType: "origin", // origin/destination
+  visibleMarkerType: "origin", // origin/destination/both
 };
 
 const reducer = (state = INITIAL_STATE, action) => {
@@ -18,13 +33,13 @@ const reducer = (state = INITIAL_STATE, action) => {
     case SET_MAP_LOCATION_ORIGIN:
       return {
         ...state,
-        origin: action.payload,
+        origin: {...state.origin, ...action.payload},
         // locInputType:'destination'
       };
     case SET_MAP_LOCATION_DESTINATION:
       return {
         ...state,
-        destination: action.payload,
+        destination: {...state.destination, ...action.payload},
         // locInputType:'destination'
       };
     case SET_MAP_HOME_UI_TYPE:
@@ -37,13 +52,15 @@ const reducer = (state = INITIAL_STATE, action) => {
         ...state,
         locInputType: action.payload,
       };
-    case RESET_MAP_LOC:
+    case SET_MAP_VISIBLE_MARKER_TYPE:
       return {
         ...state,
-        locInputType: "origin",
-        origin: "",
-        destination: "",
-        homeMapUIType: "PICKUP_LOCATION",
+        visibleMarkerType: action.payload,
+      };
+    case RESET_MAP_LOC:
+      return {
+        // ...state,
+        ...INITIAL_STATE,
       };
     default:
       return state;

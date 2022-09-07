@@ -1,9 +1,9 @@
-import React, {useState, useEffect} from "react";
+import React, {useEffect} from "react";
 import {
-  StyleSheet,
   View,
   TouchableOpacity,
   PermissionsAndroid,
+  StyleSheet,
 } from "react-native";
 import MapView, {Marker, PROVIDER_GOOGLE} from "react-native-maps";
 import MyLocation from "react-native-vector-icons/MaterialIcons";
@@ -17,149 +17,52 @@ import FindingPilot from "../../Components/findingPilot";
 import ServiceNotAvailable from "../../Components/serviceNotAvailable";
 import {useDispatch, useSelector} from "react-redux";
 import {notify} from "../../../Redux/Actions";
-import {ApiPilot} from "../../Services";
+import Api from "../../Services";
+import {getRevGeoCoding} from "../../Services/GmapServices";
 import RNAndroidLocationEnabler from "react-native-android-location-enabler";
-import io from "socket.io-client";
-import {setMapLocationOrigin} from "../../../Redux/Actions/mapActions";
-import metrics from "../../Utility/metrics";
-import MapViewDirections from "react-native-maps-directions";
+import {
+  setMapLocationDestination,
+  setMapLocationOrigin,
+} from "../../../Redux/Actions/mapActions";
 import {GOOGLE_MAPS_API_KEY} from "../../Utility/config";
-
+import MapViewDirections from "react-native-maps-directions";
+/**
+ * ! permission issue if approximate selected {todo}
+ *  LOG  getOneTimeLocation {"PERMISSION_DENIED": 1, "POSITION_UNAVAILABLE": 2, "TIMEOUT": 3, "code": 1, "message": "Location permission was not granted."}
+ */
 export default ({navigation}) => {
   const dispatch = useDispatch();
-  const {
-    auth: {user},
-    map,
-  } = useSelector(state => state);
-
-  const [location, setLocation] = useState({
-    latitude: 0,
-    longitude: 0,
-    latitudeDelta: metrics.LATITUDE_DELTA,
-    longitudeDelta: metrics.LONGITUDE_DELTA,
-  });
-  const [destination, setDestination] = useState({
-    latitude: 0,
-    longitude: 0,
-    latitudeDelta: metrics.LATITUDE_DELTA,
-    longitudeDelta: metrics.LONGITUDE_DELTA,
-  });
+  const {map} = useSelector(state => state);
 
   useEffect(() => {
-    Geolocation.getCurrentPosition(info => {
-      if (info) {
-        setLocation({
-          ...info.coords,
-          latitudeDelta: metrics.LATITUDE_DELTA,
-          longitudeDelta: metrics.LONGITUDE_DELTA,
-        });
-        getGeoLocationText(info.coords);
-      }
-    });
+    locateCurrentPosition();
   }, []);
 
-  useEffect(() => {
-    _changePickupHandler();
-    if (map.origin === "") {
-      setDestination({
-        latitude: 0,
-        longitude: 0,
-        latitudeDelta: metrics.LATITUDE_DELTA,
-        longitudeDelta: metrics.LONGITUDE_DELTA,
+  const updateLatLngInStore = async ({type, latitude, longitude, text}) => {
+    let payload = type === "origin" ? {...map.origin} : {...map.destination};
+    if (!text) {
+      const geoRevText = await getRevGeoCoding({
+        latitude,
+        longitude,
       });
-      Geolocation.getCurrentPosition(info => {
-        if (info) {
-          setLocation({
-            ...info.coords,
-            latitudeDelta: metrics.LATITUDE_DELTA,
-            longitudeDelta: metrics.LONGITUDE_DELTA,
-          });
-        }
-      });
+      console.log("geoRevText", geoRevText);
+      payload = {...payload, latitude, longitude, text: geoRevText};
+    } else {
+      payload = {...payload, latitude, longitude, text};
     }
-  }, [map.origin]);
 
-  useEffect(() => {
-    _changePickupHandler(true);
-  }, [map.destination]);
-
-  const locateCurrentPosition = () => {
-    Geolocation.getCurrentPosition(position => {
-      setLocation({
-        ...position.coords,
-        latitudeDelta: metrics.LATITUDE_DELTA,
-        longitudeDelta: metrics.LONGITUDE_DELTA,
-      });
-      getGeoLocationText(position.coords);
-    });
-  };
-
-  const _changePickupHandler = async (drop = false) => {
-    if (map.origin) {
-      const data = await getGeoLocationText(null, false, map.origin);
-      if (data) {
-        if (drop)
-          setDestination({
-            latitude: data.latitude,
-            longitude: data.longitude,
-            latitudeDelta: metrics.LATITUDE_DELTA,
-            longitudeDelta: metrics.LONGITUDE_DELTA,
-          });
-        else
-          setLocation({
-            latitude: data.latitude,
-            longitude: data.longitude,
-            latitudeDelta: metrics.LATITUDE_DELTA,
-            longitudeDelta: metrics.LONGITUDE_DELTA,
-          });
-      }
-    }
-  };
-
-  const getGeoLocationText = async (
-    coords = {},
-    encode = true,
-    location = "",
-  ) => {
-    try {
-      const queryParams = new URLSearchParams({
-        latitude: coords?.latitude,
-        longitude: coords?.longitude,
-        encode,
-        location,
-      }).toString();
-      const response = await ApiPilot.get(`map/get-geo-code?${queryParams}`);
-      if (response.status === 1) {
-        dispatch(setMapLocationOrigin(response.data.formattedAddress));
-        return response.data;
-      }
-      throw new Error(response.message);
-    } catch (error) {
-      // dispatch(notify({type: "error", message: error.message}));
-      console.log(error.message);
-      return null;
-    }
-  };
-
-  const initRequestRideAndSocketConn = () => {
-    if (!location.latitude && !location.longitude) {
+    console.log(payload, "payload");
+    if (type === "destination") {
+      dispatch(setMapLocationDestination(payload));
       return;
     }
-    const newSocket = io(`${localIps}:7000`, {
-      path: "/api/socket",
-    });
-    setSocket(newSocket);
-    socket.emit("user_requesting_ride", {
-      latitude: location?.latitude,
-      longitude: location?.longitude,
-      user_id: user.id,
-      vehicle_type: "car",
-    });
+    //! default should be origin all time
+    dispatch(setMapLocationOrigin(payload));
   };
 
   const MapType = () => {
     switch (map.homeMapUIType) {
-      case "PICKUP_LOCATION": // pickup origin and destination
+      case "PICKUP_LOCATION":
         return <PickupLocation />;
       case "CHOOSE_VEHICLE_TYPE":
         return <ChooseVehicleScooty />;
@@ -171,61 +74,6 @@ export default ({navigation}) => {
         return <FindingPilot />;
       case "SERVICE_NOT_AVAILABLE":
         return <ServiceNotAvailable />;
-    }
-  };
-
-  const MarkerType = ({type, location}) => {
-    switch (type) {
-      case "CAR":
-        return (
-          <Marker
-            key={`marker${1}`}
-            coordinate={location}
-            image={require("../../../assets/car.png")}
-            height={40}
-            width={40}
-          />
-        );
-      case "SCOOTY":
-        return (
-          <Marker
-            key={`marker${2}`}
-            coordinate={location}
-            image={require("../../../assets/bike.png")}
-            height={30}
-            width={30}
-          />
-        );
-      case "AUTO-RIKSHAW":
-        return (
-          <Marker
-            key={`marker${3}`}
-            coordinate={location}
-            image={require("../../../assets/rikshaw.png")}
-            height={30}
-            width={30}
-          />
-        );
-      case "MOTOR-BIKE":
-        return (
-          <Marker
-            key={`marker${4}`}
-            coordinate={location}
-            image={require("../../../assets/bike.png")}
-            height={50}
-            width={50}
-          />
-        );
-      case "TOTO":
-        return (
-          <Marker
-            key={`marker${5}`}
-            coordinate={location}
-            image={require("../../../assets/car.png")}
-            height={30}
-            width={30}
-          />
-        );
     }
   };
 
@@ -254,6 +102,27 @@ export default ({navigation}) => {
     }
   };
 
+  const checkIfUserHaveContactsLoaded = async () => {
+    let isUploadNeeded = false;
+    try {
+      const response = await Api.get(`/user/get_contacts_uploaded`);
+      // data -> 0 // no data in db; 1 // has data in db
+      if (response.status === 1) {
+        if (response.data == 0) isUploadNeeded = true;
+      } else {
+        throw new Error(response.message);
+      }
+    } catch (error) {
+      dispatch(
+        notify({
+          message: error.message || "Something went wrong",
+          notifyType: "error",
+        }),
+      );
+    }
+    return isUploadNeeded;
+  };
+
   const getOneTimeLocation = () => {
     RNAndroidLocationEnabler.promptForEnableLocationIfNeeded({
       interval: 10000,
@@ -264,28 +133,10 @@ export default ({navigation}) => {
         // data can be :
         //  - "already-enabled" if the location services has been already enabled
         //  - "enabled" if user has clicked on OK button in the popup
-        Geolocation.getCurrentPosition(
-          info => {
-            setLocation({
-              ...info.coords,
-              latitudeDelta: metrics.LATITUDE_DELTA,
-              longitudeDelta: metrics.LONGITUDE_DELTA,
-            });
-          },
-          error => {
-            // See error code charts below.
-            // dispatch(
-            //   notify({
-            //     // message: error.message || "Something went wrong",
-            //     notifyType: "error",
-            //   }),
-            // );
-          },
-          {enableHighAccuracy: true},
-        );
+        locateCurrentPosition();
       })
       .catch(err => {
-        console.log("ERR getOneTimeLocation", err);
+        console.log("getOneTimeLocation", err);
         // The user has not accepted to enable the location services or something went wrong during the process
         // "err" : { "code" : "ERR00|ERR01|ERR02|ERR03", "message" : "message"}
         // codes :
@@ -296,49 +147,99 @@ export default ({navigation}) => {
       });
   };
 
+  const locateCurrentPosition = async () => {
+    Geolocation.getCurrentPosition(
+      info => {
+        console.log("getOneTimeLocation", JSON.stringify(info));
+        updateLatLngInStore({...info.coords});
+      },
+      error => {
+        console.log("getOneTimeLocation", error);
+      },
+      {enableHighAccuracy: true},
+    );
+  };
+
   return (
     <View style={{flex: 1, backgroundColor: "white"}}>
       <HambergerHome navigation={navigation} />
       <View style={styles.container}>
         <MapView
-          // mapType={Platform.OS == "android" ? "none" : "standard"}
+          initialRegion={map.origin}
           style={styles.map}
-          initialRegion={location}
           provider={PROVIDER_GOOGLE}
-          region={location}>
-          <Marker key={`marker2`} coordinate={location} draggable />
-          {/* {destination.latitude !== 0 && (
-            <Marker key={"marker3"} coordinate={destination} draggable />
-          )} */}
-          {/* {location.latitude !== 0 && destination.latitude !== 0 && (
-            <MapViewDirections
-              origin={location}
-              destination={destination}
-              apikey={GOOGLE_MAPS_API_KEY}
-              strokeWidth={3}
-              optimizeWaypoints={true}
-              timePrecision={"now"}
-              onReady={result => {
-                console.log(`Distance: ${result.distance} km`);
-                console.log(`Duration: ${result.duration} min.`);
+          // region={
+          //   map.locInputType === "origin" || map.destination.text === ""
+          //     ? map.origin
+          //     : map.destination
+          // }
+          //! should be: union of destination and origin {todo}
+          region={
+            map.visibleMarkerType === "origin" ? map.origin : map.destination
+          }>
+          {(map.visibleMarkerType === "origin" ||
+            map.visibleMarkerType === "both") && (
+            <Marker
+              coordinate={map.origin}
+              key={`marker_origin`}
+              draggable={map.visibleMarkerType !== "both"}
+              onDragEnd={position => {
+                console.log("position", position.nativeEvent.coordinate);
+                updateLatLngInStore({
+                  type: "origin",
+                  ...position.nativeEvent.coordinate,
+                });
               }}
             />
-          )} */}
-          {/* <MarkerType type="MOTOR-BIKE" location={location} /> */}
+          )}
+
+          {(map.visibleMarkerType === "destination" ||
+            map.visibleMarkerType === "both") && (
+            <Marker
+              coordinate={map.destination}
+              key={`marker_destination`}
+              draggable={map.visibleMarkerType !== "both"}
+              onDragEnd={position => {
+                console.log("position", position.nativeEvent.coordinate);
+                updateLatLngInStore({
+                  type: "destination",
+                  ...position.nativeEvent.coordinate,
+                });
+              }}
+              pinColor={"green"}
+            />
+          )}
+          {map.visibleMarkerType === "both" && (
+            <MapViewDirections
+              origin={map.origin}
+              destination={map.destination}
+              apikey={GOOGLE_MAPS_API_KEY}
+              strokeWidth={2}
+              strokeColor={"#000"}
+              mode="DRIVING" // "DRIVING", "BICYCLING", "WALKING" "TRANSIT"
+              onError={errorMessage => {
+                console.log("GOT AN ERROR", errorMessage);
+                //! {todo} need to handle -> Error on GMAPS route request: ZERO_RESULTS
+              }}
+            />
+          )}
         </MapView>
-        <View
-          style={{
-            position: "absolute",
-            bottom: 220,
-            padding: 8,
-            borderRadius: 10,
-            right: 20,
-            backgroundColor: "white",
-          }}>
-          <TouchableOpacity onPress={locateCurrentPosition}>
-            <MyLocation name="my-location" size={20} color="black" />
-          </TouchableOpacity>
-        </View>
+
+        {map.locInputType !== "destination" && (
+          <View
+            style={{
+              position: "absolute",
+              bottom: 220,
+              padding: 8,
+              borderRadius: 10,
+              right: 20,
+              backgroundColor: "white",
+            }}>
+            <TouchableOpacity onPress={locateCurrentPosition}>
+              <MyLocation name="my-location" size={20} color="black" />
+            </TouchableOpacity>
+          </View>
+        )}
       </View>
       <View
         style={{
@@ -354,6 +255,7 @@ export default ({navigation}) => {
     </View>
   );
 };
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
