@@ -1,4 +1,4 @@
-package com.broomboomuser.newarchitecture.modules;
+package com.broomboom.user.newarchitecture.modules;
 
 import com.facebook.jni.HybridData;
 import com.facebook.react.ReactPackage;

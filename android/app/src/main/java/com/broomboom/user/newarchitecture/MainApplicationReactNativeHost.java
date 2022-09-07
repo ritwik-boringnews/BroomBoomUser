@@ -1,4 +1,4 @@
-package com.broomboomuser.newarchitecture;
+package com.broomboom.user.newarchitecture;
 
 import android.app.Application;
 import androidx.annotation.NonNull;
@@ -19,9 +19,9 @@ import com.facebook.react.fabric.CoreComponentsRegistry;
 import com.facebook.react.fabric.FabricJSIModuleProvider;
 import com.facebook.react.fabric.ReactNativeConfig;
 import com.facebook.react.uimanager.ViewManagerRegistry;
-import com.broomboomuser.BuildConfig;
-import com.broomboomuser.newarchitecture.components.MainComponentsRegistry;
-import com.broomboomuser.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
+import com.broomboom.user.BuildConfig;
+import com.broomboom.user.newarchitecture.components.MainComponentsRegistry;
+import com.broomboom.user.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
 import java.util.ArrayList;
 import java.util.List;
 
