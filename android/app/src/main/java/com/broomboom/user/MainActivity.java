@@ -1,4 +1,4 @@
-package com.broomboomuser;
+package com.broomboom.user;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
