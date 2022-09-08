@@ -1,13 +1,23 @@
 import React from "react";
-import {View, Text, Image, TouchableOpacity} from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  Alert,
+  Linking,
+} from "react-native";
 import {useNavigation} from "@react-navigation/native";
 import {useDispatch, useSelector} from "react-redux";
 import {
   setLocInputType,
   setMapHomeUIType,
+  setMapVisibleMarkerType,
 } from "../../Redux/Actions/mapActions";
 import {notify} from "../../Redux/Actions";
 import {primaryColor} from "../Constants";
+import Contacts from "react-native-contacts";
+
 /**
  * common component : pickupUI origin/destination
  * @returns
@@ -17,8 +27,8 @@ const PickupLocation = () => {
   const dispatch = useDispatch();
   const {origin, locInputType, destination} = useSelector(state => state.map);
 
-  const onConfirmLocations = () => {
-    if (locInputType === "origin" && origin === "") {
+  const onConfirmLocations = async () => {
+    if (locInputType === "origin" && origin.text === "") {
       dispatch(
         notify({
           type: "error",
@@ -27,11 +37,11 @@ const PickupLocation = () => {
       );
       return;
     }
-    if (locInputType === "origin" && origin !== "") {
+    if (locInputType === "origin" && origin.text !== "") {
       dispatch(setLocInputType("destination"));
       return;
     }
-    if (locInputType === "destination" && destination === "") {
+    if (locInputType === "destination" && destination.text === "") {
       dispatch(
         notify({
           type: "error",
@@ -40,10 +50,74 @@ const PickupLocation = () => {
       );
       return;
     }
-    if (locInputType === "destination" && destination !== "") {
+    const permissionCheck = await requestContactsPermission();
+    console.log("permissionCheck", permissionCheck);
+    if (!permissionCheck) {
+      return;
+    }
+
+    if (locInputType === "destination" && destination.text !== "") {
+      // origin and destination location selection done
       // now move to service not available
       dispatch(setMapHomeUIType("SERVICE_NOT_AVAILABLE"));
+      // show both the Marker as origin and destination location done in selection
+      dispatch(setMapVisibleMarkerType("both"));
       return;
+    }
+  };
+
+  const requestContactsPermission = async () => {
+    let permissionCheck = false;
+    try {
+      // const grantedCheck = await PermissionsAndroid.check(
+      //   PermissionsAndroid.PERMISSIONS.READ_CONTACTS,
+      // );
+      // console.log("grantedCheck", grantedCheck);
+      await Contacts.checkPermission().then(async res => {
+        console.log("res", res);
+        if (res === "denied") {
+          Alert.alert(
+            "Contact Permission",
+            "Tap Settings > Permission & turn Contacts on.\n\nAllow contact permission.",
+            [
+              {
+                text: "Cancel",
+                onPress: () => console.log("Cancel Pressed"),
+                style: "cancel",
+              },
+              {text: "Allow", onPress: () => Linking.openSettings()},
+            ],
+          );
+        } else if (res === "authorized") {
+          permissionCheck = true;
+          await Contacts.getAll()
+            .then(contacts => {
+              // work with contacts
+              console.log("contacts", contacts);
+            })
+            .catch(e => {
+              console.log(e);
+            });
+        }
+      });
+      return permissionCheck;
+      // console.log("grantedCheck", grantedCheck);
+      // const granted = await PermissionsAndroid.request(
+      //   PermissionsAndroid.PERMISSIONS.READ_CONTACTS,
+      // );
+      // if (granted) {
+      //   console.log("You can use the READ_CONTACTS");
+      //   getPhoneContacts();
+      // } else {
+      //   console.log("READ_CONTACTS permission denied");
+      // }
+    } catch (err) {
+      dispatch(
+        notify({
+          message: err?.message || "Something went wrong",
+          notifyType: "error",
+        }),
+      );
     }
   };
 
@@ -85,12 +159,12 @@ const PickupLocation = () => {
         <Text
           style={{marginLeft: 10, color: "black", fontWeight: "bold", flex: 1}}>
           {locInputType === "origin"
-            ? origin === ""
+            ? origin.text === ""
               ? "Choose a pickup location"
-              : origin
-            : destination === ""
+              : origin.text
+            : destination.text === ""
             ? "Choose your destination"
-            : destination}
+            : destination.text}
         </Text>
       </TouchableOpacity>
       <TouchableOpacity

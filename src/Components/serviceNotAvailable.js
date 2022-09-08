@@ -49,7 +49,7 @@ const ServiceNotAvailable = () => {
               fontWeight: "bold",
               flex: 1,
             }}>
-            {destination}
+            {destination?.text}
           </Text>
         </TouchableOpacity>
       </View>

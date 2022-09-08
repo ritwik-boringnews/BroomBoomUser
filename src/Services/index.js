@@ -28,4 +28,4 @@ export const API_ENDPOINTS = {
   },
 };
 
-export const IS_LOCAL = false;
+export const IS_LOCAL = true;

@@ -149,7 +149,7 @@ const SignUp = ({navigation}) => {
             }}
             color={primaryColor}
           />
-          <Text style={{marginBottom: 15, color: "black"}}>
+          <Text style={{marginBottom: 15, color: "black", flex: 1}}>
             By continuing, you agree to the <Text>Terms {""}</Text>
             <Text>& Conditions {""}</Text>
             <Text style={{textAlign: "left"}}>and {""}</Text>
