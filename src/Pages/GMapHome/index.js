@@ -1,9 +1,10 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {
   View,
   TouchableOpacity,
   PermissionsAndroid,
   StyleSheet,
+  ActivityIndicator,
 } from "react-native";
 import MapView, {Marker, PROVIDER_GOOGLE} from "react-native-maps";
 import MyLocation from "react-native-vector-icons/MaterialIcons";
@@ -33,6 +34,7 @@ import MapViewDirections from "react-native-maps-directions";
 export default ({navigation}) => {
   const dispatch = useDispatch();
   const {map} = useSelector(state => state);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     locateCurrentPosition();
@@ -147,16 +149,21 @@ export default ({navigation}) => {
       });
   };
 
-  const locateCurrentPosition = async () => {
+  const locateCurrentPosition = async (highAccuracyEnabled = true) => {
+    if (highAccuracyEnabled) setIsLoading(true);
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
     Geolocation.getCurrentPosition(
       info => {
         console.log("getOneTimeLocation", JSON.stringify(info));
         updateLatLngInStore({...info.coords});
       },
       error => {
-        console.log("getOneTimeLocation", error);
+        console.log("getOneTimeLocation", error.message);
+        if (error.code === 3) locateCurrentPosition(false);
       },
-      {enableHighAccuracy: true},
+      {enableHighAccuracy: highAccuracyEnabled, timeout: 2000},
     );
   };
 
@@ -164,67 +171,74 @@ export default ({navigation}) => {
     <View style={{flex: 1, backgroundColor: "white"}}>
       <HambergerHome navigation={navigation} />
       <View style={styles.container}>
-        <MapView
-          initialRegion={map.origin}
-          style={styles.map}
-          provider={PROVIDER_GOOGLE}
-          // region={
-          //   map.locInputType === "origin" || map.destination.text === ""
-          //     ? map.origin
-          //     : map.destination
-          // }
-          //! should be: union of destination and origin {todo}
-          region={
-            map.visibleMarkerType === "origin" ? map.origin : map.destination
-          }>
-          {(map.visibleMarkerType === "origin" ||
-            map.visibleMarkerType === "both") && (
-            <Marker
-              coordinate={map.origin}
-              key={`marker_origin`}
-              draggable={map.visibleMarkerType !== "both"}
-              onDragEnd={position => {
-                console.log("position", position.nativeEvent.coordinate);
-                updateLatLngInStore({
-                  type: "origin",
-                  ...position.nativeEvent.coordinate,
-                });
-              }}
-            />
-          )}
+        {isLoading ? (
+          <ActivityIndicator
+            color="black"
+            style={{position: "absolute", top: 0, right: 0, bottom: 0, left: 0}}
+            size="large"
+          />
+        ) : (
+          <MapView
+            initialRegion={map.origin}
+            style={styles.map}
+            provider={PROVIDER_GOOGLE}
+            // region={
+            //   map.locInputType === "origin" || map.destination.text === ""
+            //     ? map.origin
+            //     : map.destination
+            // }
+            //! should be: union of destination and origin {todo}
+            region={
+              map.visibleMarkerType === "origin" ? map.origin : map.destination
+            }>
+            {(map.visibleMarkerType === "origin" ||
+              map.visibleMarkerType === "both") && (
+              <Marker
+                coordinate={map.origin}
+                key={`marker_origin`}
+                draggable={map.visibleMarkerType !== "both"}
+                onDragEnd={position => {
+                  console.log("position", position.nativeEvent.coordinate);
+                  updateLatLngInStore({
+                    type: "origin",
+                    ...position.nativeEvent.coordinate,
+                  });
+                }}
+              />
+            )}
 
-          {(map.visibleMarkerType === "destination" ||
-            map.visibleMarkerType === "both") && (
-            <Marker
-              coordinate={map.destination}
-              key={`marker_destination`}
-              draggable={map.visibleMarkerType !== "both"}
-              onDragEnd={position => {
-                console.log("position", position.nativeEvent.coordinate);
-                updateLatLngInStore({
-                  type: "destination",
-                  ...position.nativeEvent.coordinate,
-                });
-              }}
-              pinColor={"green"}
-            />
-          )}
-          {map.visibleMarkerType === "both" && (
-            <MapViewDirections
-              origin={map.origin}
-              destination={map.destination}
-              apikey={GOOGLE_MAPS_API_KEY}
-              strokeWidth={2}
-              strokeColor={"#000"}
-              mode="DRIVING" // "DRIVING", "BICYCLING", "WALKING" "TRANSIT"
-              onError={errorMessage => {
-                console.log("GOT AN ERROR", errorMessage);
-                //! {todo} need to handle -> Error on GMAPS route request: ZERO_RESULTS
-              }}
-            />
-          )}
-        </MapView>
-
+            {(map.visibleMarkerType === "destination" ||
+              map.visibleMarkerType === "both") && (
+              <Marker
+                coordinate={map.destination}
+                key={`marker_destination`}
+                draggable={map.visibleMarkerType !== "both"}
+                onDragEnd={position => {
+                  console.log("position", position.nativeEvent.coordinate);
+                  updateLatLngInStore({
+                    type: "destination",
+                    ...position.nativeEvent.coordinate,
+                  });
+                }}
+                pinColor={"green"}
+              />
+            )}
+            {map.visibleMarkerType === "both" && (
+              <MapViewDirections
+                origin={map.origin}
+                destination={map.destination}
+                apikey={GOOGLE_MAPS_API_KEY}
+                strokeWidth={2}
+                strokeColor={"#000"}
+                mode="DRIVING" // "DRIVING", "BICYCLING", "WALKING" "TRANSIT"
+                onError={errorMessage => {
+                  console.log("GOT AN ERROR", errorMessage);
+                  //! {todo} need to handle -> Error on GMAPS route request: ZERO_RESULTS
+                }}
+              />
+            )}
+          </MapView>
+        )}
         {map.locInputType !== "destination" && (
           <View
             style={{
@@ -235,7 +249,7 @@ export default ({navigation}) => {
               right: 20,
               backgroundColor: "white",
             }}>
-            <TouchableOpacity onPress={locateCurrentPosition}>
+            <TouchableOpacity onPress={() => locateCurrentPosition()}>
               <MyLocation name="my-location" size={20} color="black" />
             </TouchableOpacity>
           </View>
@@ -247,6 +261,7 @@ export default ({navigation}) => {
           bottom: 0,
           left: 0,
           right: 0,
+          backgroundColor: "white",
         }}>
         {/* <Text onPress={initRequestRideAndSocketConn}>--- REQUEST RIDE----</Text> */}
 
