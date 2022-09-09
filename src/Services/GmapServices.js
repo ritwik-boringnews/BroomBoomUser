@@ -1,4 +1,7 @@
 import Geolocation from "@react-native-community/geolocation";
+import RNAndroidLocationEnabler from "react-native-android-location-enabler";
+import {notify} from "../../Redux/Actions";
+import {store} from "../../Redux/store";
 import {GOOGLE_MAPS_API_KEY} from "../Utility/config";
 
 /**
@@ -38,27 +41,52 @@ const getRevGeoCoding = async ({latitude, longitude}) => {
   }
 };
 
-const getCurrentLocation = async () => {
-  let infoObj;
-
+const getCurrentLocation = new Promise((resolve, reject) => {
   Geolocation.getCurrentPosition(
     info => {
       console.log("getOneTimeLocation", JSON.stringify(info));
-      infoObj = info;
+      return resolve(info.coords);
     },
-    error => {
-      console.log("getOneTimeLocation", error);
+    async error => {
+      console.log("getOneTimeLocation", error.message);
+      await getOneTimeLocation();
+      // reject(error);
+      // if (error.code === 3) locateCurrentPosition(false);
     },
-    {enableHighAccuracy: true},
+    {enableHighAccuracy: true, highAccuracyEnabled: true, timeout: 2000},
   );
-
-  return infoObj;
 
   /**
    * @return
    *
    mock_info_data: {"mocked":false,"timestamp":1662403302461,"coords":{"speed":0,"heading":0,"altitude":-82.7,"accuracy":6.900000095367432,"longitude":88.42332666666668,"latitude":22.651828333333334}}
    **/
-};
+});
+
+const getOneTimeLocation = new Promise((resolve, reject) => {
+  RNAndroidLocationEnabler.promptForEnableLocationIfNeeded({
+    interval: 10000,
+    fastInterval: 5000,
+  })
+    .then(async data => {
+      // The user has accepted to enable the location services
+      // data can be :
+      //  - "already-enabled" if the location services has been already enabled
+      //  - "enabled" if user has clicked on OK button in the popup
+      await getCurrentLocation();
+      return resolve(data);
+    })
+    .catch(err => {
+      console.log("getOneTimeLocation", err);
+      // reject(err);
+      // The user has not accepted to enable the location services or something went wrong during the process
+      // "err" : { "code" : "ERR00|ERR01|ERR02|ERR03", "message" : "message"}
+      // codes :
+      //  - ERR00 : The user has clicked on Cancel button in the popup
+      //  - ERR01 : If the Settings change are unavailable
+      //  - ERR02 : If the popup has failed to open
+      //  - ERR03 : Internal error
+    });
+});
 
 export {getRevGeoCoding, getCurrentLocation};

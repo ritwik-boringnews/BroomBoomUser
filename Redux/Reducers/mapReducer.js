@@ -6,7 +6,7 @@ import {
   RESET_MAP_LOC,
   SET_MAP_VISIBLE_MARKER_TYPE,
   BACK_TO_ORIGIN,
-  BACK_TO_DESTINATION
+  BACK_TO_DESTINATION,
 } from "../actionTypes";
 import metrics from "../../src/Utility/metrics";
 
@@ -63,6 +63,9 @@ const reducer = (state = INITIAL_STATE, action) => {
       return {
         // ...state,
         ...INITIAL_STATE,
+        origin: {
+          ...action.payload,
+        },
       };
     case BACK_TO_ORIGIN:
       return {

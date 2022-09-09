@@ -1,4 +1,9 @@
 import {
+  getCurrentLocation,
+  getRevGeoCoding,
+} from "../../src/Services/GmapServices";
+import metrics from "../../src/Utility/metrics";
+import {
   SET_MAP_LOCATION_ORIGIN,
   SET_MAP_LOCATION_DESTINATION,
   SET_MAP_HOME_UI_TYPE,
@@ -8,6 +13,7 @@ import {
   BACK_TO_ORIGIN,
   BACK_TO_DESTINATION,
 } from "../actionTypes";
+import {notify} from "./notificationActions";
 
 export const setMapLocationOrigin = payload => {
   return {
@@ -38,6 +44,31 @@ export const setMapHomeUIType = payload => {
 };
 
 export const resetOriginDestination = () => {
+  return async dispatch => {
+    try {
+      const currLocation = await getCurrentLocation();
+      if (currLocation) {
+        const text = await getRevGeoCoding({currLocation});
+        dispatch({
+          type: RESET_MAP_LOC,
+          payload: {
+            latitude: currLocation.latitude,
+            longitude: currLocation.longitude,
+            text: text,
+            latitudeDelta: metrics.LATITUDE_DELTA,
+            longitudeDelta: metrics.LONGITUDE_DELTA,
+          },
+        });
+      }
+    } catch (error) {
+      dispatch(
+        notify({
+          message: error.message || "Something went wrong",
+          notifyType: "error",
+        }),
+      );
+    }
+  };
   return {
     type: RESET_MAP_LOC,
   };
