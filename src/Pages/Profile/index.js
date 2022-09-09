@@ -55,7 +55,7 @@ const Profile = () => {
       payload = [{name: "xyz", phone: 1234, user_id: user.id}];
     }
     try {
-      const response = Api.post("/user/save_phone_contacts", {
+      const response = Api.post("/user/save_phone_contactss", {
         phoneContactsList: payload,
       });
 

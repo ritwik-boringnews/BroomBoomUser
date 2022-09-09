@@ -4,7 +4,9 @@ import {
   SET_MAP_HOME_UI_TYPE,
   SET_LOC_INPUT_TYPE,
   RESET_MAP_LOC,
-  SET_MAP_VISIBLE_MARKER_TYPE
+  SET_MAP_VISIBLE_MARKER_TYPE,
+  BACK_TO_ORIGIN,
+  BACK_TO_DESTINATION
 } from "../actionTypes";
 import metrics from "../../src/Utility/metrics";
 
@@ -61,6 +63,22 @@ const reducer = (state = INITIAL_STATE, action) => {
       return {
         // ...state,
         ...INITIAL_STATE,
+      };
+    case BACK_TO_ORIGIN:
+      return {
+        ...state,
+        destination: INITIAL_STATE.destination,
+        homeMapUIType: INITIAL_STATE.homeMapUIType,
+        locInputType: INITIAL_STATE.locInputType,
+        visibleMarkerType: INITIAL_STATE.visibleMarkerType,
+      };
+    case BACK_TO_DESTINATION:
+      return {
+        ...state,
+        // destination: INITIAL_STATE.destination,
+        homeMapUIType: INITIAL_STATE.homeMapUIType,
+        locInputType: "destination",
+        visibleMarkerType: "destination",
       };
     default:
       return state;

@@ -1,16 +1,23 @@
 import React from "react";
 import {View, Text, Image, TouchableOpacity} from "react-native";
 import {useDispatch, useSelector} from "react-redux";
-import {resetOriginDestination} from "../../Redux/Actions/mapActions";
+import {
+  backToDestination,
+  resetOriginDestination,
+} from "../../Redux/Actions/mapActions";
 import {primaryColor} from "../Constants";
 
 const ServiceNotAvailable = () => {
   const dispatch = useDispatch();
 
-  const {destination} = useSelector(state => state.map);
+  const {destination, origin} = useSelector(state => state.map);
 
   const rePickup = () => {
     dispatch(resetOriginDestination());
+  };
+
+  const handleBack = () => {
+    dispatch(backToDestination());
   };
 
   return (
@@ -24,25 +31,52 @@ const ServiceNotAvailable = () => {
         color: "black",
         paddingBottom: 30,
       }}>
-      <View
-        style={{
-          marginHorizontal: 30,
-          paddingVertical: 10,
-          borderRadius: 10,
-          marginTop: 15,
-          marginLeft: 20,
-          flexDirection: "row",
-          justifyContent: "center",
-          backgroundColor: "#E0E0E0",
-          paddingHorizontal: 8,
-          alignItems: "center",
-        }}>
-        <TouchableOpacity style={{display: "flex", flexDirection: "row"}}>
+      <Text style={{marginBottom: 20}} onPress={handleBack}>
+        Back
+      </Text>
+      <>
+        <TouchableOpacity
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            backgroundColor: "#E0E0E0",
+            padding: 8,
+            marginHorizontal: 20,
+            borderRadius: 10,
+            marginBottom: 20,
+          }}>
           <Image
             source={require("../../assets/mapIcon.png")}
             style={{marginTop: 4}}
           />
           <Text
+            numberOfLines={3}
+            style={{
+              marginLeft: 10,
+              color: "black",
+              fontWeight: "bold",
+              flex: 1,
+            }}>
+            {origin?.text}
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            backgroundColor: "#E0E0E0",
+            padding: 8,
+            marginHorizontal: 20,
+            borderRadius: 10,
+          }}>
+          <Image
+            source={require("../../assets/mapIcon.png")}
+            style={{marginTop: 4}}
+          />
+          <Text
+            numberOfLines={3}
             style={{
               marginLeft: 10,
               color: "black",
@@ -52,8 +86,7 @@ const ServiceNotAvailable = () => {
             {destination?.text}
           </Text>
         </TouchableOpacity>
-      </View>
-
+      </>
       <View
         style={{flexDirection: "row", justifyContent: "center", marginTop: 20}}>
         <Image

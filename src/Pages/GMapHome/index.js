@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import MapView, {Marker, PROVIDER_GOOGLE} from "react-native-maps";
 import MyLocation from "react-native-vector-icons/MaterialIcons";
-import Geolocation from "@react-native-community/geolocation";
+import Geolocation from "react-native-geolocation-service";
 import HambergerHome from "../../Components/HambergerHome";
 import PickupLocation from "../../Components/pickupLocation";
 import ChooseVehicleScooty from "../ChooseVehicleScooty";
@@ -149,11 +149,11 @@ export default ({navigation}) => {
       });
   };
 
-  const locateCurrentPosition = async (highAccuracyEnabled = true) => {
-    if (highAccuracyEnabled) setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 2000);
+  const locateCurrentPosition = async () => {
+    // if (highAccuracyEnabled) setIsLoading(true);
+    // setTimeout(() => {
+    //   setIsLoading(false);
+    // }, 2000);
     Geolocation.getCurrentPosition(
       info => {
         console.log("getOneTimeLocation", JSON.stringify(info));
@@ -161,9 +161,10 @@ export default ({navigation}) => {
       },
       error => {
         console.log("getOneTimeLocation", error.message);
-        if (error.code === 3) locateCurrentPosition(false);
+        getOneTimeLocation();
+        // if (error.code === 3) locateCurrentPosition(false);
       },
-      {enableHighAccuracy: highAccuracyEnabled, timeout: 2000},
+      {enableHighAccuracy: true, highAccuracyEnabled: true, timeout: 2000},
     );
   };
 

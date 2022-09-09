@@ -5,6 +5,8 @@ import {
   SET_LOC_INPUT_TYPE,
   RESET_MAP_LOC,
   SET_MAP_VISIBLE_MARKER_TYPE,
+  BACK_TO_ORIGIN,
+  BACK_TO_DESTINATION,
 } from "../actionTypes";
 
 export const setMapLocationOrigin = payload => {
@@ -45,5 +47,16 @@ export const setMapVisibleMarkerType = payload => {
   return {
     type: SET_MAP_VISIBLE_MARKER_TYPE,
     payload,
+  };
+};
+
+export const backToOrigin = () => {
+  return {
+    type: BACK_TO_ORIGIN,
+  };
+};
+export const backToDestination = () => {
+  return {
+    type: BACK_TO_DESTINATION,
   };
 };
