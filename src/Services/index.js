@@ -1,16 +1,16 @@
 import API from "./ApiServices";
 
-export const localIps = {
+export const appDomains = {
   asish: "192.168.0.102",
   mainak: "192.168.29.78",
-  mainLocal: "43.205.135.42",
+  dev: "43.205.135.42",
+  prod: "www.9teesplus.in",
 };
 const PILOT_PORT = 7000;
 const USER_PORT = 8000;
 
-export const baseUrlUser = `http://${localIps.mainLocal}:${USER_PORT}/api/v1`;
-export const baseUrlPilot = `http://${localIps.mainLocal}:${PILOT_PORT}/api/v1`;
-// export const baseUrl = "http://43.205.135.42:8000/api/v1";
+export const baseUrlUser = `http://${appDomains.prod}:${USER_PORT}/api/v1`;
+export const baseUrlPilot = `http://${appDomains.prod}:${PILOT_PORT}/api/v1`;
 
 const Api = new API({
   baseUrl: baseUrlUser,
