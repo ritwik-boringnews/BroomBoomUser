@@ -1,7 +1,5 @@
-import Geolocation from "@react-native-community/geolocation";
+import Geolocation from "react-native-geolocation-service";
 import RNAndroidLocationEnabler from "react-native-android-location-enabler";
-import {notify} from "../../Redux/Actions";
-import {store} from "../../Redux/store";
 import {GOOGLE_MAPS_API_KEY} from "../Utility/config";
 
 /**
@@ -41,27 +39,30 @@ const getRevGeoCoding = async ({latitude, longitude}) => {
   }
 };
 
-const getCurrentLocation = new Promise((resolve, reject) => {
-  Geolocation.getCurrentPosition(
-    info => {
-      console.log("getOneTimeLocation", JSON.stringify(info));
-      return resolve(info.coords);
-    },
-    async error => {
-      console.log("getOneTimeLocation", error.message);
-      await getOneTimeLocation();
-      // reject(error);
-      // if (error.code === 3) locateCurrentPosition(false);
-    },
-    {enableHighAccuracy: true, highAccuracyEnabled: true, timeout: 2000},
-  );
-
-  /**
+const getCurrentLocation = () => {
+  return new Promise((resolve, reject) => {
+    Geolocation.getCurrentPosition(
+      info => {
+        /**
    * @return
    *
    mock_info_data: {"mocked":false,"timestamp":1662403302461,"coords":{"speed":0,"heading":0,"altitude":-82.7,"accuracy":6.900000095367432,"longitude":88.42332666666668,"latitude":22.651828333333334}}
    **/
-});
+        resolve({
+          longitude: info.coords.longitude,
+          latitude: info.coords.latitude,
+        });
+      },
+      async error => {
+        console.log("getOneTimeLocation", error.message);
+        await getOneTimeLocation();
+        // reject(error);
+        // if (error.code === 3) locateCurrentPosition(false);
+      },
+      {enableHighAccuracy: true, highAccuracyEnabled: true, timeout: 2000},
+    );
+  });
+};
 
 const getOneTimeLocation = new Promise((resolve, reject) => {
   RNAndroidLocationEnabler.promptForEnableLocationIfNeeded({

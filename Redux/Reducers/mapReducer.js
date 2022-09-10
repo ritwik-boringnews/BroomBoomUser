@@ -7,8 +7,13 @@ import {
   SET_MAP_VISIBLE_MARKER_TYPE,
   BACK_TO_ORIGIN,
   BACK_TO_DESTINATION,
+  SET_GMAP_HOME_BACK_BTN,
 } from "../actionTypes";
 import metrics from "../../src/Utility/metrics";
+import {
+  REDUX_HOME_MAP_TYPE_OPTIONS,
+  REDUX_HOME_MAP_VISIBLE_MARKER_TYPE_OPTIONS,
+} from "../../src/Utility/optionTypes";
 
 const INITIAL_STATE = {
   origin: {
@@ -23,11 +28,12 @@ const INITIAL_STATE = {
     longitude: 0,
     latitudeDelta: metrics.LATITUDE_DELTA,
     longitudeDelta: metrics.LONGITUDE_DELTA,
-    text: "",
+    text: "", // geolocation in text
   },
-  homeMapUIType: "PICKUP_LOCATION",
+  homeMapUIType: REDUX_HOME_MAP_TYPE_OPTIONS.PICKUP_LOCATION,
   locInputType: "origin", // origin/destination
-  visibleMarkerType: "origin", // origin/destination/both
+  visibleMarkerType: REDUX_HOME_MAP_VISIBLE_MARKER_TYPE_OPTIONS.ORIGIN, // origin/destination/both
+  isShowHomeMapBackBtn: false,
 };
 
 const reducer = (state = INITIAL_STATE, action) => {
@@ -36,13 +42,11 @@ const reducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         origin: {...state.origin, ...action.payload},
-        // locInputType:'destination'
       };
     case SET_MAP_LOCATION_DESTINATION:
       return {
         ...state,
         destination: {...state.destination, ...action.payload},
-        // locInputType:'destination'
       };
     case SET_MAP_HOME_UI_TYPE:
       return {
@@ -61,7 +65,6 @@ const reducer = (state = INITIAL_STATE, action) => {
       };
     case RESET_MAP_LOC:
       return {
-        // ...state,
         ...INITIAL_STATE,
         origin: {
           ...action.payload,
@@ -74,14 +77,20 @@ const reducer = (state = INITIAL_STATE, action) => {
         homeMapUIType: INITIAL_STATE.homeMapUIType,
         locInputType: INITIAL_STATE.locInputType,
         visibleMarkerType: INITIAL_STATE.visibleMarkerType,
+        isShowHomeMapBackBtn: INITIAL_STATE.isShowHomeMapBackBtn,
       };
     case BACK_TO_DESTINATION:
       return {
         ...state,
-        // destination: INITIAL_STATE.destination,
         homeMapUIType: INITIAL_STATE.homeMapUIType,
         locInputType: "destination",
-        visibleMarkerType: "destination",
+        visibleMarkerType:
+          REDUX_HOME_MAP_VISIBLE_MARKER_TYPE_OPTIONS.DESTINATION,
+      };
+    case SET_GMAP_HOME_BACK_BTN:
+      return {
+        ...state,
+        isShowHomeMapBackBtn: action.payload,
       };
     default:
       return state;

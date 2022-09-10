@@ -2,9 +2,10 @@ import React from "react";
 import {View, TouchableOpacity} from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
-const HambergerHome = ({navigation}) => {
+const HamburgerHome = ({navigation}) => {
   return (
-    <View
+    <TouchableOpacity
+      onPress={navigation.openDrawer}
       style={{
         position: "absolute",
         top: 50,
@@ -14,16 +15,9 @@ const HambergerHome = ({navigation}) => {
         padding: 8,
         borderRadius: 10,
       }}>
-      <TouchableOpacity>
-        <Ionicons
-          name="menu"
-          size={20}
-          color="black"
-          onPress={() => navigation.openDrawer()}
-        />
-      </TouchableOpacity>
-    </View>
+      <Ionicons name="menu" size={20} color="black" />
+    </TouchableOpacity>
   );
 };
 
-export default HambergerHome;
+export default HamburgerHome;

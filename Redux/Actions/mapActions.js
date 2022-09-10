@@ -12,6 +12,7 @@ import {
   SET_MAP_VISIBLE_MARKER_TYPE,
   BACK_TO_ORIGIN,
   BACK_TO_DESTINATION,
+  SET_GMAP_HOME_BACK_BTN
 } from "../actionTypes";
 import {notify} from "./notificationActions";
 
@@ -48,7 +49,7 @@ export const resetOriginDestination = () => {
     try {
       const currLocation = await getCurrentLocation();
       if (currLocation) {
-        const text = await getRevGeoCoding({currLocation});
+        const text = await getRevGeoCoding({...currLocation});
         dispatch({
           type: RESET_MAP_LOC,
           payload: {
@@ -69,9 +70,6 @@ export const resetOriginDestination = () => {
       );
     }
   };
-  return {
-    type: RESET_MAP_LOC,
-  };
 };
 
 export const setMapVisibleMarkerType = payload => {
@@ -86,8 +84,16 @@ export const backToOrigin = () => {
     type: BACK_TO_ORIGIN,
   };
 };
+
 export const backToDestination = () => {
   return {
     type: BACK_TO_DESTINATION,
+  };
+};
+
+export const setGmapHomeBackBtn = payload => {
+  return {
+    type: SET_GMAP_HOME_BACK_BTN,
+    payload,
   };
 };

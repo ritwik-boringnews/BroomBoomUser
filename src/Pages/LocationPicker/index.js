@@ -1,5 +1,5 @@
-import {View, Text, TouchableOpacity, StyleSheet, Image} from "react-native";
 import React from "react";
+import {View, Text, TouchableOpacity, StyleSheet, Image} from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import {GooglePlacesAutocomplete} from "react-native-google-places-autocomplete";
 import {useDispatch, useSelector} from "react-redux";
@@ -49,6 +49,7 @@ const LocationPicker = ({navigation}) => {
       </View>
 
       <GooglePlacesAutocomplete
+        autoFocus
         GooglePlacesDetailsQuery={
           GOOGLE_PLACES_AUTO_COMPLETE_DETAILS_QUERY_OBJECT
         }

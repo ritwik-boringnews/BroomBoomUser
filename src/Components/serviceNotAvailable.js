@@ -1,10 +1,7 @@
 import React from "react";
 import {View, Text, Image, TouchableOpacity} from "react-native";
 import {useDispatch, useSelector} from "react-redux";
-import {
-  backToDestination,
-  resetOriginDestination,
-} from "../../Redux/Actions/mapActions";
+import {resetOriginDestination} from "../../Redux/Actions/mapActions";
 import {primaryColor} from "../Constants";
 
 const ServiceNotAvailable = () => {
@@ -14,10 +11,6 @@ const ServiceNotAvailable = () => {
 
   const rePickup = () => {
     dispatch(resetOriginDestination());
-  };
-
-  const handleBack = () => {
-    dispatch(backToDestination());
   };
 
   return (
@@ -31,9 +24,6 @@ const ServiceNotAvailable = () => {
         color: "black",
         paddingBottom: 30,
       }}>
-      <Text style={{marginBottom: 20}} onPress={handleBack}>
-        Back
-      </Text>
       <>
         <TouchableOpacity
           style={{
@@ -45,6 +35,7 @@ const ServiceNotAvailable = () => {
             marginHorizontal: 20,
             borderRadius: 10,
             marginBottom: 20,
+            marginTop: 20,
           }}>
           <Image
             source={require("../../assets/mapIcon.png")}

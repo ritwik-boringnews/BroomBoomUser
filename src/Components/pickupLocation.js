@@ -10,8 +10,8 @@ import {
 import {useNavigation} from "@react-navigation/native";
 import {useDispatch, useSelector} from "react-redux";
 import {
-  backToDestination,
   backToOrigin,
+  setGmapHomeBackBtn,
   setLocInputType,
   setMapHomeUIType,
   setMapVisibleMarkerType,
@@ -27,9 +27,7 @@ import Contacts from "react-native-contacts";
 const PickupLocation = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const {origin, locInputType, destination, visibleMarkerType} = useSelector(
-    state => state.map,
-  );
+  const {origin, locInputType, destination} = useSelector(state => state.map);
 
   const onConfirmLocations = async () => {
     if (locInputType === "origin" && origin.text === "") {
@@ -43,6 +41,7 @@ const PickupLocation = () => {
     }
     if (locInputType === "origin" && origin.text !== "") {
       dispatch(setLocInputType("destination"));
+      dispatch(setGmapHomeBackBtn(true));
       return;
     }
     if (locInputType === "destination" && destination.text === "") {
@@ -125,12 +124,6 @@ const PickupLocation = () => {
     }
   };
 
-  const handleBack = () => {
-    if (locInputType === "destination") {
-      dispatch(backToOrigin());
-    }
-  };
-
   return (
     <View
       style={{
@@ -149,11 +142,6 @@ const PickupLocation = () => {
         }}>
         {`${locInputType === "origin" ? "Select your Pick Up" : ""}`}
       </Text>
-      {locInputType === "destination" && (
-        <Text style={{marginBottom: 20}} onPress={handleBack}>
-          Back
-        </Text>
-      )}
       <TouchableOpacity
         style={{
           backgroundColor: "#E0E0E0",

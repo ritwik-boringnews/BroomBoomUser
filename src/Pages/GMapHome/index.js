@@ -1,15 +1,14 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect} from "react";
 import {
   View,
   TouchableOpacity,
   PermissionsAndroid,
   StyleSheet,
-  ActivityIndicator,
 } from "react-native";
 import MapView, {Marker, PROVIDER_GOOGLE} from "react-native-maps";
 import MyLocation from "react-native-vector-icons/MaterialIcons";
 import Geolocation from "react-native-geolocation-service";
-import HambergerHome from "../../Components/HambergerHome";
+import HamburgerHome from "../../Components/HamburgerHome";
 import PickupLocation from "../../Components/pickupLocation";
 import ChooseVehicleScooty from "../ChooseVehicleScooty";
 import PerfectPilot from "../../Components/perfectPilot";
@@ -27,6 +26,11 @@ import {
 } from "../../../Redux/Actions/mapActions";
 import {GOOGLE_MAPS_API_KEY} from "../../Utility/config";
 import MapViewDirections from "react-native-maps-directions";
+import GMapHomeBackBtn from "../../Components/GMapHomeBackBtn";
+import {
+  REDUX_HOME_MAP_TYPE_OPTIONS,
+  REDUX_HOME_MAP_VISIBLE_MARKER_TYPE_OPTIONS,
+} from "../../Utility/optionTypes";
 /**
  * ! permission issue if approximate selected {todo}
  *  LOG  getOneTimeLocation {"PERMISSION_DENIED": 1, "POSITION_UNAVAILABLE": 2, "TIMEOUT": 3, "code": 1, "message": "Location permission was not granted."}
@@ -34,7 +38,6 @@ import MapViewDirections from "react-native-maps-directions";
 export default ({navigation}) => {
   const dispatch = useDispatch();
   const {map} = useSelector(state => state);
-  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     locateCurrentPosition();
@@ -64,17 +67,17 @@ export default ({navigation}) => {
 
   const MapType = () => {
     switch (map.homeMapUIType) {
-      case "PICKUP_LOCATION":
+      case REDUX_HOME_MAP_TYPE_OPTIONS.PICKUP_LOCATION:
         return <PickupLocation />;
-      case "CHOOSE_VEHICLE_TYPE":
+      case REDUX_HOME_MAP_TYPE_OPTIONS.CHOOSE_VEHICLE_TYPE:
         return <ChooseVehicleScooty />;
-      case "CHOOSE_PERFECT_PILOT":
+      case REDUX_HOME_MAP_TYPE_OPTIONS.CHOOSE_PERFECT_PILOT:
         return <PerfectPilot />;
-      case "RATE_PILOT": // call, msg, pin UI
+      case REDUX_HOME_MAP_TYPE_OPTIONS.RATE_PILOT: // call, msg, pin UI
         return <RatePilot />;
-      case "FINDING_PILOT":
+      case REDUX_HOME_MAP_TYPE_OPTIONS.FINDING_PILOT:
         return <FindingPilot />;
-      case "SERVICE_NOT_AVAILABLE":
+      case REDUX_HOME_MAP_TYPE_OPTIONS.SERVICE_NOT_AVAILABLE:
         return <ServiceNotAvailable />;
     }
   };
@@ -170,76 +173,79 @@ export default ({navigation}) => {
 
   return (
     <View style={{flex: 1, backgroundColor: "white"}}>
-      <HambergerHome navigation={navigation} />
+      <HamburgerHome navigation={navigation} />
+      <GMapHomeBackBtn />
       <View style={styles.container}>
-        {isLoading ? (
-          <ActivityIndicator
-            color="black"
-            style={{position: "absolute", top: 0, right: 0, bottom: 0, left: 0}}
-            size="large"
-          />
-        ) : (
-          <MapView
-            initialRegion={map.origin}
-            style={styles.map}
-            provider={PROVIDER_GOOGLE}
-            // region={
-            //   map.locInputType === "origin" || map.destination.text === ""
-            //     ? map.origin
-            //     : map.destination
-            // }
-            //! should be: union of destination and origin {todo}
-            region={
-              map.visibleMarkerType === "origin" ? map.origin : map.destination
-            }>
-            {(map.visibleMarkerType === "origin" ||
-              map.visibleMarkerType === "both") && (
-              <Marker
-                coordinate={map.origin}
-                key={`marker_origin`}
-                draggable={map.visibleMarkerType !== "both"}
-                onDragEnd={position => {
-                  console.log("position", position.nativeEvent.coordinate);
-                  updateLatLngInStore({
-                    type: "origin",
-                    ...position.nativeEvent.coordinate,
-                  });
-                }}
-              />
-            )}
+        <MapView
+          initialRegion={map.origin}
+          style={styles.map}
+          provider={PROVIDER_GOOGLE}
+          // region={
+          //   map.locInputType === "origin" || map.destination.text === ""
+          //     ? map.origin
+          //     : map.destination
+          // }
+          //! should be: union of destination and origin {todo}
+          region={
+            map.visibleMarkerType ===
+            REDUX_HOME_MAP_VISIBLE_MARKER_TYPE_OPTIONS.ORIGIN
+              ? map.origin
+              : map.destination
+          }>
+          {(map.visibleMarkerType ===
+            REDUX_HOME_MAP_VISIBLE_MARKER_TYPE_OPTIONS.ORIGIN ||
+            map.visibleMarkerType ===
+              REDUX_HOME_MAP_VISIBLE_MARKER_TYPE_OPTIONS.BOTH) && (
+            <Marker
+              coordinate={map.origin}
+              key={`marker_origin`}
+              draggable
+              // draggable={map.visibleMarkerType !== "both"}
+              onDragEnd={position => {
+                console.log("position", position.nativeEvent.coordinate);
+                updateLatLngInStore({
+                  type: "origin",
+                  ...position.nativeEvent.coordinate,
+                });
+              }}
+            />
+          )}
 
-            {(map.visibleMarkerType === "destination" ||
-              map.visibleMarkerType === "both") && (
-              <Marker
-                coordinate={map.destination}
-                key={`marker_destination`}
-                draggable={map.visibleMarkerType !== "both"}
-                onDragEnd={position => {
-                  console.log("position", position.nativeEvent.coordinate);
-                  updateLatLngInStore({
-                    type: "destination",
-                    ...position.nativeEvent.coordinate,
-                  });
-                }}
-                pinColor={"green"}
-              />
-            )}
-            {map.visibleMarkerType === "both" && (
-              <MapViewDirections
-                origin={map.origin}
-                destination={map.destination}
-                apikey={GOOGLE_MAPS_API_KEY}
-                strokeWidth={2}
-                strokeColor={"#000"}
-                mode="DRIVING" // "DRIVING", "BICYCLING", "WALKING" "TRANSIT"
-                onError={errorMessage => {
-                  console.log("GOT AN ERROR", errorMessage);
-                  //! {todo} need to handle -> Error on GMAPS route request: ZERO_RESULTS
-                }}
-              />
-            )}
-          </MapView>
-        )}
+          {(map.visibleMarkerType ===
+            REDUX_HOME_MAP_VISIBLE_MARKER_TYPE_OPTIONS.DESTINATION ||
+            map.visibleMarkerType ===
+              REDUX_HOME_MAP_VISIBLE_MARKER_TYPE_OPTIONS.BOTH) && (
+            <Marker
+              coordinate={map.destination}
+              key={`marker_destination`}
+              draggable
+              // draggable={map.visibleMarkerType !== "both"}
+              onDragEnd={position => {
+                console.log("position", position.nativeEvent.coordinate);
+                updateLatLngInStore({
+                  type: "destination",
+                  ...position.nativeEvent.coordinate,
+                });
+              }}
+              pinColor={"green"}
+            />
+          )}
+          {map.visibleMarkerType ===
+            REDUX_HOME_MAP_VISIBLE_MARKER_TYPE_OPTIONS.BOTH && (
+            <MapViewDirections
+              origin={map.origin}
+              destination={map.destination}
+              apikey={GOOGLE_MAPS_API_KEY}
+              strokeWidth={2}
+              strokeColor={"#000"}
+              mode="DRIVING" // "DRIVING", "BICYCLING", "WALKING" "TRANSIT"
+              onError={errorMessage => {
+                console.log("GOT AN ERROR", errorMessage);
+                //! {todo} need to handle -> Error on GMAPS route request: ZERO_RESULTS
+              }}
+            />
+          )}
+        </MapView>
         {map.locInputType !== "destination" && (
           <View
             style={{
