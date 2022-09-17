@@ -8,7 +8,7 @@ export default class API {
     });
     this.axiosInstance.interceptors.request.use(
       function (config) {
-        store.dispatch(pushRequest(config));
+        // store.dispatch(pushRequest(config));
         return config;
       },
       function (error) {
@@ -18,7 +18,7 @@ export default class API {
 
     this.axiosInstance.interceptors.response.use(
       function (response) {
-        store.dispatch(popRequest());
+        // store.dispatch(popRequest());
         return response;
       },
       function (error) {

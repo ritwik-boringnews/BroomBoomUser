@@ -14,16 +14,7 @@ const ServiceNotAvailable = () => {
   };
 
   return (
-    <View
-      style={{
-        flex: 1,
-        backgroundColor: "white",
-        borderRadius: 20,
-        borderBottomEndRadius: 0,
-        borderBottomStartRadius: 0,
-        color: "black",
-        paddingBottom: 30,
-      }}>
+    <>
       <>
         <TouchableOpacity
           style={{
@@ -109,7 +100,7 @@ const ServiceNotAvailable = () => {
           Choose another pick up
         </Text>
       </TouchableOpacity>
-    </View>
+    </>
   );
 };
 

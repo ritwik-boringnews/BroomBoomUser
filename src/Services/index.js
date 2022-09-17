@@ -5,12 +5,14 @@ export const appDomains = {
   mainak: "192.168.29.78",
   dev: "43.205.135.42",
   prod: "www.9teesplus.in",
+  alsolDev: "192.168.1.97",
 };
 const PILOT_PORT = 7000;
 const USER_PORT = 8000;
 
-export const baseUrlUser = `http://${appDomains.prod}:${USER_PORT}/api/v1`;
-export const baseUrlPilot = `http://${appDomains.prod}:${PILOT_PORT}/api/v1`;
+export const baseUrlUser = `http://${appDomains.alsolDev}:${USER_PORT}/api/v1`;
+export const baseUrlPilot = `http://${appDomains.alsolDev}:${PILOT_PORT}/api/v1`;
+export const socketUrl = `http://${appDomains.alsolDev}:7000`;
 
 const Api = new API({
   baseUrl: baseUrlUser,
@@ -28,4 +30,25 @@ export const API_ENDPOINTS = {
   },
 };
 
-export const IS_LOCAL = true;
+export const SOCKET_ENDPOINTS = {
+  userRequestingRide: "user_requesting_ride",
+  PILOT_RIDE_INCOMING_NOTIF: "pilot_ride_notif",
+};
+
+export const SOCKET_INIT_OPTIONS_CONFIG = {
+  path: "/api/socket",
+};
+
+/**
+ * {
+  CONNECTION: "connection",
+  DISCONNECT: "disconnect",
+  JOIN_ROOM: "join_room",
+  PILOT_GEO_SYNC: "pilot_geo_sync",
+  PILOT_STATUS_SYNC: "pilot_status_sync",
+  USER_REQUESTING_RIDE: "user_requesting_ride",
+  PILOT_RIDE_INCOMING_NOTIF: "pilot_ride_notif",
+  PILOT_ACCEPT_INCOMING_RIDE: "pilot_accept_incoming_ride",
+  PILOT_REJECT_INCOMING_RIDE: "pilot_reject_incoming_ride",
+};
+ */

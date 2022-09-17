@@ -8,7 +8,8 @@ import {store, persistor} from "./Redux/store";
 import SnackBar from "./src/Components/AppSnackBar";
 import SplashScreen from "react-native-splash-screen";
 import {useDoubleBackPressExit} from "./src/Hooks/useDoubleBackPressExit";
-import {BackHandler} from "react-native";
+import {BackHandler, ActivityIndicator} from "react-native";
+import {primaryColor} from "./src/Constants";
 enableLatestRenderer();
 
 const App = () => {
@@ -22,7 +23,9 @@ const App = () => {
 
   return (
     <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
+      <PersistGate
+        loading={<ActivityIndicator color={primaryColor} />}
+        persistor={persistor}>
         <NavigationContainer>
           <SnackBar />
           <NonAuthStackNavigator />

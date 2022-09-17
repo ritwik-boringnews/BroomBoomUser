@@ -1,23 +1,10 @@
-import React, {useEffect} from "react";
-import {
-  View,
-  TouchableOpacity,
-  PermissionsAndroid,
-  StyleSheet,
-} from "react-native";
+import React, {createRef, useEffect} from "react";
+import {View, PermissionsAndroid} from "react-native";
 import MapView, {Marker, PROVIDER_GOOGLE} from "react-native-maps";
-import MyLocation from "react-native-vector-icons/MaterialIcons";
 import Geolocation from "react-native-geolocation-service";
 import HamburgerHome from "../../Components/HamburgerHome";
-import PickupLocation from "../../Components/pickupLocation";
-import ChooseVehicleScooty from "../ChooseVehicleScooty";
-import PerfectPilot from "../../Components/perfectPilot";
-import RatePilot from "../../Components/ratePilot";
-import FindingPilot from "../../Components/findingPilot";
-import ServiceNotAvailable from "../../Components/serviceNotAvailable";
 import {useDispatch, useSelector} from "react-redux";
 import {notify} from "../../../Redux/Actions";
-import Api from "../../Services";
 import {getRevGeoCoding} from "../../Services/GmapServices";
 import RNAndroidLocationEnabler from "react-native-android-location-enabler";
 import {
@@ -28,16 +15,27 @@ import {GOOGLE_MAPS_API_KEY} from "../../Utility/config";
 import MapViewDirections from "react-native-maps-directions";
 import GMapHomeBackBtn from "../../Components/GMapHomeBackBtn";
 import {
-  REDUX_HOME_MAP_TYPE_OPTIONS,
   REDUX_HOME_MAP_VISIBLE_MARKER_TYPE_OPTIONS,
+  VEHICLE_TYPE_OPTIONS,
 } from "../../Utility/optionTypes";
+import OverlayMapUI from "./components/OverlayMapUI";
+import io from "socket.io-client";
+import {
+  socketUrl,
+  SOCKET_ENDPOINTS,
+  SOCKET_INIT_OPTIONS_CONFIG,
+} from "../../Services";
+import styles from "./Styles";
+import LocateCurrentPosPointer from "./components/LocateCurrentPosPointer";
 /**
  * ! permission issue if approximate selected {todo}
  *  LOG  getOneTimeLocation {"PERMISSION_DENIED": 1, "POSITION_UNAVAILABLE": 2, "TIMEOUT": 3, "code": 1, "message": "Location permission was not granted."}
  */
 export default ({navigation}) => {
   const dispatch = useDispatch();
-  const {map} = useSelector(state => state);
+  const {map, auth} = useSelector(state => state);
+  const actionSheetRef = createRef();
+  const [socket, setSocket] = React.useState(null);
 
   useEffect(() => {
     locateCurrentPosition();
@@ -65,23 +63,6 @@ export default ({navigation}) => {
     dispatch(setMapLocationOrigin(payload));
   };
 
-  const MapType = () => {
-    switch (map.homeMapUIType) {
-      case REDUX_HOME_MAP_TYPE_OPTIONS.PICKUP_LOCATION:
-        return <PickupLocation />;
-      case REDUX_HOME_MAP_TYPE_OPTIONS.CHOOSE_VEHICLE_TYPE:
-        return <ChooseVehicleScooty />;
-      case REDUX_HOME_MAP_TYPE_OPTIONS.CHOOSE_PERFECT_PILOT:
-        return <PerfectPilot />;
-      case REDUX_HOME_MAP_TYPE_OPTIONS.RATE_PILOT: // call, msg, pin UI
-        return <RatePilot />;
-      case REDUX_HOME_MAP_TYPE_OPTIONS.FINDING_PILOT:
-        return <FindingPilot />;
-      case REDUX_HOME_MAP_TYPE_OPTIONS.SERVICE_NOT_AVAILABLE:
-        return <ServiceNotAvailable />;
-    }
-  };
-
   useEffect(() => {
     requestLocationPermission();
   }, []);
@@ -105,27 +86,6 @@ export default ({navigation}) => {
         }),
       );
     }
-  };
-
-  const checkIfUserHaveContactsLoaded = async () => {
-    let isUploadNeeded = false;
-    try {
-      const response = await Api.get(`/user/get_contacts_uploaded`);
-      // data -> 0 // no data in db; 1 // has data in db
-      if (response.status === 1) {
-        if (response.data == 0) isUploadNeeded = true;
-      } else {
-        throw new Error(response.message);
-      }
-    } catch (error) {
-      dispatch(
-        notify({
-          message: error.message || "Something went wrong",
-          notifyType: "error",
-        }),
-      );
-    }
-    return isUploadNeeded;
   };
 
   const getOneTimeLocation = () => {
@@ -152,11 +112,7 @@ export default ({navigation}) => {
       });
   };
 
-  const locateCurrentPosition = async () => {
-    // if (highAccuracyEnabled) setIsLoading(true);
-    // setTimeout(() => {
-    //   setIsLoading(false);
-    // }, 2000);
+  const locateCurrentPosition = () => {
     Geolocation.getCurrentPosition(
       info => {
         console.log("getOneTimeLocation", JSON.stringify(info));
@@ -165,15 +121,64 @@ export default ({navigation}) => {
       error => {
         console.log("getOneTimeLocation", error.message);
         getOneTimeLocation();
-        // if (error.code === 3) locateCurrentPosition(false);
       },
       {enableHighAccuracy: true, highAccuracyEnabled: true, timeout: 2000},
     );
   };
 
+  useEffect(() => {
+    actionSheetRef.current?.show();
+  }, []);
+
+  useEffect(() => {
+    const newSocket = io(socketUrl, SOCKET_INIT_OPTIONS_CONFIG);
+    setSocket(newSocket);
+    return () => newSocket.close();
+  }, [setSocket]);
+
+  useEffect(() => {
+    let messageListener;
+    if (socket) {
+      messageListener = message => {
+        console.log("=== LISTENER ==== ", message);
+        // setMessages((prevMessages) => {
+        //   const newMessages = {...prevMessages};
+        //   newMessages[message.id] = message;
+        //   return newMessages;
+        // });
+      };
+      socket.on(SOCKET_ENDPOINTS.PILOT_RIDE_INCOMING_NOTIF, messageListener);
+    }
+    return () => {
+      if (socket) {
+        socket.off(SOCKET_ENDPOINTS.PILOT_RIDE_INCOMING_NOTIF, messageListener);
+      }
+    };
+  }, [socket]);
+
+  const initSocketOnRequestPilot = () => {
+    const payload = {
+      origin: {
+        longitude: map.origin.longitude,
+        latitude: map.origin.latitude,
+      },
+      // longitude: "88.27036467019616",
+      // latitude: "22.570822400726108",
+      longitude: map.origin.longitude,
+      latitude: map.origin.latitude,
+      user_id: auth.user.id,
+      vehicle_type: VEHICLE_TYPE_OPTIONS.CAR,
+    };
+    console.log("payload", payload);
+    socket.emit(SOCKET_ENDPOINTS.userRequestingRide, JSON.stringify(payload));
+  };
+
   return (
-    <View style={{flex: 1, backgroundColor: "white"}}>
-      <HamburgerHome navigation={navigation} />
+    <>
+      <HamburgerHome
+        navigation={navigation}
+        initSocket={() => initSocketOnRequestPilot()}
+      />
       <GMapHomeBackBtn />
       <View style={styles.container}>
         <MapView
@@ -247,42 +252,10 @@ export default ({navigation}) => {
           )}
         </MapView>
         {map.locInputType !== "destination" && (
-          <View
-            style={{
-              position: "absolute",
-              bottom: 220,
-              padding: 8,
-              borderRadius: 10,
-              right: 20,
-              backgroundColor: "white",
-            }}>
-            <TouchableOpacity onPress={() => locateCurrentPosition()}>
-              <MyLocation name="my-location" size={20} color="black" />
-            </TouchableOpacity>
-          </View>
+          <LocateCurrentPosPointer onPress={locateCurrentPosition} />
         )}
       </View>
-      <View
-        style={{
-          position: "absolute",
-          bottom: 0,
-          left: 0,
-          right: 0,
-          backgroundColor: "white",
-        }}>
-        {/* <Text onPress={initRequestRideAndSocketConn}>--- REQUEST RIDE----</Text> */}
-
-        <MapType />
-      </View>
-    </View>
+      <OverlayMapUI />
+    </>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  map: {
-    ...StyleSheet.absoluteFillObject,
-  },
-});
