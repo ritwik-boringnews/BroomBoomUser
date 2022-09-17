@@ -11,12 +11,21 @@ export const validateEmail = email => {
 export const getTitleCaseText = text =>
   text[0].toUpperCase() + text.slice(1, text.length) || "";
 
-export const getGmapsRedirectionUrl = (
+export const getGmapsRedirectionUrl = ({
   origin,
   destination,
   mode = "driving",
-) => {
-  const {latitude: originLat, longitude: originLng} = origin;
-  const {latitude: destinationLat, longitude: destinationLng} = destination;
-  return `${GOOGLE_MAPS_REDIRECTION_URL}&origin=${originLat},${originLng}&destination=${destinationLat},${destinationLng}&travelmode=${mode}`;
+  encoded = false,
+}) => {
+  const {latitude: originLat, longitude: originLng, text: originText} = origin;
+  const {
+    latitude: destinationLat,
+    longitude: destinationLng,
+    text: destinationText,
+  } = destination;
+  if (encoded) {
+    return `${GOOGLE_MAPS_REDIRECTION_URL}&origin=${originLat},${originLng}&destination=${destinationLat},${destinationLng}&travelmode=${mode}`;
+  } else {
+    return `${GOOGLE_MAPS_REDIRECTION_URL}&origin=${originText}&destination=${destinationText}&travelmode=${mode}`;
+  }
 };
