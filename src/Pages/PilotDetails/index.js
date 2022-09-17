@@ -1,15 +1,20 @@
-import {View, Text, Image} from "react-native";
+import {View, Text, Image, TouchableOpacity} from "react-native";
 import React, {useEffect, useState} from "react";
 import moment from "moment";
 import BackIcon from "react-native-vector-icons/AntDesign";
+import CancelOrderModalReason from "../CancelOrderModalReason";
+import AppDialog from "../../Components/dialog";
 const PilotDetails = ({navigation, route}) => {
   const [pilotDetails, setPilotDetails] = useState([]);
+  const [visible, setVisible] = useState(false);
+  const [confirm, setConfirm] = useState(false);
+
   useEffect(() => {
     setPilotDetails(route.params);
   }, []);
   console.log("pilot details", route.params);
   return (
-    <View style={{backgroundColor: "white"}}>
+    <View style={{flex: 1}}>
       <View
         style={{
           flexDirection: "row",
@@ -38,7 +43,13 @@ const PilotDetails = ({navigation, route}) => {
           </Text>
         </View>
       </View>
-      <View style={{paddingHorizontal: 20, alignItems: "center"}}>
+      <View
+        style={{
+          paddingHorizontal: 20,
+          alignItems: "center",
+
+          flex: 1,
+        }}>
         <View
           style={{
             flexDirection: "row",
@@ -190,6 +201,28 @@ const PilotDetails = ({navigation, route}) => {
             </Text>
           </View>
         </View>
+        <TouchableOpacity
+          style={{
+            width: "90%",
+            padding: 10,
+            borderWidth: 1,
+            borderRadius: 50,
+            alignItems: "center",
+            marginStart: 20,
+            marginTop: 30,
+            backgroundColor: "#FFFF8D",
+          }}
+          onPress={() => setVisible(true)}>
+          <Text style={{color: "black", fontWeight: "bold"}}>Cancel Order</Text>
+        </TouchableOpacity>
+        <AppDialog
+          title="Cancel Order"
+          visible={visible}
+          setVisible={setVisible}
+          text="Do you want to cancel this order ?"
+          onConfirm={() => setConfirm(true)}
+        />
+        <CancelOrderModalReason visible={confirm} setVisible={setConfirm} />
       </View>
     </View>
   );

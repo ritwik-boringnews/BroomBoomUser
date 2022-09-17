@@ -23,6 +23,7 @@ import HelpAndSupport from "../Pages/HelpAndSupport";
 import Notifications from "../Pages/Notifications";
 import CustomDrawer from "../Components/customDrawer";
 import {primaryColor} from "../Constants/index.js";
+import PilotDetails from "../Pages/PilotDetails/index.js";
 //// screens
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
@@ -132,6 +133,15 @@ const DrawerNavigator = () => {
         component={AddReferral}
         options={{
           drawerItemStyle: {height: 0},
+          drawerIcon: ({color}) => (
+            <ProfileIcon name="user" size={22} color={color} />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="Pilot Profile"
+        component={PilotDetails}
+        options={{
           drawerIcon: ({color}) => (
             <ProfileIcon name="user" size={22} color={color} />
           ),
