@@ -4,6 +4,7 @@ import {List} from "react-native-paper";
 import styles from "./styles";
 import BackIcon from "react-native-vector-icons/AntDesign";
 const Faq = ({navigation}) => {
+  const environment = process.env.NODE_ENV || "development";
   return (
     <ScrollView style={styles.container}>
       {/* <TextInput
@@ -447,7 +448,10 @@ const Faq = ({navigation}) => {
             id={39}
             titleNumberOfLines={5}>
             <List.Item
-              description="MENU> MAGIC PASS> REFERRAL AMOUNT EARNED> USED( ONLY  IF YOUR REFERREE COMPLETE 10 KM FIRST RIDE BY JOINING WITH YOUR REFERRAL CODE.)"
+              description={
+                "MENU> MAGIC PASS> REFERRAL AMOUNT EARNED> USED( ONLY  IF YOUR REFERREE COMPLETE 10 KM FIRST RIDE BY JOINING WITH YOUR REFERRAL CODE.)" +
+                environment
+              }
               descriptionNumberOfLines={5}
             />
           </List.Accordion>

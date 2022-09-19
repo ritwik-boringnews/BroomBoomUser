@@ -28,7 +28,7 @@ const Profile = () => {
   const [image, setImage] = useState("");
   const navigation = useNavigation();
   const {user} = useSelector(state => state.auth);
-
+console.log(user);
   useEffect(() => {
     getProfile();
   }, []);
@@ -55,7 +55,7 @@ const Profile = () => {
       payload = [{name: "xyz", phone: 1234, user_id: user.id}];
     }
     try {
-      const response = Api.post("/user/save_phone_contactss", {
+      const response = Api.post("/user/save_phone_contacts", {
         phoneContactsList: payload,
       });
 
@@ -68,13 +68,17 @@ const Profile = () => {
   const getProfile = async () => {
     try {
       const response = await Api.get(`/user/get-user-details`);
+      console.log("response profile", response);
       if (response.status === 1) {
         setUserDetails({
           ...response.data,
           image: response.data?.image?.split("_")[1],
         });
         setDate(response.data.dob);
-        if (response.data.contact_upload_status === 1) {
+        if (
+          !response.data.contact_upload_status ||
+          response.data.contact_upload_status === 0
+        ) {
           const permissionG = await useContactPermission();
           if (permissionG === PERMISSIONS_TYPES.GRANTED) {
             uploadPhoneContacts();
