@@ -5,11 +5,12 @@ import {VEHICLE_TYPE_OPTIONS} from "../../Utility/optionTypes";
 import {useDispatch} from "react-redux";
 import {notify} from "../../../Redux/Actions";
 import {getTitleCaseText} from "../../Utility/helper";
-import { primaryColor } from "../../Constants";
+import {primaryColor} from "../../Constants";
 
 const ChooseVehicleScooty = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [chooseVehicle, setChooseVehicle] = useState([]);
+  const [text, setText] = useState([]);
   const dispatch = useDispatch();
 
   const vehicleTypeImage = type => {
@@ -34,7 +35,7 @@ const ChooseVehicleScooty = () => {
         origin: {latitude: "22.568937", longitude: "88.2685106"},
         destination: {latitude: "22.5726", longitude: "88.3639"},
       });
-      console.log("getfare", response);
+
       let vehicleType = [];
       if (response.status === 1) {
         response.data.map((item, index) => {
@@ -54,75 +55,76 @@ const ChooseVehicleScooty = () => {
         throw new Error(response.message);
       }
     } catch (error) {
-      console.log("error", error);
-      // dispatch(
-      //   notify({
-      //     message: error.message || "Something went wrong",
-      //     notifyType: "error",
-      //   }),
-      // );
+      dispatch(
+        notify({
+          message: error.message || "Something went wrong",
+          notifyType: "error",
+        }),
+      );
     }
   };
-  // console.log("vehicle type", chooseVehicle);
+  console.log("vehicle type", chooseVehicle);
 
   const ListItem = ({item}) => {
     return (
-      <View
-        key={item.index}
-        style={{
-          backgroundColor: "white",
-          marginTop: 10,
-          borderRadius: 15,
-          marginHorizontal: 30,
-          paddingVertical: 10,
-          flexDirection: "row",
-          justifyContent: "space-between",
-          backgroundColor: "white",
-        }}>
+      <TouchableOpacity onPress={() => console.log("item", item)}>
         <View
+          key={item.index}
           style={{
+            backgroundColor: "white",
+            marginTop: 10,
+            borderRadius: 15,
+            marginHorizontal: 30,
+            paddingVertical: 10,
             flexDirection: "row",
-            justifyContent: "center",
+            justifyContent: "space-between",
+            backgroundColor: "white",
           }}>
-          <Image
-            source={item.image}
+          <View
             style={{
-              marginTop: 5,
-              marginLeft: 20,
+              flexDirection: "row",
+              justifyContent: "center",
+            }}>
+            <Image
+              source={item.image}
+              style={{
+                marginTop: 5,
+                marginLeft: 20,
 
-              width: 40,
-              height: 40,
-              resizeMode: "contain",
-            }}
-          />
-          <View style={{paddingLeft: 30}}>
-            <View style={{flexDirection: "row"}}>
-              <Text
-                style={{fontWeight: "bold", color: "black", marginRight: 5}}>
-                {getTitleCaseText(item.title)}
+                width: 40,
+                height: 40,
+                resizeMode: "contain",
+              }}
+            />
+            <View style={{paddingLeft: 30}}>
+              <View style={{flexDirection: "row"}}>
+                <Text
+                  style={{fontWeight: "bold", color: "black", marginRight: 5}}>
+                  {getTitleCaseText(item.title)}
+                </Text>
+                {item.title === VEHICLE_TYPE_OPTIONS.CAR && (
+                  <Text>({item.seater} seater)</Text>
+                )}
+              </View>
+              <Text style={{fontSize: 12}}>{item.time}</Text>
+              <Text style={{fontSize: 10, color: "#0091E6"}}>
+                {item.time_duration}
               </Text>
-              {item.title === VEHICLE_TYPE_OPTIONS.CAR && (
-                <Text>({item.seater} seater)</Text>
-              )}
             </View>
-            <Text style={{fontSize: 12}}>{item.time}</Text>
-            <Text style={{fontSize: 10, color: "#0091E6"}}>
-              {item.time_duration}
+          </View>
+          <View>
+            <Text
+              style={{
+                marginTop: 10,
+                marginRight: 10,
+                fontWeight: "bold",
+                color: "black",
+              }}>
+              ₹ {item.price}
             </Text>
           </View>
         </View>
-        <View>
-          <Text
-            style={{
-              marginTop: 10,
-              marginRight: 10,
-              fontWeight: "bold",
-              color: "black",
-            }}>
-            ₹ {item.price}
-          </Text>
-        </View>
-      </View>
+      </TouchableOpacity>
     );
   };
   return (
