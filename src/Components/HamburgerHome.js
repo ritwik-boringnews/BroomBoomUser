@@ -1,11 +1,15 @@
 import React from "react";
-import {View, TouchableOpacity} from "react-native";
+import {TouchableOpacity} from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
-const HamburgerHome = ({navigation}) => {
+const HamburgerHome = ({navigation, initSocket}) => {
   return (
     <TouchableOpacity
-      onPress={navigation.openDrawer}
+      onPress={() => {
+        navigation.openDrawer();
+        initSocket();
+      }}
+      // initSocket={initSocket}
       style={{
         position: "absolute",
         top: 50,

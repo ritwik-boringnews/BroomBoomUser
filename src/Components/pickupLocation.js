@@ -19,6 +19,8 @@ import {
 import {notify} from "../../Redux/Actions";
 import {primaryColor} from "../Constants";
 import Contacts from "react-native-contacts";
+import Api from "../Services";
+import {REDUX_HOME_MAP_TYPE_OPTIONS} from "../Utility/optionTypes";
 
 /**
  * common component : pickupUI origin/destination
@@ -62,7 +64,10 @@ const PickupLocation = () => {
     if (locInputType === "destination" && destination.text !== "") {
       // origin and destination location selection done
       // now move to service not available
-      dispatch(setMapHomeUIType("SERVICE_NOT_AVAILABLE"));
+      // dispatch(setMapHomeUIType("SERVICE_NOT_AVAILABLE"));
+      dispatch(
+        setMapHomeUIType(REDUX_HOME_MAP_TYPE_OPTIONS.CHOOSE_VEHICLE_TYPE),
+      );
       // show both the Marker as origin and destination location done in selection
       dispatch(setMapVisibleMarkerType("both"));
       return;
@@ -122,6 +127,27 @@ const PickupLocation = () => {
         }),
       );
     }
+  };
+
+  const checkIfUserHaveContactsLoaded = async () => {
+    let isUploadNeeded = false;
+    try {
+      const response = await Api.get(`/user/get_contacts_uploaded`);
+      // data -> 0 // no data in db; 1 // has data in db
+      if (response.status === 1) {
+        if (response.data == 0) isUploadNeeded = true;
+      } else {
+        throw new Error(response.message);
+      }
+    } catch (error) {
+      dispatch(
+        notify({
+          message: error.message || "Something went wrong",
+          notifyType: "error",
+        }),
+      );
+    }
+    return isUploadNeeded;
   };
 
   return (

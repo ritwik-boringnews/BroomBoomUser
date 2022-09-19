@@ -31,6 +31,7 @@ const INITIAL_STATE = {
     text: "", // geolocation in text
   },
   homeMapUIType: REDUX_HOME_MAP_TYPE_OPTIONS.PICKUP_LOCATION,
+  // homeMapUIType: REDUX_HOME_MAP_TYPE_OPTIONS.CHOOSE_VEHICLE_TYPE,
   locInputType: "origin", // origin/destination
   visibleMarkerType: REDUX_HOME_MAP_VISIBLE_MARKER_TYPE_OPTIONS.ORIGIN, // origin/destination/both
   isShowHomeMapBackBtn: false,
