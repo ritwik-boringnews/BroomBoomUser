@@ -464,6 +464,5 @@ const RunningRide = () => {
       </TouchableOpacity>
     </ScrollView>
   );
-  R;
 };
 export default RunningRide;
