@@ -1,3 +1,5 @@
+import {GOOGLE_MAPS_REDIRECTION_URL} from "./config";
+
 export const validateEmail = email => {
   return String(email)
     .toLowerCase()
@@ -8,3 +10,22 @@ export const validateEmail = email => {
 
 export const getTitleCaseText = text =>
   text[0].toUpperCase() + text.slice(1, text.length) || "";
+
+export const getGmapsRedirectionUrl = ({
+  origin,
+  destination,
+  mode = "driving",
+  encoded = false,
+}) => {
+  const {latitude: originLat, longitude: originLng, text: originText} = origin;
+  const {
+    latitude: destinationLat,
+    longitude: destinationLng,
+    text: destinationText,
+  } = destination;
+  if (encoded) {
+    return `${GOOGLE_MAPS_REDIRECTION_URL}&origin=${originLat},${originLng}&destination=${destinationLat},${destinationLng}&travelmode=${mode}`;
+  } else {
+    return `${GOOGLE_MAPS_REDIRECTION_URL}&origin=${originText}&destination=${destinationText}&travelmode=${mode}`;
+  }
+};
