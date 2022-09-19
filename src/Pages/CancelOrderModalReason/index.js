@@ -1,10 +1,17 @@
 import React, {useState, useEffect} from "react";
-import {StyleSheet, Text, Pressable, View} from "react-native";
+import {
+  StyleSheet,
+  Text,
+  Pressable,
+  View,
+  TouchableOpacity,
+} from "react-native";
 import Icon from "react-native-vector-icons/Entypo";
 import Api from "../../Services";
 import {useDispatch} from "react-redux";
 import {Modal, Portal, Provider} from "react-native-paper";
-const CancelOrderModalReason = ({visible, setVisible}) => {
+
+const CancelOrderModalReason = ({visible, setVisible, onReasonPressed}) => {
   const [isLoading, setIsLoading] = useState(false);
   const [cancelReasons, setCancelReasons] = useState([]);
   const dispatch = useDispatch();
@@ -67,15 +74,17 @@ const CancelOrderModalReason = ({visible, setVisible}) => {
             />
             <View style={{padding: 23}}>
               {cancelReasons.map(item => (
-                <Text
-                  style={{
-                    fontWeight: "600",
-                    fontSize: 15,
-                    color: "black",
-                    marginTop: 14,
-                  }}>
-                  {item.reason}
-                </Text>
+                <TouchableOpacity onPress={() => onReasonPressed(item)}>
+                  <Text
+                    style={{
+                      fontWeight: "600",
+                      fontSize: 15,
+                      color: "black",
+                      marginTop: 14,
+                    }}>
+                    {item.reason}
+                  </Text>
+                </TouchableOpacity>
               ))}
             </View>
             <Text
