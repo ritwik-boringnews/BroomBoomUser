@@ -14,7 +14,7 @@ export const REDUX_HOME_MAP_VISIBLE_MARKER_TYPE_OPTIONS = {
 };
 
 export const VEHICLE_TYPE_OPTIONS = {
-  CAR: "cab",
+  CAR: "car",
   BIKE: "bike",
   SCOOTY: "scooty",
 };

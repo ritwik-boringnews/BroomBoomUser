@@ -10,9 +10,9 @@ export const appDomains = {
 const PILOT_PORT = 7000;
 const USER_PORT = 8000;
 
-export const baseUrlUser = `http://${appDomains.alsolDev}:${USER_PORT}/api/v1`;
-export const baseUrlPilot = `http://${appDomains.alsolDev}:${PILOT_PORT}/api/v1`;
-export const socketUrl = `http://${appDomains.alsolDev}:7000`;
+export const baseUrlUser = `http://${appDomains.dev}:${USER_PORT}/api/v1`;
+export const baseUrlPilot = `http://${appDomains.dev}:${PILOT_PORT}/api/v1`;
+export const socketUrl = `http://${appDomains.dev}:7000`;
 
 const Api = new API({
   baseUrl: baseUrlUser,
