@@ -8,7 +8,7 @@ const ChooseVehicleScooty = () => {
   const vehicleTypeImage = type => {
     if (type === "bike") {
       return require("../../../assets/check1.png");
-    } else if (type === "cab") {
+    } else if (type === "car") {
       return require("../../../assets/check5.png");
     } else if (type === "scooty") {
       return require("../../../assets/check2.png");
@@ -91,7 +91,7 @@ const ChooseVehicleScooty = () => {
                 style={{fontWeight: "bold", color: "black", marginRight: 5}}>
                 {item.title}
               </Text>
-              {item.title === "cab" && <Text>({item.seater} seater)</Text>}
+              {item.title === "car" && <Text>({item.seater} seater)</Text>}
             </View>
             <Text style={{fontSize: 12}}>{item.time}</Text>
             <Text style={{fontSize: 10, color: "#0091E6"}}>
