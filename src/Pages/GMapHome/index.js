@@ -66,7 +66,8 @@ export default ({navigation}) => {
   };
 
   const MapType = () => {
-    switch (map.homeMapUIType) {
+    // switch (map.homeMapUIType) {
+    switch (REDUX_HOME_MAP_TYPE_OPTIONS.FINDING_PILOT) {
       case REDUX_HOME_MAP_TYPE_OPTIONS.PICKUP_LOCATION:
         return <PickupLocation />;
       case REDUX_HOME_MAP_TYPE_OPTIONS.CHOOSE_VEHICLE_TYPE:

@@ -219,7 +219,8 @@ const PilotDetails = ({navigation, route}) => {
           title="Cancel Order"
           visible={confirm}
           setVisible={setConfirm}
-          text="Do you want to cancel this order ?"
+          text1="Do you want to cancel this order ?"
+          text2="You will be charged for 80"
         />
         <CancelOrderModalReason
           visible={visible}
