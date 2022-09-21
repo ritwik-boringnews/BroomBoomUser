@@ -5,7 +5,8 @@ import {Button, Paragraph, Dialog, Portal, Provider} from "react-native-paper";
 const AppDialog = ({
   visible = false,
   setVisible = () => null,
-  text = "",
+  text1 = "",
+  text2 = "",
   onConfirm = () => null,
   onCancel = () => null,
   title = "",
@@ -19,7 +20,8 @@ const AppDialog = ({
           <Dialog visible={visible} onDismiss={hideDialog}>
             <Dialog.Title>{title}</Dialog.Title>
             <Dialog.Content style={{fontSize: 15}}>
-              <Paragraph>{text}</Paragraph>
+              <Paragraph style={{color: "red"}}>{text2}</Paragraph>
+              <Paragraph>{text1}</Paragraph>
             </Dialog.Content>
             <Dialog.Actions>
               <Button

@@ -217,12 +217,19 @@ const PilotDetails = ({navigation, route}) => {
         </TouchableOpacity>
         <AppDialog
           title="Cancel Order"
+          visible={confirm}
+          setVisible={setConfirm}
+          text1="Do you want to cancel this order ?"
+          text2="You will be charged for 80"
+        />
+        <CancelOrderModalReason
           visible={visible}
           setVisible={setVisible}
-          text="Do you want to cancel this order ?"
-          onConfirm={() => setConfirm(true)}
+          onReasonPressed={item => {
+            setConfirm(true);
+            setVisible(false);
+          }}
         />
-        <CancelOrderModalReason visible={confirm} setVisible={setConfirm} />
       </View>
     </View>
   );
