@@ -27,5 +27,3 @@ export const API_ENDPOINTS = {
     getGeoLocationText: "map/get-geo-code",
   },
 };
-
-export const IS_LOCAL = true;
