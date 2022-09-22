@@ -6,7 +6,7 @@ const LocateCurrentPosPointer = ({onPress}) => (
   <View
     style={{
       position: "absolute",
-      bottom: 220,
+      bottom: 250,
       padding: 8,
       borderRadius: 10,
       right: 20,

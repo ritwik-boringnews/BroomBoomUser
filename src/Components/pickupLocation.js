@@ -156,7 +156,7 @@ const PickupLocation = () => {
         backgroundColor: "white",
         borderTopLeftRadius: 30,
         borderTopRightRadius: 30,
-        paddingBottom: 25,
+        // paddingBottom: 25,
         paddingHorizontal: 20,
       }}>
       <Text

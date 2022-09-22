@@ -10,7 +10,8 @@ import React, {useEffect, useState} from "react";
 import Icon from "react-native-vector-icons/AntDesign";
 import Api from "../../Services";
 import {useDispatch} from "react-redux";
-const Feedback = ({route}) => {
+import BackButtonPage from "../../Components/BackButtonPage";
+const Feedback = ({route, navigation}) => {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const [feedback, setFeedback] = useState([]);
@@ -24,7 +25,6 @@ const Feedback = ({route}) => {
   const [ratePilot, setRatePilot] = useState("");
   const [comment, setComment] = useState("");
 
-  console.log(route.params?.pilot_id);
   const submitFeedback = async () => {
     try {
       const payload = {
@@ -54,147 +54,159 @@ const Feedback = ({route}) => {
     }
   };
   return (
-    <View style={{backgroundColor: "white"}}>
-      <View
-        style={{
-          backgroundColor: "white",
-          borderRadius: 10,
-          marginHorizontal: 16,
-          paddingVertical: 30,
-          marginTop: 20,
-          display: "flex",
-          alignItems: "center",
-        }}>
-        <Image
-          source={require("../../../assets/right.png")}
-          style={{height: 90, width: 90, resizeMode: "contain"}}
-        />
-        <Text style={{fontWeight: "800", fontSize: 16}}>Payment Complete</Text>
-      </View>
-      <View
-        style={{
-          backgroundColor: "white",
-          borderRadius: 10,
-          marginHorizontal: 16,
-          paddingVertical: 30,
-          marginTop: 20,
-          display: "flex",
-          alignItems: "center",
-        }}>
-        <Text>Rate Your Pilot</Text>
-        <View style={{flexDirection: "row", justifyContent: "center"}}>
-          {rating.map(item => {
-            return (
-              <TouchableOpacity
-                onPress={() => {
-                  const rate = rating.map((r, index) => {
-                    if (index + 1 <= item.count) {
-                      r.colour = true;
-                    } else {
-                      r.colour = false;
-                    }
-                    return r;
-                  });
-                  setRating(rate);
-                }}>
-                <Icon
-                  name="star"
-                  size={45}
-                  color={item.colour ? "yellow" : "#E6E6E6"}
-                  key={`feedback${item}`}
-                />
-              </TouchableOpacity>
-            );
-          })}
+    <BackButtonPage pageName="Feedback" navigation={navigation}>
+      <View style={{backgroundColor: "white", flex: 1}}>
+        <View
+          style={{
+            backgroundColor: "white",
+            borderRadius: 10,
+            marginHorizontal: 16,
+            paddingVertical: 30,
+            marginTop: 20,
+            display: "flex",
+            alignItems: "center",
+            backgroundColor: "#d5d5d5",
+          }}>
+          <Image
+            source={require("../../../assets/right.png")}
+            style={{height: 90, width: 90, resizeMode: "contain"}}
+          />
+          <Text style={{fontWeight: "800", fontSize: 16}}>
+            Payment Complete
+          </Text>
         </View>
-      </View>
-      <View style={{display: "flex", alignItems: "center", marginTop: 30}}>
-        <Text style={{color: "black", fontSize: 18}}>How was the Pilot?</Text>
-      </View>
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "space-around",
-          marginTop: 20,
-          marginHorizontal: 40,
-        }}>
-        <Pressable
+        <View
           style={{
-            paddingHorizontal: 12,
+            backgroundColor: "white",
+            borderRadius: 10,
+            marginHorizontal: 16,
+            paddingVertical: 30,
+            marginTop: 20,
+            display: "flex",
+            alignItems: "center",
+            backgroundColor: "#d5d5d5",
+          }}>
+          <Text style={{fontWeight: "bold", fontSize: 18}}>
+            Rate Your Pilot
+          </Text>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "center",
+            }}>
+            {rating.map(item => {
+              return (
+                <TouchableOpacity
+                  onPress={() => {
+                    const rate = rating.map((r, index) => {
+                      if (index + 1 <= item.count) {
+                        r.colour = true;
+                      } else {
+                        r.colour = false;
+                      }
+                      return r;
+                    });
+                    setRating(rate);
+                  }}>
+                  <Icon
+                    name="star"
+                    size={45}
+                    color={item.colour ? "#F5C001" : "#E6E6E6"}
+                    key={`feedback${item}`}
+                  />
+                </TouchableOpacity>
+              );
+            })}
+          </View>
+        </View>
+        <View style={{display: "flex", alignItems: "center", marginTop: 30}}>
+          <Text style={{color: "black", fontSize: 18}}>How was the Pilot?</Text>
+        </View>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-around",
+            marginTop: 20,
             marginHorizontal: 40,
-            borderRadius: 48,
-            elevation: 3,
-            backgroundColor: "#FFFBC8",
-            borderWidth: 1,
-          }}
-          onPress={() => setRatePilot("polite")}>
-          <Text style={{color: "black"}}>Polite</Text>
-        </Pressable>
+          }}>
+          <Pressable
+            style={{
+              paddingHorizontal: 12,
+              marginHorizontal: 40,
+              borderRadius: 48,
+              elevation: 3,
+              backgroundColor: "#FDD835",
+              borderWidth: 1,
+            }}
+            onPress={() => setRatePilot("polite")}>
+            <Text style={{color: "black"}}>Polite</Text>
+          </Pressable>
 
-        <Pressable
-          style={{
-            paddingHorizontal: 12,
-            marginHorizontal: 40,
-            borderRadius: 48,
-            elevation: 3,
-            backgroundColor: "#FFFBC8",
-            borderWidth: 1,
-          }}
-          onPress={() => setRatePilot("timely")}>
-          <Text style={{color: "black"}}>Timely</Text>
-        </Pressable>
+          <Pressable
+            style={{
+              paddingHorizontal: 12,
+              marginHorizontal: 40,
+              borderRadius: 48,
+              elevation: 3,
+              backgroundColor: "#F2EBD1",
+              borderWidth: 1,
+            }}
+            onPress={() => setRatePilot("timely")}>
+            <Text style={{color: "black"}}>Timely</Text>
+          </Pressable>
 
-        <Pressable
+          <Pressable
+            style={{
+              paddingHorizontal: 12,
+              marginHorizontal: 40,
+              borderRadius: 48,
+              elevation: 3,
+              backgroundColor: "#F2EBD1",
+              borderWidth: 1,
+            }}
+            onPress={() => setRatePilot("friendly")}>
+            <Text style={{color: "black"}}>Friendly</Text>
+          </Pressable>
+          <Pressable
+            style={{
+              paddingHorizontal: 12,
+              marginHorizontal: 40,
+              borderRadius: 48,
+              elevation: 3,
+              backgroundColor: "#F2EBD1",
+              borderWidth: 1,
+            }}
+            onPress={() => setRatePilot("others")}>
+            <Text style={{color: "black"}}>Others</Text>
+          </Pressable>
+        </View>
+        {ratePilot === "others" && (
+          <TextInput
+            placeholder="Comment(optional)"
+            style={{
+              backgroundColor: "#E6E6E6",
+              marginHorizontal: 30,
+              marginTop: 30,
+              borderRadius: 6,
+              paddingHorizontal: 15,
+            }}
+            onChangeText={text => setComment(text)}
+          />
+        )}
+
+        <TouchableOpacity
           style={{
-            paddingHorizontal: 12,
-            marginHorizontal: 40,
-            borderRadius: 48,
-            elevation: 3,
-            backgroundColor: "#FFFBC8",
+            padding: 10,
             borderWidth: 1,
+            borderRadius: 50,
+            marginHorizontal: 50,
+            marginTop: 40,
           }}
-          onPress={() => setRatePilot("friendly")}>
-          <Text style={{color: "black"}}>Friendly</Text>
-        </Pressable>
-        <Pressable
-          style={{
-            paddingHorizontal: 12,
-            marginHorizontal: 40,
-            borderRadius: 48,
-            elevation: 3,
-            backgroundColor: "#FFFBC8",
-            borderWidth: 1,
-          }}
-          onPress={() => setRatePilot("others")}>
-          <Text style={{color: "black"}}>Others</Text>
-        </Pressable>
+          onPress={submitFeedback}>
+          <Text style={{textAlign: "center", color: "black"}}>Submit</Text>
+        </TouchableOpacity>
       </View>
-      {ratePilot === "others" && (
-        <TextInput
-          placeholder="Comment(optional)"
-          style={{
-            backgroundColor: "#E6E6E6",
-            marginHorizontal: 30,
-            marginTop: 30,
-            borderRadius: 6,
-            paddingHorizontal: 15,
-          }}
-          onChangeText={text => setComment(text)}
-        />
-      )}
-
-      <TouchableOpacity
-        style={{
-          padding: 10,
-          borderWidth: 1,
-          borderRadius: 50,
-          marginHorizontal: 50,
-          marginTop: 40,
-        }}
-        onPress={submitFeedback}>
-        <Text style={{textAlign: "center", color: "black"}}>Submit</Text>
-      </TouchableOpacity>
-    </View>
+    </BackButtonPage>
   );
 };
 

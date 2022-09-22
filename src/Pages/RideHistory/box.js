@@ -60,8 +60,15 @@ const Box = ({
         <View>
           <Image source={ic_route} />
         </View>
-        <View style={{marginHorizontal: 10}}>
-          <Text style={{fontSize: 14, fontWeight: "700", color: "#1f1f1f"}}>
+        <View style={{marginHorizontal: 10, width: "90%"}}>
+          <Text
+            style={{
+              fontSize: 14,
+              fontWeight: "700",
+              color: "#1f1f1f",
+              width: "70%",
+            }}
+            numberOfLines={2}>
             {placeFrom}
           </Text>
           <Text

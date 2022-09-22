@@ -18,11 +18,15 @@ import TermsAndConditions from "../Pages/TermsAndConditions";
 import AddReferral from "../Pages/AddReferral";
 import LocationPicker from "../Pages/LocationPicker";
 import RideHistory from "../Pages/RideHistory";
+import RideDetails from "../Pages/RideDetails";
+import PilotDetails from "../Pages/PilotDetails";
 import ReferAndEarn from "../Pages/ReferAndEarn";
 import HelpAndSupport from "../Pages/HelpAndSupport";
 import Notifications from "../Pages/Notifications";
 import CustomDrawer from "../Components/customDrawer";
 import {primaryColor} from "../Constants/index.js";
+import Feedback from "../Pages/Feedback/index.js";
+import Payments from "../Pages/Payments/index.js";
 //// screens
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
@@ -35,6 +39,19 @@ const HomePageMain = () => {
       <Stack.Screen name="SourceMap" component={GMapHome} />
       <Stack.Screen name="SearchPickup" component={SearchPickup} />
       <Stack.Screen name="LocationPicker" component={LocationPicker} />
+    </Stack.Navigator>
+  );
+};
+
+const RideHistoryStack = () => {
+  return (
+    <Stack.Navigator
+      initialRouteName="RideHistory"
+      screenOptions={{headerShown: false}}>
+      <Stack.Screen name="RideHistory" component={RideHistory} />
+      <Stack.Screen name="RideDetails" component={RideDetails} />
+      <Stack.Screen name="PilotDetails" component={PilotDetails} />
+      <Stack.Screen name="Feedback" component={Feedback} />
     </Stack.Navigator>
   );
 };
@@ -102,7 +119,7 @@ const DrawerNavigator = () => {
       />
       <Drawer.Screen
         name="Ride History"
-        component={RideHistory}
+        component={RideHistoryStack}
         options={{
           drawerIcon: ({color}) => (
             <History name="history" size={22} color={color} />
@@ -132,6 +149,15 @@ const DrawerNavigator = () => {
         component={AddReferral}
         options={{
           drawerItemStyle: {height: 0},
+          drawerIcon: ({color}) => (
+            <ProfileIcon name="user" size={22} color={color} />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="Payments"
+        component={Payments}
+        options={{
           drawerIcon: ({color}) => (
             <ProfileIcon name="user" size={22} color={color} />
           ),

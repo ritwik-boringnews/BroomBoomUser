@@ -1,11 +1,15 @@
 import {View, Text, FlatList, Image, TouchableOpacity} from "react-native";
 import React, {useState, useEffect} from "react";
 import Api from "../../Services";
-import {VEHICLE_TYPE_OPTIONS} from "../../Utility/optionTypes";
+import {
+  REDUX_HOME_MAP_TYPE_OPTIONS,
+  VEHICLE_TYPE_OPTIONS,
+} from "../../Utility/optionTypes";
 import {useDispatch} from "react-redux";
 import {notify} from "../../../Redux/Actions";
 import {getTitleCaseText} from "../../Utility/helper";
 import {primaryColor} from "../../Constants";
+import {setMapHomeUIType} from "../../../Redux/Actions/mapActions";
 
 const ChooseVehicleScooty = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -120,7 +124,7 @@ const ChooseVehicleScooty = () => {
                 fontWeight: "bold",
                 color: "black",
               }}>
-              ₹ {item.price}
+              ₹ {item.price?.toPrecision(6)}
             </Text>
           </View>
         </View>
@@ -132,7 +136,7 @@ const ChooseVehicleScooty = () => {
       <FlatList
         data={chooseVehicle}
         renderItem={ListItem}
-        keyExtractor={e => e.index}
+        keyExtractor={e => e.id}
       />
       {/* <View
         style={{
@@ -155,7 +159,12 @@ const ChooseVehicleScooty = () => {
           marginTop: 10,
           marginStart: 20,
           backgroundColor: primaryColor,
-        }}>
+        }}
+        onPress={() =>
+          dispatch(
+            setMapHomeUIType(REDUX_HOME_MAP_TYPE_OPTIONS.SERVICE_NOT_AVAILABLE),
+          )
+        }>
         <Text style={{color: "black", fontWeight: "bold"}}>Confirm</Text>
       </TouchableOpacity>
     </>
