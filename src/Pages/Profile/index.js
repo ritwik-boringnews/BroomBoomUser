@@ -28,7 +28,7 @@ const Profile = () => {
   const [image, setImage] = useState("");
   const navigation = useNavigation();
   const {user} = useSelector(state => state.auth);
-console.log(user);
+  console.log(user);
   useEffect(() => {
     getProfile();
   }, []);
@@ -43,7 +43,7 @@ console.log(user);
           contacts.map(phone => {
             payload.push({
               name: phone.displayName || phone.givenName || "",
-              phone: parseInt(phone?.phoneNumbers[0]?.number) || 0,
+              phone: phone?.phoneNumbers[0]?.number || "",
               user_id: user.id,
             });
           });
