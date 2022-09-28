@@ -21,6 +21,7 @@ import AppRadioButton from "../../Components/AppRadioButton";
 import useContactPermission, {
   PERMISSIONS_TYPES,
 } from "../../Hooks/useContactPermission";
+import Contacts from "react-native-contacts";
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -28,7 +29,6 @@ const Profile = () => {
   const [image, setImage] = useState("");
   const navigation = useNavigation();
   const {user} = useSelector(state => state.auth);
-  console.log(user);
   useEffect(() => {
     getProfile();
   }, []);
@@ -55,10 +55,12 @@ const Profile = () => {
       payload = [{name: "xyz", phone: 1234, user_id: user.id}];
     }
     try {
-      const response = Api.post("/user/save_phone_contacts", {
+      const response = await Api.post("/user/save_phone_contacts", {
         phoneContactsList: payload,
       });
-
+      console.log("phoneContactsList", {
+        phoneContactsList: payload,
+      });
       if (response.status === 1 && response.result) {
         dispatch(updateUser(response.result));
       }
