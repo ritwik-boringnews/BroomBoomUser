@@ -11,50 +11,13 @@ import React from "react";
 import Icon from "react-native-vector-icons/FontAwesome";
 import UserIcon from "../../../assets/truckDriver.png";
 import amazonIcon from "../../../assets/amazonLogo.png";
+import AppLocationLabel from "../../Components/AppLocationLabel";
 
 const RunningRide = () => {
-  const styles = StyleSheet.create({
-    container: {
-      paddingHorizontal: 10,
-      paddingTop: 10,
-      flex: 1,
-      backgroundColor: "white",
-    },
-    header: {
-      fontSize: 18,
-      fontWeight: "700",
-      color: "#1D192B",
-      padding: 0,
-    },
-    SubHeader: {
-      fontSize: 18,
-      fontWeight: "500",
-      color: "#1D192B",
-      padding: 0,
-    },
-    box: {
-      backgroundColor: "#fff",
-      // width: '100%',
-      borderColor: "rgba(0, 0, 0, 0.15)",
-      borderWidth: 1,
-      borderRadius: 10,
-    },
-    btnWarning: {
-      backgroundColor: "#F5C001",
-      width: 80,
-      borderRadius: 50,
-      textAlign: "center",
-      alignItems: "center",
-      padding: 3,
-      borderWidth: 1,
-      borderColor: "#828282",
-    },
-  });
-
   return (
     <ScrollView style={styles.container}>
-      <View style={[styles.box, {marginVertical: 10}]}>
-        <View
+      <View style={[styles.box]}>
+        {/* <View
           style={{
             paddingVertical: 20,
             paddingHorizontal: 20,
@@ -68,7 +31,7 @@ const RunningRide = () => {
             style={{height: 4, width: 48, position: "absolute", top: 0}}
           />
           <Text style={styles.header}>Start your ride PIN: 2030</Text>
-        </View>
+        </View> */}
         <View style={{paddingHorizontal: 20}}>
           <View style={{flexDirection: "row", justifyContent: "space-between"}}>
             <View
@@ -274,7 +237,7 @@ const RunningRide = () => {
       </View>
 
       {/* Pickup */}
-      <View style={[styles.box, {marginVertical: 10}]}>
+      {/* <View style={[styles.box, {marginVertical: 10}]}>
         <View
           style={{
             alignItems: "center",
@@ -298,7 +261,6 @@ const RunningRide = () => {
             <Icon name="heart-o" size={22} style={{color: "#BDBDBD"}} />
           </TouchableOpacity>
         </View>
-        {/* card body */}
         <View
           style={{
             paddingVertical: 5,
@@ -329,11 +291,10 @@ const RunningRide = () => {
             </Text>
           </TouchableOpacity>
         </View>
-        {/* card body close */}
-      </View>
+      </View> */}
 
       {/* Drop */}
-      <View style={[styles.box, {marginVertical: 10}]}>
+      {/* <View style={[styles.box, {marginVertical: 10}]}>
         <View
           style={{
             alignItems: "center",
@@ -357,7 +318,6 @@ const RunningRide = () => {
             <Icon name="heart-o" size={22} style={{color: "#BDBDBD"}} />
           </TouchableOpacity>
         </View>
-        {/* card body */}
         <View
           style={{
             paddingVertical: 5,
@@ -389,9 +349,9 @@ const RunningRide = () => {
             </Text>
           </TouchableOpacity>
         </View>
-        {/* card body close */}
-      </View>
-
+      </View> */}
+      <AppLocationLabel locLabel={"pickup"} />
+      <AppLocationLabel locLabel={"drop"} />
       {/* Payment */}
       <View style={[styles.box, {marginVertical: 10}]}>
         <View
@@ -407,46 +367,24 @@ const RunningRide = () => {
         {/* card body */}
         <View
           style={{
-            paddingVertical: 5,
+            flexDirection: "row",
             alignItems: "center",
-            paddingHorizontal: 15,
+            justifyContent: "space-between",
+            paddingHorizontal: 20,
           }}>
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "space-between",
-              width: "100%",
-            }}>
-            <View style={{flexDirection: "row"}}>
-              <Image source={amazonIcon} />
-              <Text
-                style={[styles.SubHeader, {fontWeight: "700", marginLeft: 10}]}>
-                Amazon Pay
-              </Text>
-            </View>
-            <Text style={styles.SubHeader}>₹280</Text>
-          </View>
-          <TouchableOpacity
-            style={{
-              paddingVertical: 10,
-              borderWidth: 2,
-              borderColor: "#000",
-              width: "100%",
-              alignItems: "center",
-              borderRadius: 50,
-              marginTop: 28,
-              marginBottom: 10,
-            }}>
-            <Text style={{fontSize: 16, fontWeight: "500", color: "#000"}}>
-              Edit Location
+          <View style={{flexDirection: "row"}}>
+            <Image source={amazonIcon} />
+            <Text
+              style={[styles.SubHeader, {fontWeight: "bold", marginLeft: 10}]}>
+              Amazon Pay
             </Text>
-          </TouchableOpacity>
+          </View>
+          <Text style={styles.SubHeader}>₹280</Text>
         </View>
         {/* card body close */}
       </View>
 
-      <TouchableOpacity
+      {/* <TouchableOpacity
         style={{
           backgroundColor: "#F5C001",
           paddingVertical: 15,
@@ -461,8 +399,57 @@ const RunningRide = () => {
         <Text style={{fontSize: 16, fontWeight: "500", color: "#000"}}>
           Cancel Ride
         </Text>
+      </TouchableOpacity> */}
+      <TouchableOpacity
+        style={{
+          width: "90%",
+          padding: 10,
+          borderWidth: 1,
+          borderRadius: 50,
+          alignItems: "center",
+          alignSelf: "center",
+          backgroundColor: "#F4B400",
+        }}>
+        <Text style={{color: "black", fontWeight: "bold"}}>Cancel Ride</Text>
       </TouchableOpacity>
     </ScrollView>
   );
 };
 export default RunningRide;
+const styles = StyleSheet.create({
+  container: {
+    // paddingHorizontal: 10,
+    // paddingTop: 10,
+    // flex: 1,
+    backgroundColor: "white",
+  },
+  header: {
+    fontSize: 18,
+    fontWeight: "700",
+    color: "#1D192B",
+    padding: 0,
+  },
+  SubHeader: {
+    fontSize: 18,
+    fontWeight: "500",
+    color: "#1D192B",
+    padding: 0,
+  },
+  box: {
+    // backgroundColor: "#fff",
+    // // width: '100%',
+    // borderColor: "rgba(0, 0, 0, 0.15)",
+    // borderWidth: 1,
+    // borderRadius: 10,
+  },
+  btnWarning: {
+    backgroundColor: "#F5C001",
+    width: 80,
+    borderRadius: 50,
+    textAlign: "center",
+    alignItems: "center",
+    padding: 3,
+    borderWidth: 1,
+    borderColor: "#828282",
+  },
+});

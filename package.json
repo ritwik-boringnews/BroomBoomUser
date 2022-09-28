@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.17.9",
-    "@react-native-clipboard/clipboard": "github:react-native-clipboard/clipboard",
+    "@react-native-clipboard/clipboard": "^1.11.1",
     "@react-native-community/datetimepicker": "^6.3.2",
     "@react-native-community/geolocation": "^2.1.0",
     "@react-navigation/bottom-tabs": "^6.3.2",
@@ -23,6 +23,7 @@
     "moment": "^2.29.4",
     "react": "18.0.0",
     "react-native": "0.69.2",
+    "react-native-actions-sheet": "^0.8.7",
     "react-native-android-location-enabler": "^1.2.2",
     "react-native-contacts": "^7.0.5",
     "react-native-document-picker": "^8.1.1",

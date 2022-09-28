@@ -1,6 +1,7 @@
 import {View, Text, Image, TouchableOpacity} from "react-native";
 import React from "react";
 import {ProgressBar, MD3Colors} from "react-native-paper";
+
 const FindingPilot = () => {
   return (
     <View
@@ -70,7 +71,7 @@ const FindingPilot = () => {
           // marginTop: 15,
           marginStart: 20,
           backgroundColor: "#F4B400",
-          marginBottom: 20,
+          // marginBottom: 20,
         }}>
         <Text style={{color: "black", fontWeight: "bold"}}>Cancel</Text>
       </TouchableOpacity>

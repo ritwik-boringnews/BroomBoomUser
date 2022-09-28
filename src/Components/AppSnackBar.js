@@ -15,10 +15,11 @@ const SnackBar = () => {
     <Snackbar
       visible={notification.isVisible}
       onDismiss={onDismissSnackBar}
-      action={{
-        label: "Done",
-        onPress: onDismissSnackBar,
-      }}>
+      // action={{
+      //   label: "Done",
+      //   onPress: onDismissSnackBar,
+      // }}
+    >
       {notification.message}
     </Snackbar>
   );
