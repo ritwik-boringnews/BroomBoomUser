@@ -77,6 +77,7 @@ const Profile = () => {
           image: response.data?.image?.split("_")[1],
         });
         setDate(response.data.dob);
+        if (response.data) dispatch(updateUser(response.data));
         if (
           !response.data.contact_upload_status ||
           response.data.contact_upload_status === 0
