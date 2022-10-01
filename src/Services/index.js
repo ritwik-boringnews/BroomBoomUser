@@ -9,8 +9,8 @@ export const appDomains = {
 const PILOT_PORT = 7000;
 const USER_PORT = 8000;
 
-export const baseUrlUser = `http://${appDomains.ashis}:${USER_PORT}/api/v1`;
-export const baseUrlPilot = `http://${appDomains.ashis}:${PILOT_PORT}/api/v1`;
+export const baseUrlUser = `http://${appDomains.prod}:${USER_PORT}/api/v1`;
+export const baseUrlPilot = `http://${appDomains.prod}:${PILOT_PORT}/api/v1`;
 
 const Api = new API({
   baseUrl: baseUrlUser,
