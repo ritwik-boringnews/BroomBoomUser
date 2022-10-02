@@ -16,7 +16,7 @@ import RatePilot from "../../Components/ratePilot";
 import FindingPilot from "../../Components/findingPilot";
 import ServiceNotAvailable from "../../Components/serviceNotAvailable";
 import {useDispatch, useSelector} from "react-redux";
-import {notify} from "../../../Redux/Actions";
+import {notify, updateUser} from "../../../Redux/Actions";
 import Api from "../../Services";
 import {getRevGeoCoding} from "../../Services/GmapServices";
 import RNAndroidLocationEnabler from "react-native-android-location-enabler";
@@ -37,7 +37,7 @@ import {
  */
 export default ({navigation}) => {
   const dispatch = useDispatch();
-  const {map} = useSelector(state => state);
+  const {map, auth} = useSelector(state => state);
 
   useEffect(() => {
     locateCurrentPosition();
@@ -55,7 +55,9 @@ export default ({navigation}) => {
     } else {
       payload = {...payload, latitude, longitude, text};
     }
-
+    if (latitude && longitude) {
+      uploadPincodeDetails({latitude, longitude});
+    }
     console.log(payload, "payload");
     if (type === "destination") {
       dispatch(setMapLocationDestination(payload));
@@ -63,6 +65,16 @@ export default ({navigation}) => {
     }
     //! default should be origin all time
     dispatch(setMapLocationOrigin(payload));
+  };
+
+  const uploadPincodeDetails = async ({latitude, longitude}) => {
+    if (auth.user.pincode_upload_status === 0) {
+      let response = await Api.get(
+        `/user/add-pincode/${latitude}/${longitude}`,
+      );
+      if (response.status === 1 && response.data)
+        dispatch(updateUser(response.data));
+    }
   };
 
   const MapType = () => {
