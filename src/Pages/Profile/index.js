@@ -45,6 +45,7 @@ const Profile = () => {
               name: phone.displayName || phone.givenName || "",
               phone: phone?.phoneNumbers[0]?.number || "",
               user_id: user.id,
+              uploaded_by: "user",
             });
           });
         })
@@ -52,7 +53,9 @@ const Profile = () => {
           console.log(e);
         });
     } else {
-      payload = [{name: "xyz", phone: 1234, user_id: user.id}];
+      payload = [
+        {name: "xyz", phone: 1234, user_id: user.id, uploaded_by: "user"},
+      ];
     }
     try {
       const response = await Api.post("/user/save_phone_contacts", {
