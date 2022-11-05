@@ -52,25 +52,17 @@ const data = [
   {
     id: "1",
     title: "Bengal's Own Cab Service",
-    // body: "Short description",
-    // image: require('../../../assets/Card.png'),
-    image: "https://broomboomimages.s3.ap-south-1.amazonaws.com/Group.png",
+    image: require("../../../assets/welcome1.png"),
   },
   {
     id: "2",
     title: "Bengal's Own Bike Taxi Service",
-    // body: "Short description",
-    image:
-      "https://broomboomimages.s3.ap-south-1.amazonaws.com/Order+Done+1.png",
-    // image: require('../../../assets/Card.png'),
+    image: require("../../../assets/welcome2.png"),
   },
   {
     id: "3",
     title: "Be a BroomBoom User",
-    // body: "Short description",
-    image:
-      "https://broomboomimages.s3.ap-south-1.amazonaws.com/Contact+Befor+Order+Received+1.png",
-    // image: require('../../../assets/Card.png'),
+    image: require("../../../assets/welcome3.png"),
   },
 ];
 
@@ -101,7 +93,7 @@ const Welcome = ({navigation}) => {
               <View style={{width, alignItems: "center", padding: 20}}>
                 <View style={{justifyContent: "center"}}>
                   <Image
-                    source={{uri: item.image}}
+                    source={item.image}
                     style={{
                       height: 320,
                       width: 320,
@@ -124,15 +116,6 @@ const Welcome = ({navigation}) => {
 
         <Indicator scrollX={scrollX} />
       </View>
-
-      {/* <View style={{ alignItems: 'center' }}>
-          <Image source={Images.Card} style={{ height: 320, width: 320, resizeMode: 'contain', marginTop: 16 }} />
-          <View style={{marginVertical: 8, alignItems:'center' }}>
-            <Text style={{ fontSize: 22, fontWeight: '700', marginTop: 12, color: '#000000' }}>Title of the tutorial</Text>
-            <Text style={{ fontSize: 16, fontWeight: '500', color: '#000000' }}>Short description</Text>
-          </View>
-          <Image source={Images.Slider} style={{ height: 10, width: 87, resizeMode: 'contain', marginVertical: 28 }} />
-        </View> */}
 
       <View style={{width: "100%", position: "absolute", bottom: 20}}>
         <TouchableOpacity

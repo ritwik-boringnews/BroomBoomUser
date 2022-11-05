@@ -1,7 +1,7 @@
 import API from "./ApiServices";
 
 export const appDomains = {
-  asish: "192.168.0.102",
+  ashis: "192.168.0.106",
   mainak: "192.168.29.78",
   dev: "43.205.135.42",
   prod: "www.9teesplus.in",

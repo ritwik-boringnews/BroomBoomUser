@@ -83,10 +83,10 @@ const Otp = ({route}) => {
   return (
     <View
       style={{
-        marginTop: 30,
         paddingHorizontal: 30,
         flex: 1,
         backgroundColor: "white",
+        paddingTop: 30,
       }}>
       <Text
         style={{

@@ -16,9 +16,17 @@ import BackIcon from "react-native-vector-icons/AntDesign";
 import QuestionIcon from "react-native-vector-icons/AntDesign";
 const ReferAndEarn = ({navigation}) => {
   const [referralCode, setReferralCode] = React.useState("");
+  const SHARE_MSG = `Hurry! You're invited to be a Broomboom User.Please use the below coupon code during registration and earn broomboom coins.Referral Code: ${referralCode}.
+
+  \n\n
+  Download the app from here:
+  https://play.google.com/store/apps/details?id=com.broomboom.user
+  `;
+
   React.useEffect(() => {
     getReferralCode();
   }, []);
+  
   const getReferralCode = async () => {
     try {
       const response = await Api.get("/refer/get-refer-token");
@@ -34,16 +42,13 @@ const ReferAndEarn = ({navigation}) => {
   };
 
   const copyToClipboard = async () => {
-    Clipboard.setString(
-      `Hurry! You're invited to be a Broomboom User.Please use the below coupon code during registration and earn broomboom coins.Referral Code: ${referralCode}.
-      `,
-    );
+    Clipboard.setString(SHARE_MSG);
   };
 
   const onShare = async () => {
     try {
       await Share.share({
-        message: `Hurry! You're invited to be a Broomboom User.Please use the below coupon code during registration and earn broomboom coins.Referral Code: ${referralCode}.`,
+        message: SHARE_MSG,
       });
     } catch (error) {
       console.log(error);

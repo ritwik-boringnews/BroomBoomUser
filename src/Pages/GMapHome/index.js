@@ -53,7 +53,9 @@ export default ({navigation}) => {
     } else {
       payload = {...payload, latitude, longitude, text};
     }
-
+    if (latitude && longitude) {
+      uploadPincodeDetails({latitude, longitude});
+    }
     console.log(payload, "payload");
     if (type === "destination") {
       dispatch(setMapLocationDestination(payload));
