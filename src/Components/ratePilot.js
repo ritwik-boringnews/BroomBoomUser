@@ -1,12 +1,12 @@
-import React, {useState} from 'react';
-import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
-import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
-import MapViewDirections from 'react-native-maps-directions';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import Star from 'react-native-vector-icons/AntDesign';
-import {TextInput} from 'react-native-gesture-handler';
+import React, {useState} from "react";
+import {StyleSheet, Text, View, Image, TouchableOpacity} from "react-native";
+import MapView, {Marker, PROVIDER_GOOGLE} from "react-native-maps";
+import MapViewDirections from "react-native-maps-directions";
+import Ionicons from "react-native-vector-icons/Ionicons";
+import Star from "react-native-vector-icons/AntDesign";
+import {TextInput} from "react-native-gesture-handler";
 
-const GOOGLE_MAPS_APIKEY = 'AIzaSyCkVARy-jUojHtiIxcu90g3heAEJDyhqrE';
+const GOOGLE_MAPS_APIKEY = "AIzaSyAlPDyJCgB8lzI15C3vsiLZMicn3ZRisUE";
 
 const styles = StyleSheet.create({
   container: {
@@ -35,10 +35,10 @@ const EnterDestination = ({navigation}) => {
     <View style={{flex: 1}}>
       <View
         style={{
-          position: 'absolute',
+          position: "absolute",
           top: 50,
           left: 25,
-          backgroundColor: 'white',
+          backgroundColor: "white",
           zIndex: 1,
           padding: 8,
           borderRadius: 10,
@@ -70,41 +70,41 @@ const EnterDestination = ({navigation}) => {
       <View
         style={{
           flex: 1,
-          backgroundColor: 'white',
+          backgroundColor: "white",
           borderRadius: 10,
           borderWidth: 0.5,
-          borderColor: '#808080',
+          borderColor: "#808080",
           margin: 4,
         }}>
         <Text
           style={{
             marginTop: 20,
-            textAlign: 'center',
-            color: 'black',
+            textAlign: "center",
+            color: "black",
           }}>
           Start your ride with PIN : 2030
         </Text>
         <View
-          style={{borderWidth: 0.5, marginTop: 10, borderColor: '#808080'}}
+          style={{borderWidth: 0.5, marginTop: 10, borderColor: "#808080"}}
         />
         <View
           style={{
             marginTop: 10,
-            flexDirection: 'row',
-            justifyContent: 'space-around',
+            flexDirection: "row",
+            justifyContent: "space-around",
           }}>
           <Image
-            source={require('../../assets/user.png')}
+            source={require("../../assets/user.png")}
             style={{
               height: 30,
               width: 30,
-              resizeMode: 'contain',
+              resizeMode: "contain",
               marginTop: 8,
             }}
           />
           <View>
             <Text>Ramesh</Text>
-            <View style={{flexDirection: 'row', marginTop: 5}}>
+            <View style={{flexDirection: "row", marginTop: 5}}>
               <Star name="star" color="#FFBF00" size={20} />
               <Text style={{marginLeft: 4, marginTop: 3}}>4.5</Text>
             </View>
@@ -112,22 +112,22 @@ const EnterDestination = ({navigation}) => {
           <View>
             <Text
               style={{
-                backgroundColor: 'white',
+                backgroundColor: "white",
                 borderWidth: 1,
                 borderRadius: 2,
-                textAlign: 'center',
-                borderColor: '#808080',
+                textAlign: "center",
+                borderColor: "#808080",
               }}>
               D66LSCDSDSD
             </Text>
-            <Text style={{marginTop: 5, color: '#1E90FF'}}>Pulsar 220</Text>
+            <Text style={{marginTop: 5, color: "#1E90FF"}}>Pulsar 220</Text>
           </View>
         </View>
-        <View style={{flexDirection: 'row', marginLeft: 20}}>
+        <View style={{flexDirection: "row", marginLeft: 20}}>
           <TextInput
             placeholder="Any pickup instructions ?"
             style={{
-              backgroundColor: '#DCDCDC',
+              backgroundColor: "#DCDCDC",
               paddingRight: 70,
               borderRadius: 10,
               marginTop: 20,
@@ -135,11 +135,11 @@ const EnterDestination = ({navigation}) => {
             }}
           />
           <Image
-            source={require('../../assets/message.png')}
+            source={require("../../assets/message.png")}
             style={{
               height: 45,
               width: 45,
-              resizeMode: 'contain',
+              resizeMode: "contain",
               marginTop: 25,
               marginLeft: 10,
             }}

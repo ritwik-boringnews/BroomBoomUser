@@ -5,18 +5,18 @@ import {
   StyleSheet,
   TextInput,
   Image,
-} from 'react-native';
-import React from 'react';
-import Icon from 'react-native-vector-icons/Ionicons';
-import GMapHome from '../GMapHome';
-import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
+} from "react-native";
+import React from "react";
+import Icon from "react-native-vector-icons/Ionicons";
+import GMapHome from "../GMapHome";
+import {GooglePlacesAutocomplete} from "react-native-google-places-autocomplete";
 const SearchPickup = ({navigation}) => {
   const styles = StyleSheet.create({
     container: {
       paddingHorizontal: 20,
       flex: 1,
-      backgroundColor: 'white',
-      justifyContent: 'space-between',
+      backgroundColor: "white",
+      justifyContent: "space-between",
     },
   });
 
@@ -56,34 +56,34 @@ const SearchPickup = ({navigation}) => {
       <GooglePlacesAutocomplete
         placeholder="Search"
         query={{
-          key: 'AIzaSyCkVARy-jUojHtiIxcu90g3heAEJDyhqrE',
-          language: 'en',
+          key: "AIzaSyAlPDyJCgB8lzI15C3vsiLZMicn3ZRisUE",
+          language: "en",
         }}
         onPress={(data, details = null) => console.log(data)}
         onFail={error => console.error(error)}
         requestUrl={{
-          url: 'https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api',
-          useOnPlatform: 'web',
+          url: "https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api",
+          useOnPlatform: "web",
         }}
         styles={{
           container: {
-            justifyContent: 'flex-start',
+            justifyContent: "flex-start",
           },
         }}
       />
-      <View style={{alignSelf: 'flex-end'}}>
+      <View style={{alignSelf: "flex-end"}}>
         <Image
-          source={require('../../../assets/SearchLocation.png')}
-          style={{width: '100%'}}
+          source={require("../../../assets/SearchLocation.png")}
+          style={{width: "100%"}}
         />
         <TouchableOpacity
           style={{
-            width: '100%',
+            width: "100%",
             padding: 10,
             borderWidth: 1,
             borderRadius: 50,
-            alignItems: 'center',
-            top: '25%',
+            alignItems: "center",
+            top: "25%",
           }}>
           <Text>Search From Map</Text>
         </TouchableOpacity>
