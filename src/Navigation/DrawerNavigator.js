@@ -23,6 +23,7 @@ import HelpAndSupport from "../Pages/HelpAndSupport";
 import Notifications from "../Pages/Notifications";
 import CustomDrawer from "../Components/customDrawer";
 import {primaryColor} from "../Constants/index.js";
+import Coupon from "../Pages/Coupon/index.js";
 //// screens
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
@@ -121,6 +122,15 @@ const DrawerNavigator = () => {
       <Drawer.Screen
         name="Support"
         component={SupportStack}
+        options={{
+          drawerIcon: ({color}) => (
+            <Support name="support" size={22} color={color} />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="Coupon"
+        component={Coupon}
         options={{
           drawerIcon: ({color}) => (
             <Support name="support" size={22} color={color} />
