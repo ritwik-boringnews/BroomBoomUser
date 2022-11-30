@@ -26,6 +26,7 @@ import {primaryColor} from "../Constants/index.js";
 import WebBooking from "../Pages/WebBooking/index.js";
 import RideDetails from "../Pages/RideDetails/index.js";
 import PilotDetails from "../Pages/PilotDetails/index.js";
+import Coupon from "../Pages/Coupon/index.js";
 //// screens
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
@@ -147,6 +148,15 @@ const DrawerNavigator = () => {
       <Drawer.Screen
         name="Support"
         component={SupportStack}
+        options={{
+          drawerIcon: ({color}) => (
+            <Support name="support" size={22} color={color} />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="Coupon"
+        component={Coupon}
         options={{
           drawerIcon: ({color}) => (
             <Support name="support" size={22} color={color} />
