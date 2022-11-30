@@ -23,6 +23,9 @@ import HelpAndSupport from "../Pages/HelpAndSupport";
 import Notifications from "../Pages/Notifications";
 import CustomDrawer from "../Components/customDrawer";
 import {primaryColor} from "../Constants/index.js";
+import WebBooking from "../Pages/WebBooking/index.js";
+import RideDetails from "../Pages/RideDetails/index.js";
+import PilotDetails from "../Pages/PilotDetails/index.js";
 //// screens
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
@@ -35,6 +38,11 @@ const HomePageMain = () => {
       <Stack.Screen name="SourceMap" component={GMapHome} />
       <Stack.Screen name="SearchPickup" component={SearchPickup} />
       <Stack.Screen name="LocationPicker" component={LocationPicker} />
+      <Stack.Screen
+        name="WebBooking"
+        component={WebBooking}
+        options={{headerShown: true, title: "Booking"}}
+      />
     </Stack.Navigator>
   );
 };
@@ -97,6 +105,24 @@ const DrawerNavigator = () => {
         options={{
           drawerIcon: ({color}) => (
             <Ionicons name="notifications" size={22} color={color} />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="RideDetails"
+        component={RideDetails}
+        options={{
+          drawerIcon: ({color}) => (
+            <History name="history" size={22} color={color} />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="PilotDetails"
+        component={PilotDetails}
+        options={{
+          drawerIcon: ({color}) => (
+            <History name="history" size={22} color={color} />
           ),
         }}
       />

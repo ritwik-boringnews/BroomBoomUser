@@ -34,6 +34,8 @@ import LocateCurrentPosPointer from "./components/LocateCurrentPosPointer";
 export default ({navigation}) => {
   const dispatch = useDispatch();
   const {map, auth} = useSelector(state => state);
+  const state = useSelector(state => state);
+  console.log('state',state);
   const actionSheetRef = createRef();
   const [socket, setSocket] = React.useState(null);
 
@@ -53,9 +55,9 @@ export default ({navigation}) => {
     } else {
       payload = {...payload, latitude, longitude, text};
     }
-    if (latitude && longitude) {
-      uploadPincodeDetails({latitude, longitude});
-    }
+    // if (latitude && longitude) {
+    //   uploadPincodeDetails({latitude, longitude});
+    // }
     console.log(payload, "payload");
     if (type === "destination") {
       dispatch(setMapLocationDestination(payload));

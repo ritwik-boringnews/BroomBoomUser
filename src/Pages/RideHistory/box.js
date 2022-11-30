@@ -14,9 +14,9 @@ const Box = ({
     <View style={styles.box}>
       <View
         style={{
-          display: "flex",
+          // flex: 1,
           flexDirection: "row",
-          width: "100%",
+          // width: "100%",
           justifyContent: "space-between",
           borderBottomWidth: 1,
           borderBottomColor: "#D5DDE0",
@@ -37,34 +37,41 @@ const Box = ({
       <View
         style={{
           paddingVertical: 15,
-          display: "flex",
           flexDirection: "row",
-          width: "100%",
-          justifyContent: "flex-start",
+          flex: 1,
         }}>
-        <View style={{marginHorizontal: 10}}>
-          <Text style={{fontSize: 14, fontWeight: "700", color: "#97ADB6"}}>
-            {sourceTime}
-          </Text>
+        <View style={{flexDirection: "row"}}>
+          <View style={{marginHorizontal: 10}}>
+            <Text style={{fontSize: 14, fontWeight: "700", color: "#97ADB6"}}>
+              {sourceTime}
+            </Text>
+            <Text
+              style={{
+                fontSize: 14,
+                fontWeight: "700",
+                color: "#97ADB6",
+                bottom: 0,
+                position: "absolute",
+              }}>
+              {destinationTime}
+            </Text>
+          </View>
+          <View>
+            <Image source={ic_route} />
+          </View>
+        </View>
+        <View style={{marginHorizontal: 10, width: "70%"}}>
           <Text
             style={{
               fontSize: 14,
               fontWeight: "700",
-              color: "#97ADB6",
-              bottom: 0,
-              position: "absolute",
-            }}>
-            {destinationTime}
-          </Text>
-        </View>
-        <View>
-          <Image source={ic_route} />
-        </View>
-        <View style={{marginHorizontal: 10}}>
-          <Text style={{fontSize: 14, fontWeight: "700", color: "#1f1f1f"}}>
+              color: "#1f1f1f",
+            }}
+            numberOfLines={2}>
             {placeFrom}
           </Text>
           <Text
+            numberOfLines={2}
             style={{
               fontSize: 14,
               fontWeight: "700",
@@ -89,7 +96,7 @@ const styles = StyleSheet.create({
   },
   box: {
     height: 200,
-    width: "90%",
+    // width: "90%",
     borderRadius: 15,
     borderWidth: 2,
     borderColor: "rgba(0,0,0,0.15)",

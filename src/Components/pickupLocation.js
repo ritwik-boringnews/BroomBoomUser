@@ -56,10 +56,26 @@ const PickupLocation = () => {
       return;
     }
     const permissionCheck = await requestContactsPermission();
-    console.log("permissionCheck", permissionCheck);
     if (!permissionCheck) {
       return;
     }
+    const isContactAlreadyUploaded = await checkIfUserHaveContactsLoaded();
+    if (!isContactAlreadyUploaded) {
+      //! {todo} upload contacts
+    }
+    // console.log(
+    //   "permissionCheck",
+    //   permissionCheck,
+    //   "isUploadNeed",
+    //   isUploadNeed,
+    // );
+
+    //! web booking {todo}
+    navigation.navigate("WebBooking", {
+      destination: destination.text,
+      origin: origin.text,
+    });
+    return;
 
     if (locInputType === "destination" && destination.text !== "") {
       // origin and destination location selection done

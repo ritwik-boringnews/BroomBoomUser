@@ -6,7 +6,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Star from 'react-native-vector-icons/AntDesign';
 import {TextInput} from 'react-native-gesture-handler';
 
-const GOOGLE_MAPS_APIKEY = 'AIzaSyCkVARy-jUojHtiIxcu90g3heAEJDyhqrE';
+const GOOGLE_MAPS_APIKEY = 'AIzaSyAlPDyJCgB8lzI15C3vsiLZMicn3ZRisUE';
 
 const styles = StyleSheet.create({
   container: {

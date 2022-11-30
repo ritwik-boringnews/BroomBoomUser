@@ -13,7 +13,7 @@ import GiftIcon from "react-native-vector-icons/Feather";
 import Api from "../../Services";
 import Clipboard from "@react-native-clipboard/clipboard";
 import BackIcon from "react-native-vector-icons/AntDesign";
-import QuestionIcon from "react-native-vector-icons/AntDesign";
+
 const ReferAndEarn = ({navigation}) => {
   const [referralCode, setReferralCode] = React.useState("");
   const SHARE_MSG = `Hurry! You're invited to be a Broomboom User.Please use the below coupon code during registration and earn broomboom coins.Referral Code: ${referralCode}.

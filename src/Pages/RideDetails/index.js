@@ -56,9 +56,11 @@ const RideDetails = ({navigation, route}) => {
           <View>
             <Image source={require("../../../assets/ic_route.png")} />
           </View>
-          <View style={{paddingLeft: 5}}>
-            <Text>{rideDetails?.sources}</Text>
-            <Text style={{marginTop: 64}}>{rideDetails?.destination}</Text>
+          <View style={{paddingLeft: 5, width: "90%"}}>
+            <Text numberOfLines={2}>{rideDetails?.sources}</Text>
+            <Text style={{position: "absolute", bottom: 0}} numberOfLines={2}>
+              {rideDetails?.destination}
+            </Text>
           </View>
         </View>
         <Text

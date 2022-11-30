@@ -1,4 +1,11 @@
-import {View, Text, StyleSheet, Image, TouchableOpacity} from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  ScrollView,
+} from "react-native";
 import React, {useEffect, useState} from "react";
 import Box from "../RideHistory/box.js";
 import Api from "../../Services";
@@ -39,10 +46,11 @@ const RideHistory = ({navigation}) => {
 
   return (
     <BackButtonPage pageName="Ride History" navigation={navigation}>
-      {rideHistory &&
-        rideHistory.map((item, id) => {
-          return (
+      <ScrollView>
+        {rideHistory &&
+          rideHistory.map(item => (
             <TouchableOpacity
+              key={item.ride_id}
               onPress={() => navigation.navigate("RideDetails", item)}>
               <Box
                 status={item.status}
@@ -53,26 +61,27 @@ const RideHistory = ({navigation}) => {
                 destinationTime={moment(item.createdAt).format("LT")}
               />
             </TouchableOpacity>
-          );
-        })}
+          ))}
 
-      {!rideHistory.length && (
-        <View style={{alignItems: "center", paddingVertical: 80}}>
-          <Text
-            style={{
-              color: "black",
-              marginTop: 20,
-              fontWeight: "700",
-              fontSize: 15,
-            }}>
-            You don't have any past rides yet
-          </Text>
-          <Image
-            source={require("../../../assets/rideHistory.png")}
-            style={{marginTop: 20}}
-          />
-        </View>
-      )}
+        {!rideHistory.length && (
+          <View style={{alignItems: "center", paddingVertical: 80}}>
+            <Text
+              style={{
+                color: "black",
+                marginTop: 20,
+                fontWeight: "700",
+                fontSize: 15,
+              }}>
+              You don't have any past rides yet
+            </Text>
+            <Image
+              source={require("../../../assets/rideHistory.png")}
+              style={{marginTop: 20}}
+            />
+          </View>
+        )}
+        <View style={{height: 30}} />
+      </ScrollView>
     </BackButtonPage>
   );
 };

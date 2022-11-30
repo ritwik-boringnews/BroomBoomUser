@@ -56,7 +56,7 @@ const SearchPickup = ({navigation}) => {
       <GooglePlacesAutocomplete
         placeholder="Search"
         query={{
-          key: 'AIzaSyCkVARy-jUojHtiIxcu90g3heAEJDyhqrE',
+          key: 'AIzaSyAlPDyJCgB8lzI15C3vsiLZMicn3ZRisUE',
           language: 'en',
         }}
         onPress={(data, details = null) => console.log(data)}
