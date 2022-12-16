@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect,useState} from "react";
 import {View, Text, TouchableOpacity, Image} from "react-native";
 import OTPTextView from "../../Components/AppOtpInput";
 import Api from "../../Services";
@@ -6,13 +6,14 @@ import {ActivityIndicator} from "react-native-paper";
 import {useDispatch} from "react-redux";
 import {notify, login} from "../../../Redux/Actions";
 import {primaryColor} from "../../Constants";
+import BroomBroomLogo from "../../../assets/BroomBoomMainLogo.png";
 
 const Otp = ({route}) => {
   const dispatch = useDispatch();
-  const [otp, setOtp] = React.useState("");
-  const [isLoading, setLoading] = React.useState(false);
+  const [otp, setOtp] = useState("");
+  const [isLoading, setLoading] = useState(false);
   const {mobile} = route.params;
-  const [counter, setCounter] = React.useState(60);
+  const [counter, setCounter] = useState(60);
 
   useEffect(() => {
     if (otp.length === 4) {
@@ -156,8 +157,8 @@ const Otp = ({route}) => {
           bottom: 20,
         }}>
         <Image
-          source={require("../../../assets/broomboomLogo.png")}
-          style={{height: 140, width: 140, resizeMode: "contain"}}
+          source={BroomBroomLogo}
+          style={{height: 200, width: 200, resizeMode: "contain"}}
         />
       </View>
     </View>
